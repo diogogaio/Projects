@@ -17,6 +17,8 @@ Tarot Ametista é um aplicativo web projetado para fornecer aos estudantes de ta
 - **Ferramenta de Build:** Usa Vite para desenvolvimento rápido e builds de produção otimizados.
 - **Implantação:** Implantado no Firebase Hosting para soluções de hospedagem confiáveis e escaláveis.
 
+  https://tarotametista.web.app/
+
 
 
 _____
@@ -40,6 +42,8 @@ Tarot Ametista is a web application designed to provide tarot students with a mu
 - **IndexedDB:** Localbase for local data storage and management.
 - **Build Tool:** Uses Vite for fast and optimized development and production builds.
 - **Deployment:** Deployed on Firebase Hosting for reliable and scalable hosting solutions.
+
+   https://tarotametista.web.app/
 
 
 
