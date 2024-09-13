@@ -1,0 +1,14 @@
+EditCard:
+
+. Every new feature that involves new properties to the card object must be added to the "cardToEditKeys" filter variable in "cardToEditAccordion" so it is not shown to the user in the accordion.
+
+ReadingTable.tsx: 
+
+. displayReading: 
+
+    Do not display cards from readings saved on server, their meanings should always come from UEC or CardsDatabase (defaultChart), because user may have recently modified its meanings in UEC and server reading cards ARE NOT UPDATED when UEC change and card data will be stale! Also, old server data readings  don't have the new "edited:boolean" property, and all server UEC queries must be by card name. Update all charts on server would increase the number of server requests dramatically! Change server database structure and shorten the number of card properties would put massive data from old Tarot project (before refactoring) at risk.
+
+SearchFilters.tsx: 
+
+  setSearchParams: Using "prev" to prevent typescript issues in changing URL state with new object directly. SortByDate function in readingList.tsx will also have undesired results if the other properties are not specified, specially startDate and endDate, because null or undefined in url are strings and not values, causing its variables to be truthy and not falsy as it should be.
+

@@ -1,0 +1,7 @@
+. Improve this app with dashboard
+. Sign in with google account
+
+Note: Unlike Create React App, Vite does not automatically inject environment variables into your application's build process. You need to manually access them using import.meta.env. Additionally, only variables prefixed with VITE_ are exposed to your Vite project by default. 
+
+
+
