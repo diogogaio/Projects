@@ -223,7 +223,7 @@ export const DrawerCards = () => {
               }
               label="Selecionar várias"
             />
-            {isAddingMoreCards && addedCardsId.length && (
+            {isAddingMoreCards && !!addedCardsId.length && (
               <Button onClick={handleClose}>Finalizar</Button>
             )}
           </FormGroup>

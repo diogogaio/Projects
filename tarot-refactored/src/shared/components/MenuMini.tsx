@@ -197,6 +197,7 @@ export const MenuMini = () => {
     location,
     readingId,
     readingNotes,
+    serverLoading,
     userServerTag,
     selectedCardsId,
     isSelectingCards,

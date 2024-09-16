@@ -124,7 +124,7 @@ export const ReadingsTable = () => {
       <AppMainContainer
         page="Mesa de Leituras"
         subheading={
-          readingTableCards?.length
+          !!readingTableCards?.length
             ? selectedReading?.title || "Leitura sem título"
             : "Mesa vazia"
         }
