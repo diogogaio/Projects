@@ -4,10 +4,12 @@ import {
   Stack,
   Paper,
   Typography,
+  IconButton,
   useMediaQuery,
 } from "@mui/material";
 import { useState } from "react";
 import GitHubIcon from "@mui/icons-material/GitHub";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 
 import { useThemeContext } from "../contexts";
@@ -18,31 +20,20 @@ export const Footer = () => {
   const [openSourceModal, setOpenSourceModal] = useState(false);
 
   const { AppThemes } = useThemeContext();
-  const iconStyle = {
-    mr: "5px",
-    fontSize: "1.25rem",
-  };
-
-  const alignIcons = {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  };
 
   const changeBg = useMediaQuery(AppThemes.theme.breakpoints.down(860));
+  const showDevName = useMediaQuery(AppThemes.theme.breakpoints.up(335)); //335
 
   return (
     <Paper
       component="footer"
       elevation={1}
       sx={{
-        pt: 2,
         width: "100%",
         display: "flex",
         alignItems: "center",
         flexDirection: "column",
-        backgroundSize: "cover",
-        justifyContent: "center",
+        backgroundSize: changeBg ? "cover" : "auto",
         backgroundRepeat: "no-repeat",
         backgroundImage:
           AppThemes.selectedAppTheme === "light"
@@ -51,85 +42,88 @@ export const Footer = () => {
         boxShadow: AppThemes.themeShadows,
       }}
     >
-      <Stack
-        spacing={1}
-        component="section"
-        direction="column"
-        alignItems="center"
+      <Box
+        sx={{
+          p: 1,
+          gap: 1,
+          width: "100%",
+          display: "flex",
+          alignItems:
+            !showDevName && AppThemes.selectedAppTheme !== "dark"
+              ? "start"
+              : "center",
+          flexDirection: showDevName ? "row" : "column",
+          justifyContent: "space-between",
+        }}
       >
-        <Typography
-          sx={{
-            px: "0.4rem",
-            py: "0.2rem",
-            borderRadius: 1,
-            backgroundColor: changeBg
-              ? AppThemes.toggleBgTransparency()
-              : undefined,
-          }}
-          color="secondary"
-          variant="body1"
-        >
-          Desenvolvido por Diogo Gaio
-        </Typography>
-        <Typography
-          color="secondary"
-          component="address"
-          variant="caption"
-          align="center"
-          sx={{
-            px: "0.4rem",
-            py: "0.2rem",
-            borderRadius: 1,
-            backgroundColor: changeBg
-              ? AppThemes.toggleBgTransparency()
-              : undefined,
-          }}
-        >
-          <Stack spacing={1}>
-            <Box sx={alignIcons}>
-              <GitHubIcon sx={{ ...iconStyle }} />
-              <Link
-                target="_blank"
-                color="inherit"
-                href="https://github.com/diogogaio"
-              >
-                Perfil Github
-              </Link>
-            </Box>
-            <Box sx={alignIcons}>
-              <MailOutlineIcon sx={{ ...iconStyle }} />
-              <Link
-                target="_blank"
-                color="inherit"
-                href="mailto:diogogaio@gmail.com"
-              >
-                diogogaio@gmail.com
-              </Link>
-            </Box>
-            <Box>
+        <Stack direction="column">
+          {showDevName && (
+            <Typography
+              variant="caption"
+              color="secondary"
+              sx={{ fontStyle: "italic" }}
+            >
+              Desenvolvido por Diogo Gaio
+            </Typography>
+          )}
+          <Box>
+            <Typography
+              variant="caption"
+              color="secondary"
+              sx={{ fontStyle: "italic" }}
+            >
               <Link
                 color="inherit"
                 component="small"
                 onClick={() => setOpenSourceModal(true)}
                 sx={{ role: "button", cursor: "pointer" }}
               >
-                Fontes
+                Créditos aos autores
               </Link>
-            </Box>
-          </Stack>
-        </Typography>
-      </Stack>
-      <Typography
-        sx={{ alignSelf: "start", ml: 1, fontSize: "0.4rem" }}
-        color="gray"
-      >
-        {/* Last deploy date and time (YYYY-MM-DD.HH:MM) */}
-        20240806.1630
-      </Typography>
+            </Typography>
+          </Box>
+        </Stack>
+
+        <Stack
+          component="section"
+          direction="row"
+          sx={{
+            px: "0.4rem",
+            py: "0.2rem",
+            borderRadius: 1,
+            backgroundColor: changeBg
+              ? AppThemes.toggleBgTransparency()
+              : undefined,
+          }}
+        >
+          <Link
+            target="_blank"
+            href="https://www.linkedin.com/in/devdiogogaio/"
+          >
+            <IconButton aria-label="ícone botão linkedIn">
+              <LinkedInIcon color="secondary" />
+            </IconButton>
+          </Link>
+          <Link target="_blank" href="https://github.com/diogogaio">
+            <IconButton aria-label="ícone botão github">
+              <GitHubIcon color="secondary" />
+            </IconButton>
+          </Link>
+          <Link href="mailto:diogogaio@gmail.com">
+            <IconButton aria-label="ícone botão email">
+              <MailOutlineIcon color="secondary" />
+            </IconButton>
+          </Link>
+        </Stack>
+      </Box>
       <AppTextSourceModal
         openSourceModal={openSourceModal}
         setOpenSourceModal={setOpenSourceModal}
       />
+      {/* Last deployed version date: (yyyy-mm-dd.hh-min*/}
+      <Typography color="gray" sx={{ fontSize: "0.4rem" }}>
+        20240916.1208
+      </Typography>
     </Paper>
   );
 };
