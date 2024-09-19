@@ -9,7 +9,7 @@
     Before Deployment:
 
     . Features: 
-        . Sign in with google
+        . Sign in with google.
         . Figure out about third party cookies and use it as long as host provide https
     . Clear logs
     . check cors
