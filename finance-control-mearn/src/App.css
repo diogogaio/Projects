@@ -1,0 +1,19 @@
+.test-color {
+  color: whitesmoke;
+}
+
+/* Reset some default browser styles IF NOT USING MUI'S <CssBaseLine>*/
+/* * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+} */
+
+/* Ensure root occupy the full viewport height */
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  /* border: 2px solid red; */
+}

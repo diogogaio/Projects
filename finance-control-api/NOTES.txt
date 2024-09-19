@@ -1,0 +1,41 @@
+
+. Is it possible to save files on render server?:
+
+    .NO:
+        . create a manual backup end point so you can backup files manually
+
+.Missing in security: HPP and Helmet
+
+    Before Deployment:
+
+    . Features: 
+        . Sign in with google
+        . Figure out about third party cookies and use it as long as host provide https
+    . Clear logs
+    . check cors
+    . check limiter
+    . check cookies
+    . check imports
+    . Check index.ts
+    . delete comments
+    . check env.config
+    . Organize imports
+    . Switch to production mode
+    . Check packages installed
+    . Clarify about MongoDB clusters
+    . Uncomment mongoose connection
+
+    After deployment:
+    . Update forgot password with the domain url after deploy
+    . Set up cors?
+    . test update transaction validation with random fields not in the schema
+    . How to reset the server when it breaks for some reason like providing undefined argument to bcrypt.compare()
+    . how to know how many users logged in
+    . Ts definitions for "any" types trough out the code
+
+
+
+
+
+=> CONTINUE ON AUTH LECTURES FROM 111 (inclusive) AND ON for USER ROLES
+=> CONTINUE ON LECTURE 120 HTTP SECURITY and check about helmet security headers
