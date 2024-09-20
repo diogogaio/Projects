@@ -91,7 +91,7 @@ export const Calendar = () => {
       }
 
       //Get the day of Week(i.e: Sunday is 0, Monday is 1 and so on...)
-      const dayOfWeek = firstDay === 0 ? 6 : firstDay;
+      const dayOfWeek = firstDay;
 
       // Get the last day of the previous month
       const lastDayOfPreviousMonth = new Date(

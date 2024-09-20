@@ -5,6 +5,7 @@ import {
   useTheme,
   IconButton,
   Typography,
+  Tooltip,
 } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
@@ -31,15 +32,16 @@ export const Footer = () => {
           AppThemes.selectedAppTheme === "dark" ? theme.LightShadow : 4,
       }}
     >
-      <Stack direction="column">
+      {/* Last deployed version date: (yyyy-mm-dd.hh-min*/}
+      <Tooltip
+        sx={{ fontSize: "3px" }}
+        title="20240920.1111"
+        placement="top-end"
+      >
         <Typography variant="caption" sx={{ fontStyle: "italic" }}>
           Desenvolvido por Diogo Gaio
         </Typography>
-        {/* Last deployed version date: (yyyy-mm-dd.hh-min*/}
-        <Typography textAlign="start" color="gray" sx={{ fontSize: "0.4rem" }}>
-          20240911.1530
-        </Typography>
-      </Stack>
+      </Tooltip>
       <Stack component="section" direction="row">
         <Link target="_blank" href="https://www.linkedin.com/in/devdiogogaio/">
           <IconButton aria-label="ícone botão linkedIn">
