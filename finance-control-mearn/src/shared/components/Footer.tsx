@@ -6,6 +6,7 @@ import {
   IconButton,
   Typography,
   useMediaQuery,
+  Tooltip,
 } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
@@ -26,16 +27,17 @@ export const Footer = () => {
         justifyContent: showDevName ? "space-between" : "center",
       }}
     >
+      {/* Last deployed version date: (yyyy-mm-dd.hh-min*/}
       {showDevName && (
-        <Stack direction="column">
+        <Tooltip
+          sx={{ fontSize: "3px" }}
+          title="20240920.1111"
+          placement="top-end"
+        >
           <Typography variant="caption" sx={{ fontStyle: "italic" }}>
             Desenvolvido por Diogo Gaio
           </Typography>
-          {/* Last deployed version date: (yyyy-mm-dd.hh-min*/}
-          <Typography color="gray" sx={{ fontSize: "0.4rem" }}>
-            20240812.1247
-          </Typography>
-        </Stack>
+        </Tooltip>
       )}
       <Stack component="section" direction="row">
         <Link target="_blank" href="https://www.linkedin.com/in/devdiogogaio/">
