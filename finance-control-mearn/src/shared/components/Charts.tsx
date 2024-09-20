@@ -105,7 +105,7 @@ export const Charts = ({ animateCharts, setAnimateCharts }: IChartsProps) => {
     };
   }, [totalsPerTag]);
 
-  // Chart options (optional)
+  // Chart options
   const doughnutOptions = useCallback(
     (chartTitle: string) => ({
       responsive: true,
@@ -114,7 +114,7 @@ export const Charts = ({ animateCharts, setAnimateCharts }: IChartsProps) => {
         animateRotate: animateCharts,
         animateScale: animateCharts,
         onComplete: () => {
-          if (animateCharts) setTimeout(() => setAnimateCharts(false), 2000);
+          if (animateCharts) setTimeout(() => setAnimateCharts(false), 2000); // avoid animation on rerenders
         },
       },
       plugins: {

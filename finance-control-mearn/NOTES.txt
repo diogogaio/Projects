@@ -1,18 +1,11 @@
 
 . App init redirect to create account first
-. decide if alert arros should contain detailed info
-
-. update userTags does not catch validation errors from server
-.test 401 and 404 interceptor error
-.Test error handlers
-.Test validators from server
-______________________________________________________
 
 . Apply correct searchParams on previous projects
 . Remove all clg's from old projects
-. New footer older projects
 
 npm install react-hook-form @hookform/resolvers zod
+firebase deploy --only hosting:equilibriofinanceiro
 
 //DELAY:
     await new Promise((resolve) => setTimeout(resolve, 1000));

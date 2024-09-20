@@ -64,10 +64,7 @@ export const TransactionsTable = () => {
           </Typography>
         </TableCell>
 
-        <TableCell
-          align="right"
-          // sx={{ cursor: "pointer", color: "error.main" }}
-        >
+        <TableCell align="right">
           {trans.recurrent && (
             <IconButton
               id={trans.transactionId}

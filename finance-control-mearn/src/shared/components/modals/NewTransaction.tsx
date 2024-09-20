@@ -1,9 +1,11 @@
 import {
   Box,
+  Icon,
   Modal,
   Stack,
   Radio,
   Button,
+  Tooltip,
   Divider,
   Checkbox,
   TextField,
@@ -15,8 +17,6 @@ import {
   InputAdornment,
   FormControlLabel,
   CircularProgress,
-  Tooltip,
-  Icon,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { nanoid } from "nanoid";
@@ -126,8 +126,8 @@ export const NewTransaction = () => {
   return (
     <Modal
       disableEscapeKeyDown
-      open={Transaction.openNewTransaction}
       onClose={closeThisModal}
+      open={Transaction.openNewTransaction}
       aria-labelledby="modal-nova-transação"
     >
       <Box

@@ -1,7 +1,3 @@
-.test-color {
-  color: whitesmoke;
-}
-
 /* Reset some default browser styles IF NOT USING MUI'S <CssBaseLine>*/
 /* * {
   margin: 0;
@@ -15,5 +11,4 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  /* border: 2px solid red; */
 }

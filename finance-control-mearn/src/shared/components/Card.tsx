@@ -3,9 +3,9 @@ import { red } from "@mui/material/colors";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Box, Stack, Typography } from "@mui/material";
 
+import { useMemo } from "react";
 import { Environment } from "../environment";
 import { useTransactionContext } from "../contexts";
-import { useMemo } from "react";
 
 interface ICardProps {
   cardType: "income" | "outcome" | "balance";

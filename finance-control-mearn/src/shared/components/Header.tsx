@@ -19,12 +19,12 @@ export const Header = () => {
       }}
     >
       <Typography sx={{ textAlign: "center", color: "white" }} variant="h4">
-        Controle Financeiro
+        Equilíbrio Financeiro
       </Typography>
       <Typography
-        sx={{ textAlign: "center", color: "white", opacity: "0.5" }}
-        variant="body2"
         gutterBottom
+        variant="body2"
+        sx={{ textAlign: "center", color: "white", opacity: "0.5" }}
       >
         {Transaction.listInfo}
       </Typography>
