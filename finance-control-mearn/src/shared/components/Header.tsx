@@ -1,5 +1,5 @@
 import { indigo } from "@mui/material/colors";
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 import { useTransactionContext } from "../contexts";
 
