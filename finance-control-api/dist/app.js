@@ -18,7 +18,7 @@ const transactionRouter_1 = __importDefault(require("./routes/transactionRouter"
 // mongoose.set("debug", true);
 const limiter = (0, express_rate_limit_1.rateLimit)({
     windowMs: 60 * 24 * 60 * 1000, // 1 day
-    limit: 100, // Limit each IP to 100 requests
+    limit: 101, // Limit each IP to 100 requests
     message: "Too many server request for a certain period, please try again later...",
 });
 const app = (0, express_1.default)();
@@ -26,7 +26,7 @@ const app = (0, express_1.default)();
 app.use(limiter);
 // Define the CORS options
 const corsOptions = {
-    origin: "https://equilibriofinanceiro.web.app",
+    origin: "https://equilibriofinanceiro.web.app/",
     // origin: "http://localhost:5173",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     // credentials: true,
