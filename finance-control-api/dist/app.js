@@ -31,7 +31,7 @@ const corsOptions = {
     // origin: "http://localhost:5173",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     allowedHeaders: "Authorization, Content-Type",
-    credentials: true,
+    // credentials: true,
     optionsSuccessStatus: 204,
 };
 // Use the CORS middleware

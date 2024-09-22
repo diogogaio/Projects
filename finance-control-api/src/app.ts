@@ -31,7 +31,7 @@ const corsOptions = {
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   allowedHeaders: "Authorization, Content-Type",
 
-  credentials: true,
+  // credentials: true,
   optionsSuccessStatus: 204,
 };
 
