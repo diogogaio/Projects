@@ -1,8 +1,8 @@
 import ApiFeatures from "../utils/ApiFeatures";
 import CustomError from "../utils/customError";
-import TransactionModel, { ITransaction } from "../models/transactionModel";
 import { Request, Response, NextFunction } from "express";
 import asyncErroHandler from "../utils/asyncErrorHandler";
+import TransactionModel, { ITransaction } from "../models/transactionModel";
 
 export const createTransaction = asyncErroHandler(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -18,7 +18,6 @@ export const createTransaction = asyncErroHandler(
       : Number(transactionData.amount);
 
     const transaction = await TransactionModel.create(transactionData);
-    console.log("CREATED TRANSACTION: " + transaction);
     res.status(201).json({
       status: "success",
       transaction,
@@ -73,9 +72,6 @@ export const updateTransaction = asyncErroHandler(
     const transactionId = req.params.id;
     const tenantId = req.tenantId;
 
-    console.log("REQ. BODY: ", req.body);
-    console.log("TRANSACTION ID: ", transactionId);
-
     if (!transactionId) {
       const error = new CustomError("Invalid transaction ID", 400);
       return next(error);
@@ -88,8 +84,6 @@ export const updateTransaction = asyncErroHandler(
     );
 
     const { acknowledged, modifiedCount, matchedCount } = response;
-
-    console.log("updated TRANSACTION: " + response);
 
     res.status(200).json({
       status: "success",

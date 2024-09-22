@@ -77,7 +77,6 @@ const userSchema = new Schema<IUser>(
           const pwdTimestamp = Math.floor(
             this.passwordChangedAt.getTime() / 1000
           ); // Use Math.floor for rounding down
-          console.log(pwdTimestamp, JWTTimestamp);
 
           // You can then compare pwdTimestamp with JWTTimestamp
           return JWTTimestamp < pwdTimestamp;

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { NextFunction, Response } from "express";
-import { TokenExpiredError, JsonWebTokenError } from "jsonwebtoken";
+// import { TokenExpiredError, JsonWebTokenError } from "jsonwebtoken";
 
 import CustomError from "../utils/customError";
 import ErrorLogModel from "../models/errorLogModel";
@@ -93,8 +93,6 @@ export const logErrorOnServer = async (
     });
   }
 
-  // remove passwords from body
-
   try {
     const errorLog = await ErrorLogModel.create({
       tenantId,
@@ -107,11 +105,6 @@ export const logErrorOnServer = async (
       error: error?.message,
       createdAt: new Date(),
     });
-
-    // const allErrorLogs = await ErrorLogModel.find();
-
-    console.log("Current error log: ", errorLog);
-    // console.log("All error logs: ", allErrorLogs);
   } catch (error) {
     console.log("Not able to log error on server: ", error);
   }

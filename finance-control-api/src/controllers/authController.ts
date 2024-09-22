@@ -5,12 +5,12 @@ import { createHash } from "crypto";
 import { Request, Response, NextFunction, CookieOptions } from "express";
 
 import sendMail from "../utils/email";
+import { Environment } from "../Environment";
 import CustomError from "../utils/customError";
 import { UserModel, IUser } from "../models/userModel";
 import asyncErroHandler from "../utils/asyncErrorHandler";
 import TransactionModel from "../models/transactionModel";
 import UserActivityModel, { IUserActivity } from "../models/userActivityModel";
-import { Environment } from "../Environment";
 
 declare global {
   namespace Express {
@@ -269,7 +269,8 @@ export const forgotPassword = asyncErroHandler(
     const email = req.body.email;
 
     //This front end url is not valid for postman requests:
-    const frontendUrl = req.get("origin") || req.get("referer");
+    const frontendUrl = "https://equilibriofinanceiro.web.app";
+    // const frontendUrl = req.get("origin") || req.get("referer");
 
     if (!email) {
       const error = new CustomError("Please provide a valid email.", 400);
@@ -387,44 +388,6 @@ export const resetPassword = asyncErroHandler(
       user,
     });
   }
-
-  // export const resetPassword = asyncErroHandler(
-  //   async (req: Request, res: Response, next: NextFunction) => {
-  //     const id = req.params.id;
-  //     const token = createHash("sha256").update(req.params.token).digest("hex");
-  //     console.log("USER ID: ", id)
-  //     // FIND USER BY ID INSTEAD
-  //     const user = await UserModel.findOne({
-  //       passwordResetToken: token,
-  //       passwordResetTokenExpires: { $gt: Date.now() },
-  //     });
-
-  //     if (!user) {
-  //       const error = new CustomError("Token expired or invalid.", 400);
-  //       return next(error);
-  //     }
-
-  //     //Perform the password and password confirm check.
-  //     //EmailConfirm is required, that is causing validation errors, try tu follow change password steps.
-
-  //     user.password = req.body.password;
-  //     user.passwordConfirm = req.body.passwordConfirm;
-  //     user.passwordResetToken = undefined;
-  //     user.passwordResetTokenExpires = undefined;
-  //     user.passwordChangedAt = new Date();
-
-  //     await user.save();
-
-  //     const newToken = signToken(String(user._id), user.email);
-
-  //     user.password = undefined;
-
-  //     res.status(200).json({
-  //       status: "success",
-  //       token: newToken,
-  //       user,
-  //     });
-  //   }
 );
 
 export const deleteUser = asyncErroHandler(

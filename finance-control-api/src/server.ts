@@ -2,9 +2,9 @@ import path from "path";
 import app from "./app";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import { MongoMemoryServer } from "mongodb-memory-server";
 import { logErrorOnServer } from "./controllers";
 dotenv.config({ path: "./../config" });
+// import { MongoMemoryServer } from "mongodb-memory-server";
 
 process.on("uncaughtException", async (err) => {
   console.log(err.name, err.message);
@@ -17,14 +17,14 @@ const configPath = path.resolve(__dirname, "../config.env");
 dotenv.config({ path: configPath });
 
 const port = process.env.PORT || 3000;
-
-// mongoose
-//   .connect(process.env.CONN_STR || "")
-//   .then(() => {
-//     console.log("DB Connection Successful!");
-//   }).catch(()=> {
-//  console.log("DB Connection Failed!")
-//})
+mongoose
+  .connect(process.env.CONN_STR || "")
+  .then(() => {
+    console.log("DB Connection Successful!");
+  })
+  .catch(() => {
+    console.log("DB Connection Failed!");
+  });
 
 const server = app.listen(port, () => {
   console.log("server has started...");
@@ -43,17 +43,19 @@ process.on("unhandledRejection", async (err: Error) => {
   });
 });
 
-async function connectToDatabase() {
-  try {
-    const mongoServer = await MongoMemoryServer.create();
-    const mongoUri = mongoServer.getUri();
-    await mongoose.connect(mongoUri);
-    console.log(
-      `MongoDB successfully connected to in-memory server uri: ${mongoUri}`
-    );
-  } catch (err) {
-    console.error("DB Connection Error:", err);
-  }
-}
+// //Local mongodb database:
+// async function connectToDatabase() {
 
-connectToDatabase();
+//   try {
+//     const mongoServer = await MongoMemoryServer.create();
+//     const mongoUri = mongoServer.getUri();
+//     await mongoose.connect(mongoUri);
+//     console.log(
+//       `MongoDB successfully connected to in-memory server uri: ${mongoUri}`
+//     );
+//   } catch (err) {
+//     console.error("DB Connection Error:", err);
+//   }
+// }
+
+// connectToDatabase();

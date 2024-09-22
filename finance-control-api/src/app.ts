@@ -4,18 +4,17 @@ import "./utils/taskScheduler";
 import authRouter from "./routes/authRouter";
 import CustomError from "./utils/customError";
 import { rateLimit } from "express-rate-limit";
+import { globalErrorHandler } from "./controllers";
 import mongoSanitize from "express-mongo-sanitize";
 import sanitizeRequest from "./middleware/sanitize";
 import transactionRouter from "./routes/transactionRouter";
-import { globalErrorHandler } from "./controllers";
 // import cookieParser from "cookie-parser";
 // import mongoose from "mongoose";
 // mongoose.set("debug", true);
 
 const limiter = rateLimit({
-  windowMs: 0.5 * 60 * 1000, // 1 day
-  // windowMs: 60 * 24 * 60 * 1000, // 1 day
-  limit: 20, // Limit each IP to 50 requests per `window` (here, per day).
+  windowMs: 60 * 24 * 60 * 1000, // 1 day
+  limit: 100, // Limit each IP to 100 requests
   message:
     "Too many server request for a certain period, please try again later...",
 });
@@ -24,10 +23,11 @@ const app = express();
 
 // Apply the rate limiting middleware to all requests.
 app.use(limiter);
-// app.use("/api",limiter);
+
 // Define the CORS options
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: "https://equilibriofinanceiro.web.app",
+  // origin: "http://localhost:5173",
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   // credentials: true,
   optionsSuccessStatus: 204,

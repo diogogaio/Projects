@@ -3,5 +3,5 @@ interface IEnvironment {
 }
 
 export const Environment: IEnvironment = {
-  APP_NAME: "Controle Financeiro",
+  APP_NAME: "Equilíbrio Financeiro",
 };

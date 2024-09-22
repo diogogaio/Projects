@@ -1,4 +1,3 @@
-import express from "express";
 import {
   protect,
   getTransactions,
@@ -6,6 +5,7 @@ import {
   deleteTransaction,
   updateTransaction,
 } from "../controllers";
+import express from "express";
 
 const transactionRouter = express.Router();
 

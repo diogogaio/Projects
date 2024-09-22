@@ -1,17 +1,4 @@
-//
-
 import mongoose, { Model, Schema } from "mongoose";
-
-//fields:
-
-// tenantId
-// reqQuery
-// reqBody => remove user password
-// reqParams
-// error
-// createdAt
-
-// scheduled task => delete all logs greater older than 90 days
 
 export interface IErrorLog {
   tenantId?: string;

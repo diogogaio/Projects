@@ -79,8 +79,6 @@ class ApiFeatures<T> {
     }
     return this;
   }
-
-  // Pagination currently on client side
   paginate() {
     const page = this.queryParams.page
       ? parseInt(this.queryParams.page as string, 10)

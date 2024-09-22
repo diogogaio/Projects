@@ -83,8 +83,6 @@ export const clearOldErrorLogsSchedule = cron.schedule(
     console.log("Running job to check and delete old error logs");
     const today = new Date();
     const deleteOlderThanDate = sub(today, { months: 2 });
-    console.log("** remove up to date ** " + deleteOlderThanDate);
-    console.log("type: ", typeof deleteOlderThanDate);
 
     try {
       const deleted = await ErrorLogModel.deleteMany({
@@ -106,8 +104,6 @@ export const clearOldUserActivityLogsSchedule = cron.schedule(
     console.log("Running job to check and delete old user activity logs");
     const today = new Date();
     const deleteOlderThanDate = sub(today, { months: 2 });
-    console.log("** remove up to date ** " + deleteOlderThanDate);
-    console.log("type: ", typeof deleteOlderThanDate);
 
     try {
       const deleted = await ErrorLogModel.deleteMany({
