@@ -23,13 +23,14 @@ const limiter = (0, express_rate_limit_1.rateLimit)({
 });
 const app = (0, express_1.default)();
 // Apply the rate limiting middleware to all requests.
-app.use(limiter);
+// app.use(limiter);
 // Define the CORS options
 const corsOptions = {
     origin: "https://equilibriofinanceiro.web.app",
     // origin: "http://localhost:5173",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    // credentials: true,
+    allowedHeaders: "Authorization, Content-Type",
+    credentials: true,
     optionsSuccessStatus: 204,
 };
 // Use the CORS middleware
