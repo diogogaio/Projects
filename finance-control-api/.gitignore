@@ -37,7 +37,7 @@ dist-ssr
 *.sw?
 
 # Output directories
-dist/
+# dist/
 build/
 
 # System files
