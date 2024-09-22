@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon",
     "start": "node dist/server.js",
-    "start_prod": "NODE_ENV=production& nodemon"
+    "start_prod": "NODE_ENV=production node --max_old_space_size=1024 ./src/server.ts"
   },
   "author": "Diogo Gaio",
   "license": "ISC",
