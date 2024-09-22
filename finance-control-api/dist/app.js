@@ -34,10 +34,10 @@ const corsOptions = {
     // credentials: true,
     optionsSuccessStatus: 204,
 };
+app.options("*", (0, cors_1.default)(corsOptions));
+// Handle preflight requests
 // Use the CORS middleware
 app.use((0, cors_1.default)(corsOptions));
-// Handle preflight requests
-app.options("*", (0, cors_1.default)(corsOptions));
 app.use(express_1.default.json({ limit: "10kb" })); //Limit maximum request body data
 app.use(sanitize_1.default);
 // app.use(cookieParser()); // Middleware to parse cookies

@@ -35,11 +35,10 @@ const corsOptions = {
   optionsSuccessStatus: 204,
 };
 
-// Use the CORS middleware
-app.use(cors(corsOptions));
-
 // Handle preflight requests
 app.options("*", cors(corsOptions));
+// Use the CORS middleware
+app.use(cors(corsOptions));
 
 app.use(express.json({ limit: "10kb" })); //Limit maximum request body data
 app.use(sanitizeRequest);
