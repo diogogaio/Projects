@@ -27,7 +27,7 @@ mongoose
   });
 
 const server = app.listen(port, () => {
-  console.log("server has started...");
+  console.log(`server has started on port ${port}`);
 });
 
 // Handle any promise rejection that was not caught

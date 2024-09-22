@@ -19,8 +19,8 @@
     . Uncomment mongoose connection
     . Update forgot password with the domain url after deploy
 
-    dev scripts: 
-    
+    dev scripts: (render.com does not support "SET" because it runs on unix )
+
     "scripts": {
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
