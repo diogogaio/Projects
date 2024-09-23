@@ -18,7 +18,7 @@ process.on("uncaughtException", async (err) => {
 });
 const configPath = path_1.default.resolve(__dirname, "../config.env");
 dotenv_1.default.config({ path: configPath });
-const port = process.env.PORT || 3000;
+const port = Number(process.env.PORT) || 3000;
 mongoose_1.default
     .connect(process.env.CONN_STR || "")
     .then(() => {
@@ -27,8 +27,8 @@ mongoose_1.default
     .catch(() => {
     console.log("DB Connection Failed!");
 });
-const server = app_1.default.listen(port, () => {
-    console.log(`server has started on port ${port}`);
+const server = app_1.default.listen(port, "0.0.0.0", () => {
+    console.log(`Server running at http://0.0.0.0:${port}/`);
 });
 // Handle any promise rejection that was not caught
 process.on("unhandledRejection", async (err) => {
