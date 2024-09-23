@@ -7,6 +7,7 @@ import { Request, Response, NextFunction, CookieOptions } from "express";
 import sendMail from "../utils/email";
 import { Environment } from "../Environment";
 import CustomError from "../utils/customError";
+import { setOrigin } from "../utils/corsConfig";
 import { UserModel, IUser } from "../models/userModel";
 import asyncErroHandler from "../utils/asyncErrorHandler";
 import TransactionModel from "../models/transactionModel";
@@ -273,7 +274,7 @@ export const forgotPassword = asyncErroHandler(
     const email = req.body.email;
 
     //This front end url is not valid for postman requests:
-    const frontendUrl = "https://equilibriofinanceiro.web.app";
+    const frontendUrl = setOrigin();
     // const frontendUrl = req.get("origin") || req.get("referer");
 
     if (!email) {

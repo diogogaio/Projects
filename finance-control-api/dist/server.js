@@ -7,9 +7,9 @@ const path_1 = __importDefault(require("path"));
 const app_1 = __importDefault(require("./app"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const mongoose_1 = __importDefault(require("mongoose"));
-const controllers_1 = require("./controllers");
 dotenv_1.default.config({ path: "./../config" });
-// import { MongoMemoryServer } from "mongodb-memory-server";
+const controllers_1 = require("./controllers");
+// import { connectToMongoMemoryServer } from "./utils/mongoMemoryServer";
 process.on("uncaughtException", async (err) => {
     console.log(err.name, err.message);
     await (0, controllers_1.logErrorOnServer)("Uncaught-exception", err);
@@ -27,8 +27,8 @@ mongoose_1.default
     .catch(() => {
     console.log("DB Connection Failed!");
 });
-const server = app_1.default.listen(port, "0.0.0.0", () => {
-    console.log(`Server running at http://0.0.0.0:${port}/`);
+const server = app_1.default.listen(port, () => {
+    console.log(`Server running on ${process.env.NODE_ENV} - PORT:${port}`);
 });
 // Handle any promise rejection that was not caught
 process.on("unhandledRejection", async (err) => {
@@ -42,18 +42,6 @@ process.on("unhandledRejection", async (err) => {
         // 0: means success, 1: means uncaught exception
     });
 });
-// //Local mongodb database:
-// async function connectToDatabase() {
-//   try {
-//     const mongoServer = await MongoMemoryServer.create();
-//     const mongoUri = mongoServer.getUri();
-//     await mongoose.connect(mongoUri);
-//     console.log(
-//       `MongoDB successfully connected to in-memory server uri: ${mongoUri}`
-//     );
-//   } catch (err) {
-//     console.error("DB Connection Error:", err);
-//   }
-// }
-// connectToDatabase();
+// Run mongodb locally:
+// connectToMongoMemoryServer()
 //# sourceMappingURL=server.js.map

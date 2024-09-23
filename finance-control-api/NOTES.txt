@@ -1,5 +1,9 @@
-    Improvements and to do's:
     
+ . build command npm install is really correct?   
+ . password not being hashed on reset pwd
+    
+    Improvements and to do's:
+
 . keep typing request incoming request data like in auth signup fn
 . create a manual backup end point so you can backup files manually
 . Features: 
@@ -20,12 +24,14 @@
     . check mongoDb IP's
     . Check packages installed
     . Uncomment mongoose connection
-    . Switch to production mode (NODE_ENV=production)
+    . Run Build
+    . Environment variable on render is already set to production
     . Update forgot password with the domain url after deploy
 
     ----------------------------------------------------------------------------------
 
-       Use in Development: 
+       Use in Development:
+            . npm run start_dev
             . check package.json scripts
             . server bindings "0.0.0.0"
             . check cors

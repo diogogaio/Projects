@@ -40,7 +40,6 @@ const userSchema = new mongoose_1.Schema({
     },
     emailConfirm: {
         type: String,
-        required: [true, "Please confirm your email."],
         validate: [validator_1.default.isEmail, "Please enter a valid email."],
     },
     password: {
@@ -51,7 +50,6 @@ const userSchema = new mongoose_1.Schema({
     },
     passwordConfirm: {
         type: String,
-        required: [true, "Please confirm your password."],
     },
     passwordChangedAt: Date,
     passwordResetToken: String,

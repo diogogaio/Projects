@@ -54,7 +54,6 @@ app.use(sanitizeRequest);
 app.use(mongoSanitize());
 
 //Routes
-
 app.use("/api/v1/user", authRouter);
 app.use("/api/v1/transactions", transactionRouter);
 app.all("*", (req, res, next) => {

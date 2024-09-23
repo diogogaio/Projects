@@ -3,6 +3,7 @@ import { createContext, useContext } from "react";
 import { ReactElement, useEffect, useState } from "react";
 
 import { useAppContext } from "./AppContext";
+import { Environment } from "../environment";
 import { Api } from "../services/api/axios-config";
 import { useLocalBaseContext } from "./LocalBaseContext";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -74,6 +75,7 @@ export const AuthProvider = ({
   useEffect(() => {
     const initialize = async () => {
       console.log("Initializing App...");
+      console.log("Environment mode: " + Environment.ENV);
       await appInit();
     };
     initialize();
@@ -156,6 +158,7 @@ export const AuthProvider = ({
     if (!App.loading) App.setLoading(true);
 
     const response = await AuthService.getUser();
+    console.log("RESPONSE:", response);
 
     if (response instanceof Error) {
       App.setLoading(false);
@@ -168,6 +171,9 @@ export const AuthProvider = ({
     if (status === "success") {
       setUser(user);
       setUserEmail(user.email);
+    } else {
+      App.setLoading(false);
+      setOpenLoginModal(true);
     }
   };
 

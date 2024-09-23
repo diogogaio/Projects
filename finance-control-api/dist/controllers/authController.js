@@ -15,9 +15,6 @@ const userModel_1 = require("../models/userModel");
 const asyncErrorHandler_1 = __importDefault(require("../utils/asyncErrorHandler"));
 const transactionModel_1 = __importDefault(require("../models/transactionModel"));
 const userActivityModel_1 = __importDefault(require("../models/userActivityModel"));
-// export interface IAuthController {
-//   signup: (req: Request, res: Response, next: NextFunction) => Promise<void>
-// }
 // const createSendResponse = (user, statusCode, res) => {
 //   const accessToken = signToken(user._id, user.email);
 //   // Creates Secure Cookie with access token
@@ -42,7 +39,8 @@ const signToken = (id, email) => jsonwebtoken_1.default.sign({ id, userEmail: em
     expiresIn: process.env.LOGIN_EXP,
 });
 exports.signup = (0, asyncErrorHandler_1.default)(async (req, res, next) => {
-    const { email, emailConfirm, password, passwordConfirm } = req.body;
+    const requestData = req.body;
+    const { email, emailConfirm, password, passwordConfirm } = requestData;
     if (email !== emailConfirm) {
         const error = new customError_1.default("Emails do not match", 400);
         return next(error);
@@ -262,7 +260,10 @@ exports.resetPassword = (0, asyncErrorHandler_1.default)(async (req, res, next) 
         const error = new customError_1.default("Token expired or invalid.", 400);
         return next(error);
     }
-    user.password = req.body.password;
+    const saltRounds = 10;
+    const hash = await bcrypt_1.default.hash(password.toString(), saltRounds);
+    console.log("hash: ", hash);
+    user.password = hash;
     user.passwordConfirm = req.body.passwordConfirm;
     user.passwordResetToken = undefined;
     user.passwordResetTokenExpires = undefined;

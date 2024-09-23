@@ -1,5 +1,7 @@
 export const setOrigin = () => {
+  console.log(process.env.NODE_ENV);
+
   return process.env.NODE_ENV === "production"
-    ? process.env.PRODUCTION_BASE_URL
-    : process.env.DEVELOPMENT_BASE_URL;
+    ? "https://equilibriofinanceiro.web.app"
+    : "http://localhost:5173";
 };

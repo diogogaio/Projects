@@ -9,6 +9,7 @@ require("./utils/taskScheduler");
 const authRouter_1 = __importDefault(require("./routes/authRouter"));
 const customError_1 = __importDefault(require("./utils/customError"));
 const express_rate_limit_1 = require("express-rate-limit");
+const corsConfig_1 = require("./utils/corsConfig");
 const controllers_1 = require("./controllers");
 const express_mongo_sanitize_1 = __importDefault(require("express-mongo-sanitize"));
 const sanitize_1 = __importDefault(require("./middleware/sanitize"));
@@ -23,11 +24,10 @@ const limiter = (0, express_rate_limit_1.rateLimit)({
 });
 const app = (0, express_1.default)();
 // Apply the rate limiting middleware to all requests.
-// app.use(limiter);
+app.use(limiter);
 // Define the CORS options
 const corsOptions = {
-    origin: "https://equilibriofinanceiro.web.app",
-    // origin: "http://localhost:5173",
+    origin: (0, corsConfig_1.setOrigin)(),
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE, OPTIONS",
     allowedHeaders: "Authorization, Content-Type",
     // credentials: true,
