@@ -38,7 +38,6 @@ const userSchema = new Schema<IUser>(
     },
     passwordConfirm: {
       type: String,
-      required: [true, "Please confirm your password."],
     },
     passwordChangedAt: Date,
     passwordResetToken: String,
