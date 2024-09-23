@@ -28,7 +28,7 @@ const app = express();
 const corsOptions = {
   origin: "https://equilibriofinanceiro.web.app",
   // origin: "http://localhost:5173",
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE, OPTIONS",
   allowedHeaders: "Authorization, Content-Type",
 
   // credentials: true,
