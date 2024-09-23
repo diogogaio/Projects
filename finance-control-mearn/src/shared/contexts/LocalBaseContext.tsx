@@ -43,9 +43,6 @@ export const LocalBaseProvider = ({
       const result = await db.collection(collectionName).doc(docName).set(data);
 
       if (result.success) {
-        console.log(
-          `LocalBase.setData(): "${collectionName}" saved on this device. `
-        );
       } else console.log("LocalBase.setData(): Failed to save.");
       //localBase will log the error on console
     },

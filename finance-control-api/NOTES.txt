@@ -23,10 +23,10 @@
     . check env.config 
     . check mongoDb IP's
     . Check packages installed
+
     . Uncomment mongoose connection
     . Run Build
     . Environment variable on render is already set to production
-    . Update forgot password with the domain url after deploy
 
     ----------------------------------------------------------------------------------
 

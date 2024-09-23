@@ -1,4 +1,4 @@
-
+. Calculate totals are calculating the total by pages, fix it
 . App init redirect to create account first
 . Warn about deleting recurrent transactions, will cancel recurrences
 

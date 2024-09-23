@@ -11,6 +11,7 @@ const crypto_1 = require("crypto");
 const email_1 = __importDefault(require("../utils/email"));
 const Environment_1 = require("../Environment");
 const customError_1 = __importDefault(require("../utils/customError"));
+const corsConfig_1 = require("../utils/corsConfig");
 const userModel_1 = require("../models/userModel");
 const asyncErrorHandler_1 = __importDefault(require("../utils/asyncErrorHandler"));
 const transactionModel_1 = __importDefault(require("../models/transactionModel"));
@@ -185,7 +186,7 @@ exports.changePassword = (0, asyncErrorHandler_1.default)(async (req, res, next)
 exports.forgotPassword = (0, asyncErrorHandler_1.default)(async (req, res, next) => {
     const email = req.body.email;
     //This front end url is not valid for postman requests:
-    const frontendUrl = "https://equilibriofinanceiro.web.app";
+    const frontendUrl = (0, corsConfig_1.setOrigin)();
     // const frontendUrl = req.get("origin") || req.get("referer");
     if (!email) {
         const error = new customError_1.default("Please provide a valid email.", 400);
@@ -262,7 +263,6 @@ exports.resetPassword = (0, asyncErrorHandler_1.default)(async (req, res, next) 
     }
     const saltRounds = 10;
     const hash = await bcrypt_1.default.hash(password.toString(), saltRounds);
-    console.log("hash: ", hash);
     user.password = hash;
     user.passwordConfirm = req.body.passwordConfirm;
     user.passwordResetToken = undefined;
