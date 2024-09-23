@@ -1,24 +1,34 @@
-. mongo db IP - server bind 0.0.0.0 check
+    Improvements and to do's:
+    
+. keep typing request incoming request data like in auth signup fn
 . create a manual backup end point so you can backup files manually
+. Features: 
+    . Sign in with google.
+
+    --------------------------------------------------------------------------------
 
     Before Deployment:
 
-    . Features: 
-        . Sign in with google.
-        . Figure out about third party cookies and use it as long as host provide https
     . Clear logs
     . check cors
     . check limiter
-    . check mongodb IP's
     . check cookies
     . check imports
     . delete comments
-    . check env.config
     . Organize imports
-    . Switch to production mode
+    . check env.config 
+    . check mongoDb IP's
     . Check packages installed
     . Uncomment mongoose connection
+    . Switch to production mode (NODE_ENV=production)
     . Update forgot password with the domain url after deploy
+
+    ----------------------------------------------------------------------------------
+
+       Use in Development: 
+            . check package.json scripts
+            . server bindings "0.0.0.0"
+            . check cors
 
     dev scripts: (render.com does not support "SET" because it runs on unix )
 
@@ -26,8 +36,8 @@
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon",
-    // "start": "SET NODE_ENV=development& nodemon",
-    "start": "node dist/server.js",
+    "start": "SET NODE_ENV=development& nodemon",
+    //"start": "node dist/server.js",
     "start_prod": "SET NODE_ENV=production& nodemon"
   },
 

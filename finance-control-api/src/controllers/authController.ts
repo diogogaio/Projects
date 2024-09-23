@@ -22,9 +22,12 @@ declare global {
   }
 }
 
-// export interface IAuthController {
-//   signup: (req: Request, res: Response, next: NextFunction) => Promise<void>
-// }
+interface IUserSignUpData {
+  email: string;
+  emailConfirm: string;
+  password: string;
+  passwordConfirm: string;
+}
 
 // const createSendResponse = (user, statusCode, res) => {
 //   const accessToken = signToken(user._id, user.email);
@@ -57,7 +60,8 @@ const signToken = (id: string, email: string) =>
 
 export const signup = asyncErroHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { email, emailConfirm, password, passwordConfirm } = req.body;
+    const requestData: IUserSignUpData = req.body;
+    const { email, emailConfirm, password, passwordConfirm } = requestData;
 
     if (email !== emailConfirm) {
       const error = new CustomError("Emails do not match", 400);
@@ -370,7 +374,10 @@ export const resetPassword = asyncErroHandler(
       return next(error);
     }
 
-    user.password = req.body.password;
+    const saltRounds = 10;
+    const hash = await bcrypt.hash(password.toString(), saltRounds);
+
+    user.password = hash;
     user.passwordConfirm = req.body.passwordConfirm;
     user.passwordResetToken = undefined;
     user.passwordResetTokenExpires = undefined;

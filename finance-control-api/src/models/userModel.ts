@@ -6,9 +6,9 @@ import mongoose, { Schema, Document, Model } from "mongoose";
 // Define the interface for the User document, including instance methods
 export interface IUser extends Document {
   email: string;
-  emailConfirm: string;
+  emailConfirm?: string;
   password: string;
-  passwordConfirm: string;
+  passwordConfirm?: string;
   passwordChangedAt?: Date;
   passwordResetToken?: string;
   transactionTags?: string[];
@@ -28,7 +28,6 @@ const userSchema = new Schema<IUser>(
     },
     emailConfirm: {
       type: String,
-      required: [true, "Please confirm your email."],
       validate: [validator.isEmail, "Please enter a valid email."],
     },
     password: {

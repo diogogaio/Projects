@@ -1,5 +1,6 @@
 
 . App init redirect to create account first
+. Warn about deleting recurrent transactions, will cancel recurrences
 
 . Apply correct searchParams on previous projects
 . Remove all clg's from old projects
