@@ -8,7 +8,7 @@ const express_1 = __importDefault(require("express"));
 require("./utils/taskScheduler");
 const authRouter_1 = __importDefault(require("./routes/authRouter"));
 const customError_1 = __importDefault(require("./utils/customError"));
-// import { rateLimit } from "express-rate-limit";
+const express_rate_limit_1 = require("express-rate-limit");
 const controllers_1 = require("./controllers");
 const express_mongo_sanitize_1 = __importDefault(require("express-mongo-sanitize"));
 const sanitize_1 = __importDefault(require("./middleware/sanitize"));
@@ -16,12 +16,11 @@ const transactionRouter_1 = __importDefault(require("./routes/transactionRouter"
 // import cookieParser from "cookie-parser";
 // import mongoose from "mongoose";
 // mongoose.set("debug", true);
-// const limiter = rateLimit({
-//   windowMs: 60 * 24 * 60 * 1000, // 1 day
-//   limit: 101, // Limit each IP to 100 requests
-//   message:
-//     "Too many server request for a certain period, please try again later...",
-// });
+const limiter = (0, express_rate_limit_1.rateLimit)({
+    windowMs: 60 * 24 * 60 * 1000, // 1 day
+    limit: 101, // Limit each IP to 100 requests
+    message: "Too many server request for a certain period, please try again later...",
+});
 const app = (0, express_1.default)();
 // Apply the rate limiting middleware to all requests.
 // app.use(limiter);

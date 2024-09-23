@@ -1,4 +1,4 @@
-
+. mongo db IP - server bind 0.0.0.0 check
 . create a manual backup end point so you can backup files manually
 
     Before Deployment:

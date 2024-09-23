@@ -10,7 +10,7 @@ type TEnvironment = {
 
 export const Environment: TEnvironment = {
   //URL onrender:
-  URL_BASE: "https://controle-financeiro-api-wiq6.onrender.com",
+  URL_BASE: "https://equilibrio-financeiro-api.onrender.com",
 
   // Max quantity of lines at savedReadingList.tsx:
   PER_PAGE_LISTING: "10",
