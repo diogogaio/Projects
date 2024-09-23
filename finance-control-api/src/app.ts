@@ -26,8 +26,7 @@ const app = express();
 
 // Define the CORS options
 const corsOptions = {
-  origin: true,
-  // origin: "https://equilibriofinanceiro.web.app",
+  origin: "https://equilibriofinanceiro.web.app",
   // origin: "http://localhost:5173",
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   allowedHeaders: "Authorization, Content-Type",
@@ -36,10 +35,10 @@ const corsOptions = {
   optionsSuccessStatus: 204,
 };
 
-// Handle preflight requests
-// app.options("*", cors(corsOptions));
 // Use the CORS middleware
 app.use(cors(corsOptions));
+// Handle preflight requests
+app.options("*", cors(corsOptions));
 
 app.use(express.json({ limit: "10kb" })); //Limit maximum request body data
 app.use(sanitizeRequest);
