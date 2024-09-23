@@ -28,7 +28,7 @@ mongoose_1.default
     console.log("DB Connection Failed!");
 });
 const server = app_1.default.listen(port, () => {
-    console.log("server has started...");
+    console.log(`server has started on port ${port}`);
 });
 // Handle any promise rejection that was not caught
 process.on("unhandledRejection", async (err) => {

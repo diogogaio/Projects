@@ -26,7 +26,8 @@ const app = express();
 
 // Define the CORS options
 const corsOptions = {
-  origin: "https://equilibriofinanceiro.web.app",
+  origin: true,
+  // origin: "https://equilibriofinanceiro.web.app",
   // origin: "http://localhost:5173",
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   allowedHeaders: "Authorization, Content-Type",
@@ -36,7 +37,7 @@ const corsOptions = {
 };
 
 // Handle preflight requests
-app.options("*", cors(corsOptions));
+// app.options("*", cors(corsOptions));
 // Use the CORS middleware
 app.use(cors(corsOptions));
 

@@ -9,6 +9,7 @@
     . Clear logs
     . check cors
     . check limiter
+    . check mongodb IP's
     . check cookies
     . check imports
     . delete comments
