@@ -3,8 +3,10 @@ import { Environment } from "../../../environment";
 import { errorInterceptor, responseInterceptor } from "./interceptors";
 
 const Api = axios.create({
-  baseURL: Environment.URL_BASE,
-  // baseURL: "http://127.0.0.1:3000",
+  baseURL:
+    Environment.ENV === "production"
+      ? Environment.PRODUCTION_BASE_URL
+      : Environment.DEVELOPMENT_BASE_URL,
   // withCredentials: true, // Include cookies in requests
 });
 

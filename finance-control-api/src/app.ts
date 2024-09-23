@@ -4,6 +4,7 @@ import "./utils/taskScheduler";
 import authRouter from "./routes/authRouter";
 import CustomError from "./utils/customError";
 import { rateLimit } from "express-rate-limit";
+import { setOrigin } from "./utils/corsConfig";
 import { globalErrorHandler } from "./controllers";
 import mongoSanitize from "express-mongo-sanitize";
 import sanitizeRequest from "./middleware/sanitize";
@@ -22,12 +23,11 @@ const limiter = rateLimit({
 const app = express();
 
 // Apply the rate limiting middleware to all requests.
-// app.use(limiter);
+app.use(limiter);
 
 // Define the CORS options
 const corsOptions = {
-  origin: "https://equilibriofinanceiro.web.app",
-  // origin: "http://localhost:5173",
+  origin: setOrigin(),
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE, OPTIONS",
   allowedHeaders: "Authorization, Content-Type",
 

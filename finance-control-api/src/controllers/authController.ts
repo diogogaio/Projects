@@ -376,7 +376,7 @@ export const resetPassword = asyncErroHandler(
 
     const saltRounds = 10;
     const hash = await bcrypt.hash(password.toString(), saltRounds);
-
+    console.log("hash: ", hash);
     user.password = hash;
     user.passwordConfirm = req.body.passwordConfirm;
     user.passwordResetToken = undefined;

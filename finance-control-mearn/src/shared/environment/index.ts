@@ -1,19 +1,24 @@
 import { indigo } from "@mui/material/colors";
 
 type TEnvironment = {
-  URL_BASE: string;
+  ENV: "development" | "production";
   ADMIN_USER_EMAIL: string;
   PER_PAGE_LISTING: string;
+  PRODUCTION_BASE_URL: string;
+  DEVELOPMENT_BASE_URL: string;
   APP_MAIN_TEXT_COLOR: string;
   BUTTON_VARIANT: "contained" | "outlined";
 };
 
 export const Environment: TEnvironment = {
-  //URL onrender:
-  URL_BASE: "https://equilibrio-financeiro-api.onrender.com",
+  ENV: "development",
 
   // Max quantity of lines at savedReadingList.tsx:
   PER_PAGE_LISTING: "10",
+
+  PRODUCTION_BASE_URL: import.meta.env.PRODUCTION_BASE_URL,
+
+  DEVELOPMENT_BASE_URL: import.meta.env.DEVELOPMENT_BASE_URL,
 
   //Privileged user admin:
   ADMIN_USER_EMAIL: "diogogaio@gmail.com",

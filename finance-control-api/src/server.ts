@@ -26,8 +26,12 @@ mongoose
     console.log("DB Connection Failed!");
   });
 
-const server = app.listen(port, "0.0.0.0", () => {
-  console.log(`Server running at http://0.0.0.0:${port}/`);
+// const server = app.listen(port, "0.0.0.0", () => {
+//   console.log(`Server running at http://0.0.0.0:${port}/`);
+// });
+
+const server = app.listen(port, () => {
+  console.log(`Server running on ${port}`);
 });
 
 // Handle any promise rejection that was not caught
