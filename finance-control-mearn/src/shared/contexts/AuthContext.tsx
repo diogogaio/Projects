@@ -158,7 +158,6 @@ export const AuthProvider = ({
     if (!App.loading) App.setLoading(true);
 
     const response = await AuthService.getUser();
-    console.log("RESPONSE:", response);
 
     if (response instanceof Error) {
       App.setLoading(false);

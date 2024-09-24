@@ -27,22 +27,35 @@ export const createTransaction = asyncErroHandler(
 
 export const getTransactions = asyncErroHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    let query = req.query;
+    let queryParams = req.query;
     const tenantId = req.tenantId;
-    console.log("QUERY", query);
-    const features = new ApiFeatures(TransactionModel.find(), query, tenantId);
-    await features.filter();
+    console.log("QUERY", queryParams);
 
-    features.sort().limitFields().paginate();
-
-    const transactions = await features.query;
-
-    //No need to send not found errors, if theres is no data
+    const features = new ApiFeatures(
+      TransactionModel.find(),
+      queryParams,
+      tenantId
+    );
+    const {
+      incomeTotal,
+      totalsByEachIncomeTags,
+      outcomeTotal,
+      totalsByEachOutcomeTags,
+      feat,
+    } = await features.filter();
+    const transactions = await feat.sort().limitFields().paginate().query;
 
     res.status(200).json({
       status: "success",
       count: features.count,
       transactions,
+      totals: {
+        income: incomeTotal,
+        totalsByEachIncomeTags,
+        outcome: outcomeTotal,
+        totalsByEachOutcomeTags,
+        balance: incomeTotal - outcomeTotal,
+      },
     });
   }
 );

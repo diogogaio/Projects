@@ -12,6 +12,18 @@ export interface ITransaction {
   transactionType: string; //income or outcome
 }
 
+interface ITotalsByEachTag {
+  [key: string]: number;
+}
+
+export interface ITransactionTotals {
+  income: number;
+  totalsByEachIncomeTags: ITotalsByEachTag | null;
+  outcome: number;
+  totalsByEachOutcomeTags: ITotalsByEachTag | null;
+  balance: number;
+}
+
 export type TNewTransactionResponse = {
   status: string;
   transaction: ITransaction;
@@ -20,6 +32,7 @@ export type TNewTransactionResponse = {
 export interface IGetTransactionResponse {
   status: string;
   count: number;
+  totals: ITransactionTotals;
   transactions: ITransaction[];
 }
 

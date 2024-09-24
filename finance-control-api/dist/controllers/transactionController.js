@@ -24,18 +24,27 @@ exports.createTransaction = (0, asyncErrorHandler_1.default)(async (req, res, ne
     });
 });
 exports.getTransactions = (0, asyncErrorHandler_1.default)(async (req, res, next) => {
-    let query = req.query;
+    let queryParams = req.query;
     const tenantId = req.tenantId;
-    console.log("QUERY", query);
-    const features = new ApiFeatures_1.default(transactionModel_1.default.find(), query, tenantId);
-    await features.filter();
-    features.sort().limitFields().paginate();
-    const transactions = await features.query;
+    console.log("QUERY", queryParams);
+    const features = new ApiFeatures_1.default(transactionModel_1.default.find(), queryParams, tenantId);
+    const { incomeTotal, totalsByEachIncomeTags, outcomeTotal, totalsByEachOutcomeTags, feat, } = await features.filter();
+    const transactions = await feat.sort().limitFields().paginate().query;
+    // await features.filter();
+    // features.sort().limitFields().paginate();
+    // const transactions = await features.query;
     //No need to send not found errors, if theres is no data
     res.status(200).json({
         status: "success",
         count: features.count,
         transactions,
+        totals: {
+            income: incomeTotal,
+            totalsByEachIncomeTags,
+            outcome: outcomeTotal,
+            totalsByEachOutcomeTags,
+            balance: incomeTotal - outcomeTotal,
+        },
     });
 });
 exports.deleteTransaction = (0, asyncErrorHandler_1.default)(async (req, res, next) => {

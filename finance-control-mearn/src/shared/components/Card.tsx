@@ -3,7 +3,6 @@ import { red } from "@mui/material/colors";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Box, Stack, Typography } from "@mui/material";
 
-import { useMemo } from "react";
 import { Environment } from "../environment";
 import { useTransactionContext } from "../contexts";
 
@@ -14,10 +13,8 @@ interface ICardProps {
 export const Card = ({ cardType }: ICardProps) => {
   const { Transaction } = useTransactionContext();
 
-  const value = useMemo(
-    () => Transaction.calculateTotals(cardType),
-    [Transaction.list, cardType]
-  );
+  const value = Transaction.totals ? Transaction.totals[`${cardType}`] : 0;
+
   const isNegative: boolean = value < 0;
   let formattedValue = value.toLocaleString("pt-br", {
     minimumFractionDigits: 2,

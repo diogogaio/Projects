@@ -1,7 +1,8 @@
     
+ . Clean up and streamline ApiFeatures.filter() method
+ . Include count in totals at getTransactions() method?
  . build command npm install is really correct?   
- . password not being hashed on reset pwd
-    
+ . test and improve totals    
     Improvements and to do's:
 
 . keep typing request incoming request data like in auth signup fn

@@ -11,6 +11,7 @@ import {
   IconButton,
   TableContainer,
   LinearProgress,
+  Stack,
 } from "@mui/material";
 import { useCallback, useMemo } from "react";
 
@@ -65,30 +66,32 @@ export const TransactionsTable = () => {
         </TableCell>
 
         <TableCell align="right">
-          {trans.recurrent && (
+          <Stack direction="row" spacing={1}>
             <IconButton
-              id={trans.transactionId}
-              onClick={(e) => {
-                const id = e.currentTarget.id;
-                Transaction.stopRecurrence(id);
-              }}
+              onClick={() =>
+                trans._id
+                  ? Transaction.deleteById(trans._id)
+                  : alert("Falha ao excluir transação: _id ausente.")
+              }
               size="small"
               disabled={App.loading}
             >
-              <Icon color="warning">sync_disabled</Icon>
+              <Icon color="error">delete_outlined</Icon>
             </IconButton>
-          )}
-          <IconButton
-            onClick={() =>
-              trans._id
-                ? Transaction.deleteById(trans._id)
-                : alert("Falha ao excluir transação: _id ausente.")
-            }
-            size="small"
-            disabled={App.loading}
-          >
-            <Icon color="error">delete_outlined</Icon>
-          </IconButton>
+            {trans.recurrent && (
+              <IconButton
+                id={trans.transactionId}
+                onClick={(e) => {
+                  const id = e.currentTarget.id;
+                  Transaction.stopRecurrence(id);
+                }}
+                size="small"
+                disabled={App.loading}
+              >
+                <Icon color="warning">sync_disabled</Icon>
+              </IconButton>
+            )}
+          </Stack>
         </TableCell>
       </TableRow>
     ));

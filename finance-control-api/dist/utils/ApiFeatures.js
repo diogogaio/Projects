@@ -36,7 +36,58 @@ class ApiFeatures {
         this.query = this.query.find(queryObj);
         // Count the total number of matching documents before pagination
         this.count = await this.query.model.countDocuments(queryObj);
-        return this;
+        const totals = (await this.query.model.aggregate([
+            { $match: queryObj }, // Apply filters
+            {
+                $facet: {
+                    byTransactionType: [
+                        {
+                            $group: {
+                                _id: "$transactionType", // Group by "income" or "outcome"
+                                totalAmount: { $sum: "$amount" }, // Calculate the total amount for each type
+                            },
+                        },
+                    ],
+                    byTag: [
+                        {
+                            $group: {
+                                _id: { transactionType: "$transactionType", tag: "$tag" }, // Group by transactionType and tag
+                                totalAmountByTag: { $sum: "$amount" }, // Calculate total amount per tag
+                            },
+                        },
+                    ],
+                },
+            },
+        ]));
+        console.log(JSON.stringify(totals, null, 2));
+        // Since the result of $facet is an array containing the results, you may need to access it accordingly
+        const totalsResult = totals[0]; // Get the first element of the array if it's wrapped
+        // console.log("TOTALS BY TAG", totalsByTag);
+        // console.log("totals", totals);
+        // Extract the totals for each transaction type
+        const incomeTotal = totalsResult.byTransactionType.find((t) => t._id === "income")
+            ?.totalAmount || 0;
+        const outcomeTotal = totalsResult.byTransactionType.find((t) => t._id === "outcome")
+            ?.totalAmount || 0;
+        const totalsByEachOutcomeTags = {};
+        const totalsByEachIncomeTags = {};
+        totalsResult.byTag.forEach((t) => {
+            if (t._id.transactionType === "outcome") {
+                totalsByEachOutcomeTags[t._id.tag] = t.totalAmountByTag;
+            }
+            else {
+                totalsByEachIncomeTags[t._id.tag] = t.totalAmountByTag;
+            }
+        });
+        console.log("totalsEachByIncomeTags", totalsByEachIncomeTags);
+        console.log("totalsByEachOutcomeTags", totalsByEachOutcomeTags);
+        return {
+            incomeTotal,
+            outcomeTotal,
+            totalsByEachIncomeTags,
+            totalsByEachOutcomeTags,
+            feat: this,
+        };
     }
     sort() {
         if (this.queryParams.sort) {

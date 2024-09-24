@@ -1,9 +1,10 @@
 import { lastDayOfMonth } from "date-fns";
 import { createContext, useContext } from "react";
-import { useState, useCallback, ReactElement, useMemo } from "react";
+import { useState, ReactElement, useMemo } from "react";
 
 import {
   ITransaction,
+  ITransactionTotals,
   TransactionServices,
 } from "../services/transaction/TransactionService";
 import { useAppContext } from "./AppContext";
@@ -23,6 +24,7 @@ interface ITransactionMethods {
   list: ITransaction[];
   openNewTransaction: boolean;
   sortByTypeIsChecked: boolean;
+  totals: ITransactionTotals | null;
   transactionTags: (string | null)[];
   sortByTag: () => void;
   sortByDate: () => void;
@@ -34,7 +36,6 @@ interface ITransactionMethods {
   filterTransactions: (query: string) => Promise<void>;
   setList: React.Dispatch<React.SetStateAction<ITransaction[]>>;
   setOpenNewTransaction: React.Dispatch<React.SetStateAction<boolean>>;
-  calculateTotals: (type: "income" | "outcome" | "balance") => number;
   createNewTransaction: (NewTransaction: ITransaction) => Promise<void>;
 }
 
@@ -53,6 +54,7 @@ export const TransactionProvider = ({
   //States:
   const [count, setCount] = useState(0);
   const [list, setList] = useState<ITransaction[]>([]);
+  const [totals, setTotals] = useState<ITransactionTotals | null>(null);
   const [openNewTransaction, setOpenNewTransaction] = useState(false);
   const [sortByTypeIsChecked, setSortByTypeIsChecked] = useState(false);
 
@@ -94,38 +96,6 @@ export const TransactionProvider = ({
     App.setAppAlert({ message: "Nova transação criada.", severity: "success" });
   };
 
-  const calculateTotals = useCallback(
-    (type: "income" | "outcome" | "balance") => {
-      if (!!!list.length) return 0;
-
-      const totalIncome = Transaction.list.reduce((sum, trans) => {
-        return trans.transactionType === "income"
-          ? sum + Number(trans.amount)
-          : sum;
-      }, 0);
-
-      const totalOutcome = list.reduce((sum, trans) => {
-        return trans.transactionType === "outcome"
-          ? sum + Math.abs(Number(trans.amount)) // Use absolute value to sum outcomes as positive numbers
-          : sum;
-      }, 0);
-
-      const balance = totalIncome - totalOutcome;
-
-      switch (type) {
-        case "income":
-          return totalIncome;
-        case "outcome":
-          return totalOutcome;
-        case "balance":
-          return balance;
-        default:
-          return 0;
-      }
-    },
-    [list]
-  );
-
   const filterTransactions = async (query: string) => {
     if (!App.loading) App.setLoading(true);
 
@@ -152,6 +122,7 @@ export const TransactionProvider = ({
 
     setList(response.transactions);
     setCount(response.count);
+    setTotals(response.totals);
   };
 
   const sortByDate = () => {
@@ -236,6 +207,7 @@ export const TransactionProvider = ({
     listInfo = "Mês atual";
     setCount(response.count);
     setList(response.transactions || []);
+    setTotals(response.totals);
     App.setLoading(false);
   };
 
@@ -292,6 +264,7 @@ export const TransactionProvider = ({
     tag,
     list,
     count,
+    totals,
     listInfo,
     transactionTags,
     openNewTransaction,
@@ -303,7 +276,6 @@ export const TransactionProvider = ({
     sortByType,
     sortByAmount,
     stopRecurrence,
-    calculateTotals,
     filterTransactions,
     createNewTransaction,
     setOpenNewTransaction,

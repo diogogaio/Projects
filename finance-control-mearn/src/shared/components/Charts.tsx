@@ -19,38 +19,14 @@ interface IChartsProps {
 
 export const Charts = ({ animateCharts, setAnimateCharts }: IChartsProps) => {
   const { Transaction } = useTransactionContext();
-  const transactions = Transaction.list;
+  const totals = useMemo(() => Transaction.totals, [Transaction.totals]);
 
-  const incomes = useMemo(
-    () => Transaction.calculateTotals("income"),
-    [transactions]
-  );
-  const outcomes = useMemo(
-    () => Transaction.calculateTotals("outcome"),
-    [transactions]
-  );
+  if (!totals) {
+    return;
+  }
 
-  // Calculate total amounts per tag
-  const totalsPerTag = useMemo(() => {
-    const totalsByOutcomeTags: { [key: string]: number } = {};
-    const totalsByIncomeTags: { [key: string]: number } = {};
-
-    transactions.forEach((transaction) => {
-      if (transaction.transactionType === "outcome") {
-        if (!totalsByOutcomeTags[transaction.tag]) {
-          totalsByOutcomeTags[transaction.tag] = 0;
-        }
-        totalsByOutcomeTags[transaction.tag] += Math.abs(transaction.amount);
-      } else {
-        if (!totalsByIncomeTags[transaction.tag]) {
-          totalsByIncomeTags[transaction.tag] = 0;
-        }
-        totalsByIncomeTags[transaction.tag] += transaction.amount;
-      }
-    });
-
-    return { totalsByIncomeTags, totalsByOutcomeTags };
-  }, [transactions]);
+  const incomes = totals.income || 0;
+  const outcomes = totals.outcome || 0;
 
   // Doughnuts chart data
   const balanceDoughnutData = useMemo(() => {
@@ -67,9 +43,8 @@ export const Charts = ({ animateCharts, setAnimateCharts }: IChartsProps) => {
   }, [incomes, outcomes]);
 
   const incomesDoughnutData = useMemo(() => {
-    const totals = totalsPerTag.totalsByIncomeTags;
-    const tags = Object.keys(totals);
-    const amounts = Object.values(totals);
+    const tags = Object.keys(totals.totalsByEachIncomeTags || {});
+    const amounts = Object.values(totals.totalsByEachIncomeTags || {});
 
     return {
       labels: tags.map((tag) => capitalizeFirstLetter(tag)),
@@ -85,12 +60,11 @@ export const Charts = ({ animateCharts, setAnimateCharts }: IChartsProps) => {
         },
       ],
     };
-  }, [totalsPerTag]);
+  }, [totals]);
 
   const outcomesDoughnutData = useMemo(() => {
-    const totals = totalsPerTag.totalsByOutcomeTags;
-    const tags = Object.keys(totals);
-    const amounts = Object.values(totals);
+    const tags = Object.keys(totals.totalsByEachOutcomeTags || {});
+    const amounts = Object.values(totals.totalsByEachOutcomeTags || {});
 
     return {
       labels: tags.map((tag) => capitalizeFirstLetter(tag)),
@@ -103,7 +77,7 @@ export const Charts = ({ animateCharts, setAnimateCharts }: IChartsProps) => {
         },
       ],
     };
-  }, [totalsPerTag]);
+  }, [totals]);
 
   // Chart options
   const doughnutOptions = useCallback(
