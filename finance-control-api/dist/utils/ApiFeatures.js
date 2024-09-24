@@ -60,11 +60,8 @@ class ApiFeatures {
             },
         ]));
         console.log(JSON.stringify(totals, null, 2));
-        // Since the result of $facet is an array containing the results, you may need to access it accordingly
+        // The result of $facet is an array containing the results
         const totalsResult = totals[0]; // Get the first element of the array if it's wrapped
-        // console.log("TOTALS BY TAG", totalsByTag);
-        // console.log("totals", totals);
-        // Extract the totals for each transaction type
         const incomeTotal = totalsResult.byTransactionType.find((t) => t._id === "income")
             ?.totalAmount || 0;
         const outcomeTotal = totalsResult.byTransactionType.find((t) => t._id === "outcome")

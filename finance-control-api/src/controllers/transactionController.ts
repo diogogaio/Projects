@@ -54,7 +54,7 @@ export const getTransactions = asyncErroHandler(
         totalsByEachIncomeTags,
         outcome: outcomeTotal,
         totalsByEachOutcomeTags,
-        balance: incomeTotal - outcomeTotal,
+        balance: incomeTotal - Math.abs(outcomeTotal),
       },
     });
   }

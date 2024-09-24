@@ -30,10 +30,6 @@ exports.getTransactions = (0, asyncErrorHandler_1.default)(async (req, res, next
     const features = new ApiFeatures_1.default(transactionModel_1.default.find(), queryParams, tenantId);
     const { incomeTotal, totalsByEachIncomeTags, outcomeTotal, totalsByEachOutcomeTags, feat, } = await features.filter();
     const transactions = await feat.sort().limitFields().paginate().query;
-    // await features.filter();
-    // features.sort().limitFields().paginate();
-    // const transactions = await features.query;
-    //No need to send not found errors, if theres is no data
     res.status(200).json({
         status: "success",
         count: features.count,
@@ -43,7 +39,7 @@ exports.getTransactions = (0, asyncErrorHandler_1.default)(async (req, res, next
             totalsByEachIncomeTags,
             outcome: outcomeTotal,
             totalsByEachOutcomeTags,
-            balance: incomeTotal - outcomeTotal,
+            balance: incomeTotal - Math.abs(outcomeTotal),
         },
     });
 });
