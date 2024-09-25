@@ -42,12 +42,14 @@ export const getTransactions = asyncErroHandler(
       outcomeTotal,
       totalsByEachOutcomeTags,
       feat,
+      count,
     } = await features.filter();
+
     const transactions = await feat.sort().limitFields().paginate().query;
 
     res.status(200).json({
       status: "success",
-      count: features.count,
+      count,
       transactions,
       totals: {
         income: incomeTotal,

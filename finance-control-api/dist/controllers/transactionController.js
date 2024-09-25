@@ -28,11 +28,11 @@ exports.getTransactions = (0, asyncErrorHandler_1.default)(async (req, res, next
     const tenantId = req.tenantId;
     console.log("QUERY", queryParams);
     const features = new ApiFeatures_1.default(transactionModel_1.default.find(), queryParams, tenantId);
-    const { incomeTotal, totalsByEachIncomeTags, outcomeTotal, totalsByEachOutcomeTags, feat, } = await features.filter();
+    const { incomeTotal, totalsByEachIncomeTags, outcomeTotal, totalsByEachOutcomeTags, feat, count, } = await features.filter();
     const transactions = await feat.sort().limitFields().paginate().query;
     res.status(200).json({
         status: "success",
-        count: features.count,
+        count,
         transactions,
         totals: {
             income: incomeTotal,

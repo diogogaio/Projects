@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const calculateTotals_1 = require("./calculateTotals");
 class ApiFeatures {
     constructor(query, queryParams, tenantId) {
         this.query = query;
         this.queryParams = queryParams;
         this.tenantId = tenantId;
-        this.count = 0;
     }
     async filter() {
         // Handle range queries (gte, gt, lte, lt)
@@ -34,51 +34,9 @@ class ApiFeatures {
             }
         }
         this.query = this.query.find(queryObj);
-        // Count the total number of matching documents before pagination
-        this.count = await this.query.model.countDocuments(queryObj);
-        const totals = (await this.query.model.aggregate([
-            { $match: queryObj }, // Apply filters
-            {
-                $facet: {
-                    byTransactionType: [
-                        {
-                            $group: {
-                                _id: "$transactionType", // Group by "income" or "outcome"
-                                totalAmount: { $sum: "$amount" }, // Calculate the total amount for each type
-                            },
-                        },
-                    ],
-                    byTag: [
-                        {
-                            $group: {
-                                _id: { transactionType: "$transactionType", tag: "$tag" }, // Group by transactionType and tag
-                                totalAmountByTag: { $sum: "$amount" }, // Calculate total amount per tag
-                            },
-                        },
-                    ],
-                },
-            },
-        ]));
-        console.log(JSON.stringify(totals, null, 2));
-        // The result of $facet is an array containing the results
-        const totalsResult = totals[0]; // Get the first element of the array if it's wrapped
-        const incomeTotal = totalsResult.byTransactionType.find((t) => t._id === "income")
-            ?.totalAmount || 0;
-        const outcomeTotal = totalsResult.byTransactionType.find((t) => t._id === "outcome")
-            ?.totalAmount || 0;
-        const totalsByEachOutcomeTags = {};
-        const totalsByEachIncomeTags = {};
-        totalsResult.byTag.forEach((t) => {
-            if (t._id.transactionType === "outcome") {
-                totalsByEachOutcomeTags[t._id.tag] = t.totalAmountByTag;
-            }
-            else {
-                totalsByEachIncomeTags[t._id.tag] = t.totalAmountByTag;
-            }
-        });
-        console.log("totalsEachByIncomeTags", totalsByEachIncomeTags);
-        console.log("totalsByEachOutcomeTags", totalsByEachOutcomeTags);
+        const { count, incomeTotal, outcomeTotal, totalsByEachIncomeTags, totalsByEachOutcomeTags, } = await (0, calculateTotals_1.calculateTotals)(queryObj, this.query);
         return {
+            count,
             incomeTotal,
             outcomeTotal,
             totalsByEachIncomeTags,
@@ -119,4 +77,23 @@ class ApiFeatures {
     }
 }
 exports.default = ApiFeatures;
+// When you instantiate ApiFeatures like this:
+// const features = new ApiFeatures(TransactionModel.find(), queryParams, tenantId);
+/* TransactionModel.find() returns a Mongoose query object. This query object can be chained with additional query methods, including another .find() or methods like .sort(), .limit(), etc. So when you call this.query.find(queryObj), you're essentially refining the query further.
+
+It's like this:
+
+TransactionModel.find() returns a base query object.
+this.query.find(queryObj) refines it based on the queryObj filters.
+In Mongoose, you can chain query methods, and each .find() doesn't conflict, because it just refines the query without executing it until you call something like .exec() or await the result.
+
+For example:
+
+ TransactionModel.find() // Base query
+  .find({ amount: { $gte: 100 } }) // Further filtering
+  .sort({ createdAt: -1 }) // Sorting
+  .limit(10); // Limiting
+
+ */
+// This is how query chaining works in Mongoose.
 //# sourceMappingURL=ApiFeatures.js.map

@@ -1,7 +1,4 @@
     
- . Clean up and streamline ApiFeatures.filter() method
- . Include count in totals at getTransactions() method?
- . build command npm install is really correct?   
  . test and improve totals    
     Improvements and to do's:
 
