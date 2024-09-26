@@ -52,6 +52,7 @@ const userSchema = new mongoose_1.Schema({
         type: String,
     },
     passwordChangedAt: Date,
+    signedUpByGoogle: Boolean,
     passwordResetToken: String,
     passwordResetTokenExpires: Number,
     transactionTags: {

@@ -1,3 +1,5 @@
+. login layout
+. Test delete user with google account 
 . App init redirect to create account first
 . Warn about deleting recurrent transactions, will cancel recurrences
 

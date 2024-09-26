@@ -13,6 +13,7 @@ authRouter
     .delete(authController_1.protect, authController_1.deleteUser);
 authRouter.route("/login").post(authController_1.login);
 authRouter.route("/signup").post(authController_1.signup);
+authRouter.route("/signinWithGoogle").post(authController_1.signinWithGoogle);
 authRouter.route("/forgotPassword").post(authController_1.forgotPassword);
 authRouter.route("/resetPassword/:id/:token").patch(authController_1.resetPassword);
 authRouter.route("/changePassword").patch(authController_1.protect, authController_1.changePassword);

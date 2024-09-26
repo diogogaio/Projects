@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { z } from "zod";
 import { useEffect } from "react";
+import { GoogleLogin } from "../GoogleLogin";
 import { useAuthContext } from "../../contexts";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -142,6 +143,9 @@ export const Login = () => {
             error={!!errors.password}
             helperText={errors.password?.message}
           />
+
+          <Divider />
+          <GoogleLogin />
 
           <Stack
             direction={{ xs: "column", sm: "row" }}

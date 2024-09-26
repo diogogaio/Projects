@@ -8,6 +8,7 @@ import { Api } from "../api/axios-config";
 export interface IUser {
   _id: string;
   email: string;
+  signedUpByGoogle?: boolean;
   transactionTags: string[];
 }
 
@@ -40,6 +41,19 @@ const signup = async (form: TSignUp): Promise<IUserData | Error> => {
 const login = async (form: ILoginForm): Promise<IUserData | Error> => {
   try {
     const { data } = await Api.post<IUserData>("/api/v1/user/login", form);
+    return data;
+  } catch (error) {
+    const err = error as Error;
+    return err;
+  }
+};
+
+const handleSignInWithGoogle = async (token: string) => {
+  try {
+    const { data } = await Api.post<IUserData>(
+      "/api/v1/user/signinWithGoogle",
+      token
+    );
     return data;
   } catch (error) {
     const err = error as Error;
@@ -133,4 +147,5 @@ export const AuthService = {
   resetPassword,
   forgotPassword,
   changePassword,
+  handleSignInWithGoogle,
 };

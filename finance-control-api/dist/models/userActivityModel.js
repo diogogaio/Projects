@@ -27,7 +27,7 @@ const mongoose_1 = __importStar(require("mongoose"));
 const userActivitySchema = new mongoose_1.Schema({
     action: {
         type: String,
-        enum: ["signUp", "signOff", "login"],
+        enum: ["signUp", "signOff", "login", "signUp-with-google"],
         required: true,
     },
     userEmail: { type: String, required: true },

@@ -25,6 +25,7 @@ interface IAuthMethods {
   login: (form: ILoginForm) => Promise<Error | void>;
   createNewUser: (form: TSignUp) => Promise<IUser | Error>;
   resetPassword: (data: TResetPwdData) => Promise<void | Error>;
+  handleSignInWithGoogle: (GoogleToken: string) => Promise<void>;
   changePassword: (data: TChangePwdForm) => Promise<void | Error>;
   setOpenLoginModal: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenSignUpModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -151,6 +152,28 @@ export const AuthProvider = ({
       setOpenLoginModal(false);
 
       await LocalBase.setData(appName, "credentials", { token: token });
+    }
+  };
+
+  const handleSignInWithGoogle = async (GoogleToken: string) => {
+    //Server will login user or create a new one with a random password, no token is stored in client
+    const response = await AuthService.handleSignInWithGoogle(GoogleToken);
+
+    if (response instanceof Error) {
+      alert(
+        "Falha ao realizar login pelo Google, favor usar login e senha ou se cadastrar."
+      );
+      console.log("Erro:", response);
+      return;
+    }
+    const { user, token } = response;
+
+    if (response.status === "success") {
+      console.log("Login success");
+      setUser(user);
+      setAuthToken(token);
+      setUserEmail(user.email);
+      setOpenLoginModal(false);
     }
   };
 
@@ -291,7 +314,9 @@ export const AuthProvider = ({
         alert("Erro ao excluir usuário");
         return;
       }
-      await LocalBase.deleteDocument(appName, "credentials");
+      if (!user?.signedUpByGoogle) {
+        await LocalBase.deleteDocument(appName, "credentials");
+      }
       App.setLoading(false);
       App.setAppAlert({ message: "Usuário deletado!", severity: "success" });
       setOpenLoginModal(true);
@@ -301,7 +326,9 @@ export const AuthProvider = ({
   const logout = async () => {
     if (window.confirm("Deseja realmente sair?")) {
       //Delete user credentials:
-      await LocalBase.deleteDocument(appName, "credentials");
+      if (!user?.signedUpByGoogle)
+        await LocalBase.deleteDocument(appName, "credentials");
+
       window.location.reload();
     }
   };
@@ -326,6 +353,7 @@ export const AuthProvider = ({
     setOpenSignUpModal,
     setOpenResetPwdModal,
     setOpenForgotPwdModal,
+    handleSignInWithGoogle,
     setOpenChangePasswordModal,
   };
 

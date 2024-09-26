@@ -12,6 +12,7 @@ export interface IUser extends Document {
   passwordChangedAt?: Date;
   passwordResetToken?: string;
   transactionTags?: string[];
+  signedUpByGoogle?: boolean;
   passwordResetTokenExpires?: number;
   createResetPasswordToken(): string;
   isPasswordChanged(JWTTimestamp: number): Promise<boolean>;
@@ -40,6 +41,7 @@ const userSchema = new Schema<IUser>(
       type: String,
     },
     passwordChangedAt: Date,
+    signedUpByGoogle: Boolean,
     passwordResetToken: String,
     passwordResetTokenExpires: Number,
 

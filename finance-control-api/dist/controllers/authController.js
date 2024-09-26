@@ -3,11 +3,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.protect = exports.logUserActivity = exports.deleteUser = exports.resetPassword = exports.forgotPassword = exports.changePassword = exports.updateUser = exports.getUser = exports.login = exports.signup = void 0;
+exports.protect = exports.logUserActivity = exports.deleteUser = exports.resetPassword = exports.forgotPassword = exports.changePassword = exports.updateUser = exports.getUser = exports.login = exports.signinWithGoogle = exports.signup = void 0;
 const util_1 = __importDefault(require("util"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const crypto_1 = __importDefault(require("crypto"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const crypto_1 = require("crypto");
+const crypto_2 = require("crypto");
+const google_auth_library_1 = require("google-auth-library");
 const email_1 = __importDefault(require("../utils/email"));
 const Environment_1 = require("../Environment");
 const customError_1 = __importDefault(require("../utils/customError"));
@@ -42,6 +44,7 @@ const signToken = (id, email) => jsonwebtoken_1.default.sign({ id, userEmail: em
 exports.signup = (0, asyncErrorHandler_1.default)(async (req, res, next) => {
     const requestData = req.body;
     const { email, emailConfirm, password, passwordConfirm } = requestData;
+    console.log("SIGN UP REQ:", JSON.stringify(req.body));
     if (email !== emailConfirm) {
         const error = new customError_1.default("Emails do not match", 400);
         return next(error);
@@ -87,6 +90,47 @@ exports.signup = (0, asyncErrorHandler_1.default)(async (req, res, next) => {
         status: "success",
         token,
         user: newUser,
+    });
+});
+exports.signinWithGoogle = (0, asyncErrorHandler_1.default)(async (req, res, next) => {
+    let token;
+    const { clientId, credential } = req.body;
+    const client = new google_auth_library_1.OAuth2Client(clientId);
+    const ticket = await client.verifyIdToken({
+        idToken: credential,
+        audience: clientId,
+    });
+    const { name, email, picture } = ticket.getPayload();
+    // check for duplicate usernames in the db
+    const user = await userModel_1.UserModel.findOne({ email: email }).exec();
+    if (user) {
+        token = signToken(String(user._id), user.email);
+        await (0, exports.logUserActivity)("signUp-with-google", user, req);
+        return res.status(200).json({
+            status: "success",
+            token,
+            user: user,
+        });
+    }
+    const password = crypto_1.default
+        .randomBytes(12)
+        .toString("base64")
+        .replace(/[+/=]/g, "");
+    const saltRounds = 10;
+    const hash = await bcrypt_1.default.hash(password.toString(), saltRounds);
+    let newUser = await userModel_1.UserModel.create({
+        email,
+        password: hash,
+        signedUpByGoogle: true,
+        transactionTags: ["geral"],
+    });
+    await (0, exports.logUserActivity)("signUp-with-google", newUser, req);
+    token = signToken(String(newUser._id), newUser.email);
+    newUser.password = undefined;
+    return res.status(200).json({
+        status: "success",
+        token,
+        user: user,
     });
 });
 exports.login = (0, asyncErrorHandler_1.default)(async (req, res, next) => {
@@ -241,7 +285,7 @@ exports.forgotPassword = (0, asyncErrorHandler_1.default)(async (req, res, next)
 });
 exports.resetPassword = (0, asyncErrorHandler_1.default)(async (req, res, next) => {
     const id = req.params.id;
-    const token = (0, crypto_1.createHash)("sha256").update(req.params.token).digest("hex");
+    const token = (0, crypto_2.createHash)("sha256").update(req.params.token).digest("hex");
     const password = req.body.password;
     const passwordConfirm = req.body.passwordConfirm;
     if (password !== passwordConfirm) {

@@ -1,8 +1,10 @@
 import util from "util";
 import bcrypt from "bcrypt";
+import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import { createHash } from "crypto";
-import { Request, Response, NextFunction, CookieOptions } from "express";
+import { OAuth2Client } from "google-auth-library";
+import { Request, Response, NextFunction /* CookieOptions */ } from "express";
 
 import sendMail from "../utils/email";
 import { Environment } from "../Environment";
@@ -63,7 +65,7 @@ export const signup = asyncErroHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const requestData: IUserSignUpData = req.body;
     const { email, emailConfirm, password, passwordConfirm } = requestData;
-
+    console.log("SIGN UP REQ:", JSON.stringify(req.body));
     if (email !== emailConfirm) {
       const error = new CustomError("Emails do not match", 400);
       return next(error);
@@ -121,6 +123,61 @@ export const signup = asyncErroHandler(
       status: "success",
       token,
       user: newUser,
+    });
+  }
+);
+
+export const signinWithGoogle = asyncErroHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    let token: string;
+    const { clientId, credential } = req.body;
+    const client = new OAuth2Client(clientId);
+
+    const ticket = await client.verifyIdToken({
+      idToken: credential,
+      audience: clientId,
+    });
+
+    const { name, email, picture } = ticket.getPayload();
+
+    // check for duplicate usernames in the db
+    const user = await UserModel.findOne({ email: email }).exec();
+
+    if (user) {
+      token = signToken(String(user._id), user.email);
+      await logUserActivity("signUp-with-google", user, req);
+      return res.status(200).json({
+        status: "success",
+        token,
+        user: user,
+      });
+    }
+
+    const password = crypto
+      .randomBytes(12)
+      .toString("base64")
+      .replace(/[+/=]/g, "");
+
+    const saltRounds = 10;
+    const hash = await bcrypt.hash(password.toString(), saltRounds);
+
+    let newUser = await UserModel.create({
+      email,
+      password: hash,
+      signedUpByGoogle: true,
+      transactionTags: ["geral"],
+    });
+
+    await logUserActivity("signUp-with-google", newUser, req);
+
+    token = signToken(String(newUser._id), newUser.email);
+
+    newUser.password = undefined;
+
+    return res.status(200).json({
+      status: "success",
+      token,
+      user: user,
     });
   }
 );
