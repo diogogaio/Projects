@@ -5,6 +5,7 @@ import { useAppContext } from "../contexts";
 export type IAppAlert = {
   message: string;
   severity: "error" | "warning" | "success" | "info";
+  hideDuration?: number;
 };
 
 export const AppAlert = () => {
@@ -17,7 +18,7 @@ export const AppAlert = () => {
         border: "1px solid green",
       }}
       open={!!App.appAlert}
-      autoHideDuration={3000}
+      autoHideDuration={App.appAlert?.hideDuration || 2500}
       onClose={App.closeAppAlert}
     >
       <Alert

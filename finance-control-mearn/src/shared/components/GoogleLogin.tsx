@@ -24,26 +24,26 @@ export const GoogleLogin = () => {
   }, []);
 
   return (
-    <Box mt={3}>
+    <Box sx={{ mt: 3 }}>
       <div
         id="g_id_onload"
-        data-client_id={import.meta.env.VITE_OAUTH_GOOGLE_CLIENT_ID}
-        data-context="signin"
         data-ux_mode="popup"
-        data-callback="handleToken"
+        data-context="signin"
         data-itp_support="true"
         data-auto_prompt="true"
         data-auto_select="true"
+        data-callback="handleToken"
         data-close_on_tap_outside="false"
+        data-client_id={import.meta.env.VITE_OAUTH_GOOGLE_CLIENT_ID}
       ></div>
 
       <div
-        className="g_id_signin"
-        data-type="standard"
         data-shape="pill"
-        data-theme="outline"
-        data-text="signin_with"
         data-size="large"
+        data-theme="outline"
+        data-type="standard"
+        data-text="signin_with"
+        className="g_id_signin"
         data-logo_alignment="left"
       ></div>
     </Box>

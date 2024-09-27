@@ -46,6 +46,7 @@ export function Transactions() {
   const theme = useTheme();
   const location = useLocation();
   const searchUrl = location.search;
+  const userEmail = Auth?.userEmail;
 
   const smDown = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -60,14 +61,14 @@ export function Transactions() {
   );
 
   useEffect(() => {
-    if (!searchUrl && Auth.userEmail) {
+    if (!searchUrl && userEmail) {
       Transaction.fetchMonthTransactions();
     }
 
-    if (searchUrl && Auth.userEmail) {
+    if (searchUrl && userEmail) {
       Transaction.filterTransactions(searchUrl);
     }
-  }, [searchUrl, Auth.userEmail]);
+  }, [searchUrl, userEmail]);
 
   return (
     <AppLayout>
@@ -146,7 +147,7 @@ export function Transactions() {
       <SignUp />
       <ResetPassword />
       <ForgotPassword />
-      {Auth.userEmail && <NewTransaction />}
+      {userEmail && <NewTransaction />}
       <ChangePassword />
     </AppLayout>
   );

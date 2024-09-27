@@ -3,6 +3,7 @@ import {
   TResetPwdData,
   TChangePwdForm,
 } from "../../components/modals";
+import { timer } from "../../utils/timer";
 import { Api } from "../api/axios-config";
 
 export interface IUser {
@@ -30,9 +31,12 @@ interface IGetUserResponse {
 
 const signup = async (form: TSignUp): Promise<IUserData | Error> => {
   try {
+    timer.startRequestTimer();
     const { data } = await Api.post<IUserData>("/api/v1/user/signup", form);
+    timer.cancelRequestTimer();
     return data;
   } catch (error) {
+    timer.cancelRequestTimer();
     const err = error as Error;
     return err;
   }
@@ -40,9 +44,12 @@ const signup = async (form: TSignUp): Promise<IUserData | Error> => {
 
 const login = async (form: ILoginForm): Promise<IUserData | Error> => {
   try {
+    timer.startRequestTimer();
     const { data } = await Api.post<IUserData>("/api/v1/user/login", form);
+    timer.cancelRequestTimer();
     return data;
   } catch (error) {
+    timer.cancelRequestTimer();
     const err = error as Error;
     return err;
   }
@@ -50,12 +57,15 @@ const login = async (form: ILoginForm): Promise<IUserData | Error> => {
 
 const handleSignInWithGoogle = async (token: string) => {
   try {
+    timer.startRequestTimer();
     const { data } = await Api.post<IUserData>(
       "/api/v1/user/signinWithGoogle",
       token
     );
+    timer.cancelRequestTimer();
     return data;
   } catch (error) {
+    timer.cancelRequestTimer();
     const err = error as Error;
     return err;
   }
@@ -63,9 +73,12 @@ const handleSignInWithGoogle = async (token: string) => {
 
 const getUser = async (): Promise<IGetUserResponse | Error> => {
   try {
+    timer.startRequestTimer();
     const { data } = await Api.get<IGetUserResponse>("/api/v1/user/");
+    timer.cancelRequestTimer();
     return data;
   } catch (error) {
+    timer.cancelRequestTimer();
     const err = error as Error;
     return err;
   }
@@ -106,9 +119,12 @@ const changePassword = async (
 
 const forgotPassword = async (email: string) => {
   try {
+    timer.startRequestTimer();
     const response = await Api.post("/api/v1/user/forgotPassword", { email });
+    timer.cancelRequestTimer();
     return response;
   } catch (error) {
+    timer.cancelRequestTimer();
     const err = error as Error;
     return err;
   }

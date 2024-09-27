@@ -169,7 +169,6 @@ export const AuthProvider = ({
     const { user, token } = response;
 
     if (response.status === "success") {
-      console.log("Login success");
       setUser(user);
       setAuthToken(token);
       setUserEmail(user.email);

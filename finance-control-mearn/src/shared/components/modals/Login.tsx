@@ -144,14 +144,14 @@ export const Login = () => {
             helperText={errors.password?.message}
           />
 
-          <Divider />
+          <Divider flexItem sx={{ mt: 2 }} />
           <GoogleLogin />
 
           <Stack
             direction={{ xs: "column", sm: "row" }}
             spacing={2}
             sx={{
-              mt: 4,
+              mt: 3,
               width: "100%",
               justifyContent: "center",
             }}
