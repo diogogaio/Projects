@@ -18,8 +18,8 @@ export const createCheckoutSession = asyncErroHandler(
       customer_email: email,
       line_items: [
         {
-          // // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-          // price: "prod_QxURRjGQktn09J",
+          // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+          price: "price_1Q5ZShDzQr6iKDKIattJsU2T",
           quantity: 1,
         },
       ],
