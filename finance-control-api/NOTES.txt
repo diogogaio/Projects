@@ -1,12 +1,9 @@
     
- . SWITCH NODE_ENV KEY BACK TO PRODUCTION AT RENDER.COM
- . test and improve totals    
+ . Handle and log stripe erros
     Improvements and to do's:
 
 . keep typing request incoming request data like in auth signup fn
 . create a manual backup end point so you can backup files manually
-. Features: 
-    . Sign in with google.
 
     --------------------------------------------------------------------------------
 
@@ -32,7 +29,6 @@
        Use in Development:
             . npm run start_dev
             . check package.json scripts
-            . server bindings "0.0.0.0"
             . check cors
 
     dev scripts: (render.com does not support "SET" because it runs on unix )
@@ -45,7 +41,6 @@
     //"start": "node dist/server.js",
     "start_prod": "SET NODE_ENV=production& nodemon"
   },
-
 
 
 

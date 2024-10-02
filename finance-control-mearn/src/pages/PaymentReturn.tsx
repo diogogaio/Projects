@@ -28,21 +28,17 @@ export const PaymentReturn = () => {
   const { App } = useAppContext();
   let { session_id } = useParams();
 
-  console.log("SESSION ID: ", session_id);
-
   const getSessionStatus = async () => {
     if (session_id && !status) {
       App.setLoading(true);
 
       // await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulating network delay
       const response = await PaymentsService.sessionStatus(session_id);
-      console.log("GET SESSION STATUS RESPONSE: ", response);
 
       if (response instanceof Error) {
         App.setLoading(false);
         session_id = "";
         setStatus("error");
-        console.log("Error: ", response);
         return console.error("Error in payment service: " + response);
       }
       App.setLoading(false);

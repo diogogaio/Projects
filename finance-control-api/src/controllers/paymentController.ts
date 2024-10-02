@@ -8,6 +8,7 @@ export const createCheckoutSession = asyncErroHandler(
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
     const { email } = req.body;
+
     const MY_DOMAIN =
       process.env.NODE_ENV === "production"
         ? "https://equilibriofinanceiro.web.app"
@@ -27,7 +28,6 @@ export const createCheckoutSession = asyncErroHandler(
       return_url: `${MY_DOMAIN}/paymentReturn/session_id={CHECKOUT_SESSION_ID}`,
     });
 
-    console.log("## CREATE CHECKOUT SESSION variable: ## ", session);
     res.status(201).json({
       clientSecret: session.client_secret,
     });
@@ -36,7 +36,6 @@ export const createCheckoutSession = asyncErroHandler(
 
 export const sessionStatus = asyncErroHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log("@@ request params: @@", req.query);
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
     const session_id = String(req.query.session_id);
@@ -45,9 +44,7 @@ export const sessionStatus = asyncErroHandler(
       const error = new CustomError("Invalid session ID", 400);
       return next(error);
     }
-    console.log(" @@ SESSION_ID PARAMS: " + session_id);
     const session = await stripe.checkout.sessions.retrieve(session_id);
-    console.log("%% SESSION STATUS VARIABLE: %%", session.status);
 
     res.send({
       status: session.status,

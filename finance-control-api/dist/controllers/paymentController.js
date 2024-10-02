@@ -26,22 +26,18 @@ exports.createCheckoutSession = (0, asyncErrorHandler_1.default)(async (req, res
         mode: "payment",
         return_url: `${MY_DOMAIN}/paymentReturn/session_id={CHECKOUT_SESSION_ID}`,
     });
-    console.log("## CREATE CHECKOUT SESSION variable: ## ", session);
     res.status(201).json({
         clientSecret: session.client_secret,
     });
 });
 exports.sessionStatus = (0, asyncErrorHandler_1.default)(async (req, res, next) => {
-    console.log("@@ request params: @@", req.query);
     const stripe = new stripe_1.default(process.env.STRIPE_SECRET_KEY);
     const session_id = String(req.query.session_id);
     if (!session_id) {
         const error = new customError_1.default("Invalid session ID", 400);
         return next(error);
     }
-    console.log(" @@ SESSION_ID PARAMS: " + session_id);
     const session = await stripe.checkout.sessions.retrieve(session_id);
-    console.log("%% SESSION STATUS VARIABLE: %%", session.status);
     res.send({
         status: session.status,
     });

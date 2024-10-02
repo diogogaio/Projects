@@ -11,7 +11,7 @@ const createSession = async (email?: string) => {
   try {
     const { data } = await Api.post<ICreateSessionResponse>(
       "api/v1/payments/createCheckoutSession",
-      email
+      { email }
     );
     return data;
   } catch (error) {
