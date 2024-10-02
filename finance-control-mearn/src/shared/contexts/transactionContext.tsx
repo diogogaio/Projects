@@ -96,6 +96,31 @@ export const TransactionProvider = ({
     App.setAppAlert({ message: "Nova transação criada.", severity: "success" });
   };
 
+  const fetchMonthTransactions = async () => {
+    if (!App.loading) App.setLoading(true);
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // getMonth() returns month index (0-11), so add 1 for 1-12
+    const firstDayOfMonth_YYYYMMDD = `${year}-${month}-01`;
+    const lastDayOfMonth_DD = lastDayOfMonth(new Date()).getDate();
+    const lastDayOfMonth_YYYYMMDD = `${year}-${month}-${lastDayOfMonth_DD}`;
+
+    const response = await TransactionServices.getTransactions(
+      `?createdAt[gte]=${firstDayOfMonth_YYYYMMDD}&createdAt[lte]=${lastDayOfMonth_YYYYMMDD}`
+    );
+
+    if (response instanceof Error) {
+      alert("Erro ao buscar transações mensais: " + response.message);
+      App.setLoading(false);
+      return;
+    }
+    listInfo = "Mês atual";
+    setCount(response.count);
+    setList(response.transactions || []);
+    setTotals(response.totals);
+    App.setLoading(false);
+  };
+
   const filterTransactions = async (query: string) => {
     if (!App.loading) App.setLoading(true);
 
@@ -184,31 +209,6 @@ export const TransactionProvider = ({
       return 0;
     });
     setList(sortedTransactions);
-  };
-
-  const fetchMonthTransactions = async () => {
-    if (!App.loading) App.setLoading(true);
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // getMonth() returns month index (0-11), so add 1 for 1-12
-    const firstDayOfMonth_YYYYMMDD = `${year}-${month}-01`;
-    const lastDayOfMonth_DD = lastDayOfMonth(new Date()).getDate();
-    const lastDayOfMonth_YYYYMMDD = `${year}-${month}-${lastDayOfMonth_DD}`;
-
-    const response = await TransactionServices.getTransactions(
-      `?createdAt[gte]=${firstDayOfMonth_YYYYMMDD}&createdAt[lte]=${lastDayOfMonth_YYYYMMDD}`
-    );
-
-    if (response instanceof Error) {
-      alert("Erro ao buscar transações mensais: " + response.message);
-      App.setLoading(false);
-      return;
-    }
-    listInfo = "Mês atual";
-    setCount(response.count);
-    setList(response.transactions || []);
-    setTotals(response.totals);
-    App.setLoading(false);
   };
 
   const stopRecurrence = async (id: string) => {

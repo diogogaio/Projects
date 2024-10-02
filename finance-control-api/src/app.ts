@@ -8,6 +8,7 @@ import { setOrigin } from "./utils/corsConfig";
 import { globalErrorHandler } from "./controllers";
 import mongoSanitize from "express-mongo-sanitize";
 import sanitizeRequest from "./middleware/sanitize";
+import paymentsRouter from "./routes/paymentsRouter";
 import transactionRouter from "./routes/transactionRouter";
 // import cookieParser from "cookie-parser";
 // import mongoose from "mongoose";
@@ -56,6 +57,7 @@ app.use(mongoSanitize());
 //Routes
 app.use("/api/v1/user", authRouter);
 app.use("/api/v1/transactions", transactionRouter);
+app.use("/api/v1/payments", paymentsRouter);
 app.all("*", (req, res, next) => {
   const err = new CustomError(
     `Can not find this URL on server: "${req.originalUrl}" `,

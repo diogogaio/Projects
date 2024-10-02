@@ -9,6 +9,7 @@ import {
 import Menu from "@mui/material/Menu";
 import { useCallback, useState } from "react";
 import MenuItem from "@mui/material/MenuItem";
+import { useNavigate } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import { generatePDF } from "../utils/exportPDF";
 
@@ -38,6 +39,7 @@ export function AppMenu() {
   const { App } = useAppContext();
   const { Auth } = useAuthContext();
   const { Transaction } = useTransactionContext();
+  const navigate = useNavigate();
 
   const renderAppMenu = useCallback(() => {
     const menuItems: IMenuItens[] = [
@@ -65,15 +67,21 @@ export function AppMenu() {
         iconColor: "error",
         onClick: () => Auth.deleteUser(),
       },
+      {
+        icon: "volunteer_activism_icon",
+        label: "Café para o desenvolvedor",
+        iconColor: "secondary",
+        onClick: () => navigate(`/checkout`),
+      },
     ];
 
     return menuItems.map(({ icon, label, iconColor, onClick }, index) => [
-      index === menuItems.length - 1 && <Divider key={`divider-${index}`} />,
+      index === menuItems.length - 2 && <Divider key={`divider-${index}`} />,
       <MenuItem key={index} onClick={onClick}>
         <ListItemIcon>
           <Icon color={iconColor}>{icon}</Icon>
         </ListItemIcon>
-        <ListItemText>{label}</ListItemText>
+        <ListItemText sx={{ textWrap: "wrap" }}>{label}</ListItemText>
       </MenuItem>,
     ]);
   }, [Auth]);

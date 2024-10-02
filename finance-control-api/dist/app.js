@@ -13,6 +13,7 @@ const corsConfig_1 = require("./utils/corsConfig");
 const controllers_1 = require("./controllers");
 const express_mongo_sanitize_1 = __importDefault(require("express-mongo-sanitize"));
 const sanitize_1 = __importDefault(require("./middleware/sanitize"));
+const paymentsRouter_1 = __importDefault(require("./routes/paymentsRouter"));
 const transactionRouter_1 = __importDefault(require("./routes/transactionRouter"));
 // import cookieParser from "cookie-parser";
 // import mongoose from "mongoose";
@@ -50,6 +51,7 @@ app.use((0, express_mongo_sanitize_1.default)());
 //Routes
 app.use("/api/v1/user", authRouter_1.default);
 app.use("/api/v1/transactions", transactionRouter_1.default);
+app.use("/api/v1/payments", paymentsRouter_1.default);
 app.all("*", (req, res, next) => {
     const err = new customError_1.default(`Can not find this URL on server: "${req.originalUrl}" `, 404);
     next(err);

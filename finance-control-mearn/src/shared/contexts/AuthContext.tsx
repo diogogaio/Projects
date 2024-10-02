@@ -100,6 +100,7 @@ export const AuthProvider = ({
       setOpenResetPwdModal(true);
       return;
     }
+
     const token = await LocalBase.getData(appName, "credentials");
 
     if (!token) {

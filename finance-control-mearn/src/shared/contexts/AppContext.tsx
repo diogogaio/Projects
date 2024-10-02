@@ -32,7 +32,13 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
     setAppAlert(null);
   };
 
-  const App = { loading, appAlert, setLoading, setAppAlert, closeAppAlert };
+  const App = {
+    loading,
+    appAlert,
+    setLoading,
+    setAppAlert,
+    closeAppAlert,
+  };
 
   return <AppContext.Provider value={{ App }}>{children}</AppContext.Provider>;
 };
