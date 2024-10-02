@@ -1,4 +1,5 @@
     
+ . SWITCH NODE_ENV KEY BACK TO PRODUCTION AT RENDER.COM
  . test and improve totals    
     Improvements and to do's:
 
