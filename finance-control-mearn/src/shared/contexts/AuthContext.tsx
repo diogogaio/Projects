@@ -2,20 +2,19 @@
 import { createContext, useContext } from "react";
 import { ReactElement, useEffect, useState } from "react";
 
+import { TSignUp } from "../../pages";
 import { useAppContext } from "./AppContext";
 import { Environment } from "../environment";
 import { Api } from "../services/api/axios-config";
 import { useLocalBaseContext } from "./LocalBaseContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AuthService, ILoginForm, IUser } from "../services/auth/AuthService";
-import { TSignUp, TResetPwdData, TChangePwdForm } from "../components/modals";
+import { TChangePwdForm } from "../components/modals";
+import { TResetPwdData } from "../../pages/ResetPassword";
 
 interface IAuthMethods {
   userEmail: string;
   user: IUser | undefined;
-  openLoginModal: boolean;
-  openSignupModal: boolean;
-  openResetPwdModal: boolean;
   openForgotPwdModal: boolean;
   openChangePasswordModal: boolean;
   logout: () => Promise<void>;
@@ -27,9 +26,6 @@ interface IAuthMethods {
   resetPassword: (data: TResetPwdData) => Promise<void | Error>;
   handleSignInWithGoogle: (GoogleToken: string) => Promise<void>;
   changePassword: (data: TChangePwdForm) => Promise<void | Error>;
-  setOpenLoginModal: React.Dispatch<React.SetStateAction<boolean>>;
-  setOpenSignUpModal: React.Dispatch<React.SetStateAction<boolean>>;
-  setOpenResetPwdModal: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenForgotPwdModal: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenChangePasswordModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -63,9 +59,6 @@ export const AuthProvider = ({
   const [userEmail, setUserEmail] = useState<string>("");
   const [user, setUser] = useState<IUser | undefined>(undefined);
 
-  const [openLoginModal, setOpenLoginModal] = useState(false);
-  const [openSignupModal, setOpenSignUpModal] = useState(false);
-  const [openResetPwdModal, setOpenResetPwdModal] = useState(false);
   const [openForgotPwdModal, setOpenForgotPwdModal] = useState(false);
   const [openChangePasswordModal, setOpenChangePasswordModal] = useState(false);
 
@@ -95,9 +88,8 @@ export const AuthProvider = ({
   const appInit = async () => {
     App.setLoading(true);
 
-    if (location.pathname.includes("/redefinir-senha")) {
+    if (location.pathname.includes("/resetPassword")) {
       App.setLoading(false);
-      setOpenResetPwdModal(true);
       return;
     }
 
@@ -105,7 +97,7 @@ export const AuthProvider = ({
 
     if (!token) {
       App.setLoading(false);
-      setOpenLoginModal(true);
+      navigate("/login");
       return;
     }
 
@@ -133,7 +125,7 @@ export const AuthProvider = ({
     setUser(user);
     setAuthToken(token);
     setUserEmail(user.email);
-    setOpenSignUpModal(false);
+    navigate("/");
 
     return user;
   };
@@ -150,7 +142,7 @@ export const AuthProvider = ({
       setUser(user);
       setAuthToken(token);
       setUserEmail(user.email);
-      setOpenLoginModal(false);
+      navigate("/");
 
       await LocalBase.setData(appName, "credentials", { token: token });
     }
@@ -173,7 +165,7 @@ export const AuthProvider = ({
       setUser(user);
       setAuthToken(token);
       setUserEmail(user.email);
-      setOpenLoginModal(false);
+      navigate("/");
     }
   };
 
@@ -184,7 +176,7 @@ export const AuthProvider = ({
 
     if (response instanceof Error) {
       App.setLoading(false);
-      setOpenLoginModal(true);
+      navigate("/");
       return;
     }
 
@@ -195,7 +187,7 @@ export const AuthProvider = ({
       setUserEmail(user.email);
     } else {
       App.setLoading(false);
-      setOpenLoginModal(true);
+      navigate("/");
     }
   };
 
@@ -229,7 +221,6 @@ export const AuthProvider = ({
       setUser(user);
       setAuthToken(token);
       setUserEmail(user.email);
-      setOpenResetPwdModal(false);
       navigate("/");
 
       await LocalBase.setData(appName, "credentials", { token: token });
@@ -314,20 +305,17 @@ export const AuthProvider = ({
         alert("Erro ao excluir usuário");
         return;
       }
-      if (!user?.signedUpByGoogle) {
-        await LocalBase.deleteDocument(appName, "credentials");
-      }
+      await LocalBase.deleteDocument(appName, "credentials");
       App.setLoading(false);
       App.setAppAlert({ message: "Usuário deletado!", severity: "success" });
-      setOpenLoginModal(true);
+      window.location.reload();
     }
   };
 
   const logout = async () => {
     if (window.confirm("Deseja realmente sair?")) {
       //Delete user credentials:
-      if (!user?.signedUpByGoogle)
-        await LocalBase.deleteDocument(appName, "credentials");
+      await LocalBase.deleteDocument(appName, "credentials");
 
       window.location.reload();
     }
@@ -336,9 +324,6 @@ export const AuthProvider = ({
   const Auth = {
     user,
     userEmail,
-    openLoginModal,
-    openSignupModal,
-    openResetPwdModal,
     openForgotPwdModal,
     openChangePasswordModal,
     login,
@@ -349,9 +334,6 @@ export const AuthProvider = ({
     createNewUser,
     resetPassword,
     changePassword,
-    setOpenLoginModal,
-    setOpenSignUpModal,
-    setOpenResetPwdModal,
     setOpenForgotPwdModal,
     handleSignInWithGoogle,
     setOpenChangePasswordModal,

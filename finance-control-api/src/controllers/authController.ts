@@ -331,7 +331,10 @@ export const forgotPassword = asyncErroHandler(
     const email = req.body.email;
 
     //This front end url is not valid for postman requests:
-    const frontendUrl = setOrigin();
+    const frontendUrl =
+      process.env.NODE_ENV === "production"
+        ? "https://equilibriofinanceiro.web.app"
+        : "http://localhost:5173";
     // const frontendUrl = req.get("origin") || req.get("referer");
 
     if (!email) {
@@ -361,7 +364,7 @@ export const forgotPassword = asyncErroHandler(
 
     await user.save({ validateBeforeSave: false });
 
-    const resetUrl = `${frontendUrl}/redefinir-senha/${user._id}/${resetToken}`;
+    const resetUrl = `${frontendUrl}/resetPassword/${user._id}/${resetToken}`;
 
     const message = `
     <h1>${Environment.APP_NAME}</h1>
@@ -428,7 +431,7 @@ export const resetPassword = asyncErroHandler(
     });
 
     if (!user) {
-      const error = new CustomError("Token expired or invalid.", 400);
+      const error = new CustomError("Token expired or invalid.", 401);
       return next(error);
     }
 

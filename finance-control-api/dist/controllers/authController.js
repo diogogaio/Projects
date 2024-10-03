@@ -13,7 +13,6 @@ const google_auth_library_1 = require("google-auth-library");
 const email_1 = __importDefault(require("../utils/email"));
 const Environment_1 = require("../Environment");
 const customError_1 = __importDefault(require("../utils/customError"));
-const corsConfig_1 = require("../utils/corsConfig");
 const userModel_1 = require("../models/userModel");
 const asyncErrorHandler_1 = __importDefault(require("../utils/asyncErrorHandler"));
 const transactionModel_1 = __importDefault(require("../models/transactionModel"));
@@ -230,7 +229,9 @@ exports.changePassword = (0, asyncErrorHandler_1.default)(async (req, res, next)
 exports.forgotPassword = (0, asyncErrorHandler_1.default)(async (req, res, next) => {
     const email = req.body.email;
     //This front end url is not valid for postman requests:
-    const frontendUrl = (0, corsConfig_1.setOrigin)();
+    const frontendUrl = process.env.NODE_ENV === "production"
+        ? "https://equilibriofinanceiro.web.app"
+        : "http://localhost:5173";
     // const frontendUrl = req.get("origin") || req.get("referer");
     if (!email) {
         const error = new customError_1.default("Please provide a valid email.", 400);
@@ -248,7 +249,7 @@ exports.forgotPassword = (0, asyncErrorHandler_1.default)(async (req, res, next)
     }
     const resetToken = user.createResetPasswordToken();
     await user.save({ validateBeforeSave: false });
-    const resetUrl = `${frontendUrl}/redefinir-senha/${user._id}/${resetToken}`;
+    const resetUrl = `${frontendUrl}/resetPassword/${user._id}/${resetToken}`;
     const message = `
     <h1>${Environment_1.Environment.APP_NAME}</h1>
     <h5>Redefinição de senha</h5>
@@ -302,7 +303,7 @@ exports.resetPassword = (0, asyncErrorHandler_1.default)(async (req, res, next) 
         passwordResetTokenExpires: { $gt: Date.now() },
     });
     if (!user) {
-        const error = new customError_1.default("Token expired or invalid.", 400);
+        const error = new customError_1.default("Token expired or invalid.", 401);
         return next(error);
     }
     const saltRounds = 10;

@@ -1,3 +1,4 @@
+. Go to "/" when click on page title
 . Read me from both back and front
 . disable things when one-tap login loading
 . login layout

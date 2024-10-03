@@ -1,54 +1,46 @@
 import {
   Box,
-  Stack,
   Alert,
-  Modal,
-  Button,
+  Stack,
   Divider,
   TextField,
   Typography,
   LinearProgress,
 } from "@mui/material";
 import { z } from "zod";
-import { useEffect } from "react";
+import { LoadingButton } from "@mui/lab";
+import { Send } from "@mui/icons-material";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { useAuthContext } from "../../contexts";
-import { Environment } from "../../environment";
+import { useParams } from "react-router-dom";
+import { AppLayout } from "../shared/components";
+import { useAuthContext } from "../shared/contexts";
+import { Environment } from "../shared/environment";
 
-export type TSignUp = z.infer<typeof schema>;
+export type TResetPwdForm = z.infer<typeof schema>;
+export type TResetPwdData = TResetPwdForm & { id: string; token: string };
 
 const schema = z
   .object({
-    email: z.string().email({ message: "Insira um email válido" }),
-    emailConfirm: z.string().email({ message: "Insira um email válido" }),
     password: z
       .string()
       .min(6, { message: "Senha precisar ter entre 6 e 15 caracteres" })
-      .max(15, { message: "Senha precisar ter entre 6 e 15 caracteres." }),
+      .max(15, { message: "Senha precisar ter entre 6 e 15 caracteres" }),
     passwordConfirm: z
       .string()
       .min(6, { message: "Senha precisar ter entre 6 e 15 caracteres" })
       .max(15, { message: "Senha precisar ter entre 6 e 15 caracteres" }),
-  })
-  .refine((data) => data.email === data.emailConfirm, {
-    message: "Emails não conferem",
-    path: ["emailConfirm"], // path of error
   })
   .refine((data) => data.password === data.passwordConfirm, {
     message: "Senhas não conferem",
     path: ["passwordConfirm"],
   });
 
-export const SignUp = () => {
+export const ResetPassword = () => {
   const { Auth } = useAuthContext();
 
-  useEffect(() => {
-    if (Auth.userEmail) {
-      reset();
-    }
-  }, [Auth.userEmail]);
+  const { id, token } = useParams();
 
   const {
     reset,
@@ -57,48 +49,47 @@ export const SignUp = () => {
     clearErrors,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<TSignUp>({ resolver: zodResolver(schema) });
+  } = useForm<TResetPwdForm>({
+    resolver: zodResolver(schema),
+  });
 
-  const onSubmit: SubmitHandler<TSignUp> = async (data) => {
+  const onSubmit: SubmitHandler<TResetPwdForm> = async (data) => {
     clearErrors();
 
-    const response = await Auth.createNewUser(data);
+    if (!id || !token) {
+      setError("root", {
+        message: "Falha ao redefinir senha, informações ausentes.",
+      });
+      return;
+    }
+    const resetPwdData: TResetPwdData = {
+      id,
+      token,
+      ...data,
+    };
+
+    const response = await Auth.resetPassword(resetPwdData);
 
     if (response instanceof Error) {
       const errorMessage = response.message;
       setError("root", { message: errorMessage });
+      return;
     }
-  };
 
-  const handleCancel = () => {
     reset();
-    clearErrors();
-    Auth.setOpenLoginModal(true);
-    Auth.setOpenSignUpModal(false);
-  };
-
-  const closeThisModal = (_: React.SyntheticEvent, reason?: string) => {
-    if (reason && reason === "backdropClick") return;
-    else Auth.setOpenSignUpModal(false);
   };
 
   return (
-    <Modal
-      disableEscapeKeyDown
-      onClose={closeThisModal}
-      open={Auth.openSignupModal}
-      aria-labelledby="modal-novo-usuário"
-    >
+    <AppLayout>
       <Box
         sx={{
           p: 4,
           gap: 1,
-          top: "50%",
+          top: "45%",
           left: "50%",
           boxShadow: 20,
           display: "flex",
-          overflow: "auto",
-          maxHeight: "90vh",
+          maxHeight: "95vh",
           flexDirection: "column",
           bgcolor: "background.paper",
           position: "absolute" as "absolute",
@@ -109,99 +100,78 @@ export const SignUp = () => {
         <Typography
           variant="h6"
           component="h2"
-          id="modal-novo-usuário"
+          id="modal-redefinir-senha"
           color={Environment.APP_MAIN_TEXT_COLOR}
         >
-          Criar usuário
+          Redefinir senha
         </Typography>
 
         <Divider />
+
+        {isSubmitting && (
+          <Box sx={{ width: "100%" }}>
+            <LinearProgress color="secondary" />
+          </Box>
+        )}
 
         {errors.root && (
           <Box mt={1} mb={1}>
             <Alert severity="error">{errors.root.message}</Alert>
           </Box>
         )}
-        {isSubmitting && (
-          <Box sx={{ width: "100%", mt: 2 }}>
-            <LinearProgress />
-          </Box>
-        )}
+
         <Box
-          component="form"
           sx={{
             gap: 1,
             display: "flex",
             alignItems: "center",
             flexDirection: "column",
           }}
+          component="form"
           onSubmit={handleSubmit(onSubmit)}
         >
           <TextField
-            {...register("email")}
-            autoFocus
-            fullWidth
-            name="email"
-            label="Email"
-            variant="standard"
-            error={!!errors.email}
-            helperText={errors.email?.message}
-          />
-
-          <TextField
-            {...register("emailConfirm")}
-            fullWidth
-            variant="standard"
-            name="emailConfirm"
-            label="Repita seu email"
-            error={!!errors.emailConfirm}
-            helperText={errors.emailConfirm?.message}
-          />
-
-          <TextField
             {...register("password")}
-            fullWidth
-            sx={{ mt: 1 }}
-            label="Senha"
+            label="Nova senha: "
             name="password"
             type="password"
             variant="standard"
             error={!!errors.password}
             helperText={errors.password?.message}
           />
-
           <TextField
             {...register("passwordConfirm")}
-            fullWidth
+            label="Confirme nova senha :"
+            name="passwordConfirm"
             type="password"
             variant="standard"
-            name="passwordConfirm"
-            label="Repita sua senha"
             error={!!errors.passwordConfirm}
             helperText={errors.passwordConfirm?.message}
           />
+
           <Stack
-            spacing={2}
             direction={{ xs: "column", sm: "row" }}
+            spacing={2}
             sx={{
               mt: 4,
               width: "100%",
               justifyContent: "center",
             }}
           >
-            <Button
+            <LoadingButton
+              type="submit"
               color="secondary"
-              onClick={handleCancel}
-              variant={Environment.BUTTON_VARIANT}
+              endIcon={<Send />}
+              variant="contained"
+              loadingPosition="end"
+              loading={isSubmitting}
+              disabled={isSubmitting}
             >
-              Cancelar
-            </Button>
-            <Button type="submit" color="secondary" variant="contained">
-              Criar
-            </Button>
+              <span>Enviar</span>
+            </LoadingButton>
           </Stack>
         </Box>
       </Box>
-    </Modal>
+    </AppLayout>
   );
 };

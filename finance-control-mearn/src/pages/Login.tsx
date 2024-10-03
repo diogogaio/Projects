@@ -1,7 +1,6 @@
 import {
   Box,
   Alert,
-  Modal,
   Stack,
   Button,
   Divider,
@@ -10,39 +9,35 @@ import {
   LinearProgress,
 } from "@mui/material";
 import { z } from "zod";
-import { LoadingButton } from "@mui/lab";
-import { useAuthContext } from "../../contexts";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../shared/contexts";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { AppLayout, GoogleLogin } from "../shared/components";
 
-import { Send } from "@mui/icons-material";
-import { Environment } from "../../environment";
-import { useNavigate, useParams } from "react-router-dom";
+import { Environment } from "../shared/environment";
+import { ForgotPassword } from "../shared/components/modals";
 
-export type TResetPwdForm = z.infer<typeof schema>;
-export type TResetPwdData = TResetPwdForm & { id: string; token: string };
+export const Login = () => {
+  const { Auth } = useAuthContext();
+  const navigate = useNavigate();
 
-const schema = z
-  .object({
+  useEffect(() => {
+    if (Auth.userEmail) {
+      reset();
+    }
+  }, [Auth.userEmail]);
+
+  type TFormField = z.infer<typeof schema>;
+
+  const schema = z.object({
+    email: z.string().email({ message: "Insira um email válido" }),
     password: z
       .string()
       .min(6, { message: "Senha precisar ter entre 6 e 15 caracteres" })
       .max(15, { message: "Senha precisar ter entre 6 e 15 caracteres" }),
-    passwordConfirm: z
-      .string()
-      .min(6, { message: "Senha precisar ter entre 6 e 15 caracteres" })
-      .max(15, { message: "Senha precisar ter entre 6 e 15 caracteres" }),
-  })
-  .refine((data) => data.password === data.passwordConfirm, {
-    message: "Senhas não conferem",
-    path: ["passwordConfirm"],
   });
-
-export const ResetPassword = () => {
-  const { Auth } = useAuthContext();
-
-  const { id, token } = useParams();
-  const navigate = useNavigate();
 
   const {
     reset,
@@ -51,60 +46,38 @@ export const ResetPassword = () => {
     clearErrors,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<TResetPwdForm>({
+  } = useForm<TFormField>({
     resolver: zodResolver(schema),
   });
 
-  const onSubmit: SubmitHandler<TResetPwdForm> = async (data) => {
+  // const closeThisModal = (_: React.SyntheticEvent, reason?: string) => {
+  //   if (reason && reason === "backdropClick") return;
+  //   else Auth.setOpenLoginModal(false);
+  // };
+
+  const onSubmit: SubmitHandler<TFormField> = async (data) => {
     clearErrors();
 
-    if (!id || !token) {
-      setError("root", {
-        message: "Falha ao redefinir senha, informações ausentes.",
-      });
-      return;
-    }
-    const resetPwdData: TResetPwdData = {
-      id,
-      token,
-      ...data,
-    };
-
-    const response = await Auth.resetPassword(resetPwdData);
+    const response = await Auth.login(data);
 
     if (response instanceof Error) {
       const errorMessage = response.message;
       setError("root", { message: errorMessage });
-      return;
     }
-    reset();
-  };
-
-  const closeThisModal = (_: React.SyntheticEvent, reason?: string) => {
-    if (reason && reason === "backdropClick") return;
-    reset();
-    if (!!errors) clearErrors();
-    Auth.setOpenResetPwdModal(false);
-    navigate("/");
-    Auth.setOpenLoginModal(true);
   };
 
   return (
-    <Modal
-      disableEscapeKeyDown
-      onClose={closeThisModal}
-      open={Auth.openResetPwdModal}
-      aria-labelledby="modal-redefinir-senha"
-    >
+    <AppLayout>
       <Box
         sx={{
           p: 4,
-          gap: 1,
+          gap: 2,
           top: "50%",
           left: "50%",
           boxShadow: 20,
           display: "flex",
-          maxHeight: "95vh",
+          overflow: "auto",
+          maxHeight: "90vh",
           flexDirection: "column",
           bgcolor: "background.paper",
           position: "absolute" as "absolute",
@@ -115,16 +88,16 @@ export const ResetPassword = () => {
         <Typography
           variant="h6"
           component="h2"
-          id="modal-redefinir-senha"
+          id="modal-login"
           color={Environment.APP_MAIN_TEXT_COLOR}
         >
-          Redefinir senha
+          Login
         </Typography>
 
         <Divider />
 
         {isSubmitting && (
-          <Box sx={{ width: "100%" }}>
+          <Box sx={{ width: "100%", mt: 2 }}>
             <LinearProgress color="secondary" />
           </Box>
         )}
@@ -146,55 +119,71 @@ export const ResetPassword = () => {
           onSubmit={handleSubmit(onSubmit)}
         >
           <TextField
+            {...register("email")}
+            fullWidth
+            autoFocus
+            type="text"
+            name="email"
+            label="Usuário"
+            variant="standard"
+            error={!!errors.email}
+            helperText={errors.email?.message}
+          />
+          <TextField
             {...register("password")}
-            label="Nova senha: "
+            fullWidth
+            sx={{ mt: 1 }}
+            label="Senha"
             name="password"
             type="password"
             variant="standard"
             error={!!errors.password}
             helperText={errors.password?.message}
           />
-          <TextField
-            {...register("passwordConfirm")}
-            label="Confirme nova senha :"
-            name="passwordConfirm"
-            type="password"
-            variant="standard"
-            error={!!errors.passwordConfirm}
-            helperText={errors.passwordConfirm?.message}
-          />
+
+          <Divider flexItem sx={{ mt: 2 }} />
+          <GoogleLogin />
 
           <Stack
             direction={{ xs: "column", sm: "row" }}
             spacing={2}
             sx={{
-              mt: 4,
+              mt: 3,
               width: "100%",
               justifyContent: "center",
             }}
           >
             <Button
-              onClick={closeThisModal}
+              onClick={() => {
+                navigate("/signup");
+              }}
               color="secondary"
               disabled={isSubmitting}
               variant={Environment.BUTTON_VARIANT}
             >
-              cancelar
+              Criar Conta
             </Button>
-            <LoadingButton
+            <Button
               type="submit"
               color="secondary"
-              endIcon={<Send />}
               variant="contained"
-              loadingPosition="end"
-              loading={isSubmitting}
               disabled={isSubmitting}
             >
-              <span>Enviar</span>
-            </LoadingButton>
+              Entrar
+            </Button>
           </Stack>
+          <Button
+            size="small"
+            onClick={() => {
+              Auth.setOpenForgotPwdModal(true);
+            }}
+          >
+            Esqueci minha senha
+          </Button>
         </Box>
       </Box>
-    </Modal>
+      {/* Modals: */}
+      <ForgotPassword />
+    </AppLayout>
   );
 };

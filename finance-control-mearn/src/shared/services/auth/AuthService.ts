@@ -1,8 +1,5 @@
-import {
-  TSignUp,
-  TResetPwdData,
-  TChangePwdForm,
-} from "../../components/modals";
+import { TResetPwdData, TSignUp } from "../../../pages";
+import { TChangePwdForm } from "../../components/modals";
 import { timer } from "../../utils/timer";
 import { Api } from "../api/axios-config";
 

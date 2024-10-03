@@ -8,6 +8,7 @@ export * from "./AppAlert";
 export * from "./AppLayout";
 export * from "./AppLoading";
 export * from "./UserStatus";
+export * from "./GoogleLogin";
 export * from "./AppDatePicker";
 export * from "./SearchFilters";
 export * from "./SortTransactions";

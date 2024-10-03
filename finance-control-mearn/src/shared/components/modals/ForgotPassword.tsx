@@ -66,7 +66,6 @@ export const ForgotPassword = () => {
     reset();
     if (!!errors) clearErrors();
     Auth.setOpenForgotPwdModal(false);
-    Auth.setOpenLoginModal(true);
   };
 
   return (
@@ -131,7 +130,6 @@ export const ForgotPassword = () => {
           <TextField
             {...register("email")}
             fullWidth
-            autoFocus
             type="text"
             name="email"
             label="Usuário"

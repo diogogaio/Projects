@@ -1,10 +1,13 @@
 import { indigo } from "@mui/material/colors";
+import { useLocation } from "react-router-dom";
 import { Box, Typography } from "@mui/material";
 
-import { useTransactionContext } from "../contexts";
+import { useAuthContext, useTransactionContext } from "../contexts";
 
 export const Header = () => {
   const { Transaction } = useTransactionContext();
+  const { Auth } = useAuthContext();
+  const userEmail = Auth.userEmail;
   return (
     <Box
       component="header"
@@ -21,13 +24,15 @@ export const Header = () => {
       <Typography sx={{ textAlign: "center", color: "white" }} variant="h4">
         Equilíbrio Financeiro
       </Typography>
-      <Typography
-        gutterBottom
-        variant="body2"
-        sx={{ textAlign: "center", color: "white", opacity: "0.5" }}
-      >
-        {Transaction.listInfo}
-      </Typography>
+      {userEmail && (
+        <Typography
+          gutterBottom
+          variant="body2"
+          sx={{ textAlign: "center", color: "white", opacity: "0.5" }}
+        >
+          {Transaction.listInfo}
+        </Typography>
+      )}
     </Box>
   );
 };
