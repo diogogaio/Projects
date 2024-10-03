@@ -1,5 +1,5 @@
 import { indigo } from "@mui/material/colors";
-import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Box, Typography } from "@mui/material";
 
 import { useAuthContext, useTransactionContext } from "../contexts";
@@ -8,6 +8,7 @@ export const Header = () => {
   const { Transaction } = useTransactionContext();
   const { Auth } = useAuthContext();
   const userEmail = Auth.userEmail;
+  const navigate = useNavigate();
   return (
     <Box
       component="header"
@@ -21,7 +22,17 @@ export const Header = () => {
         justifyContent: "center",
       }}
     >
-      <Typography sx={{ textAlign: "center", color: "white" }} variant="h4">
+      <Typography
+        onClick={() => {
+          if (Auth.userEmail) navigate("/");
+        }}
+        sx={{
+          color: "white",
+          textAlign: "center",
+          cursor: Auth.userEmail ? "pointer" : "default",
+        }}
+        variant="h4"
+      >
         Equilíbrio Financeiro
       </Typography>
       {userEmail && (

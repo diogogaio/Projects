@@ -15,7 +15,11 @@ import {
   useAuthContext,
   useTransactionContext,
 } from "../shared/contexts";
-import { ChangePassword, NewTransaction } from "../shared/components/modals";
+import {
+  ChangePassword,
+  NewTransaction,
+  WelcomeDialog,
+} from "../shared/components/modals";
 import {
   Charts,
   Totals,
@@ -136,6 +140,7 @@ export function Transactions() {
       <AppAlert />
 
       {/* Modals: */}
+      <WelcomeDialog />
       {userEmail && <NewTransaction />}
       <ChangePassword />
     </AppLayout>

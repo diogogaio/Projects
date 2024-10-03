@@ -11,16 +11,17 @@ import {
 import { z } from "zod";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuthContext } from "../shared/contexts";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AppLayout, GoogleLogin } from "../shared/components";
+import { useAppContext, useAuthContext } from "../shared/contexts";
 
 import { Environment } from "../shared/environment";
 import { ForgotPassword } from "../shared/components/modals";
 
 export const Login = () => {
   const { Auth } = useAuthContext();
+  const { App } = useAppContext();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -96,11 +97,12 @@ export const Login = () => {
 
         <Divider />
 
-        {isSubmitting && (
-          <Box sx={{ width: "100%", mt: 2 }}>
-            <LinearProgress color="secondary" />
-          </Box>
-        )}
+        {isSubmitting ||
+          (App.loading && (
+            <Box sx={{ width: "100%", mt: 2 }}>
+              <LinearProgress color="secondary" />
+            </Box>
+          ))}
 
         {errors.root && (
           <Box mt={1} mb={1}>
@@ -121,13 +123,13 @@ export const Login = () => {
           <TextField
             {...register("email")}
             fullWidth
-            autoFocus
             type="text"
             name="email"
             label="Usuário"
             variant="standard"
             error={!!errors.email}
             helperText={errors.email?.message}
+            disabled={isSubmitting || App.loading}
           />
           <TextField
             {...register("password")}
@@ -139,6 +141,7 @@ export const Login = () => {
             variant="standard"
             error={!!errors.password}
             helperText={errors.password?.message}
+            disabled={isSubmitting || App.loading}
           />
 
           <Divider flexItem sx={{ mt: 2 }} />
@@ -158,7 +161,7 @@ export const Login = () => {
                 navigate("/signup");
               }}
               color="secondary"
-              disabled={isSubmitting}
+              disabled={isSubmitting || App.loading}
               variant={Environment.BUTTON_VARIANT}
             >
               Criar Conta
@@ -167,7 +170,7 @@ export const Login = () => {
               type="submit"
               color="secondary"
               variant="contained"
-              disabled={isSubmitting}
+              disabled={isSubmitting || App.loading}
             >
               Entrar
             </Button>
@@ -177,6 +180,7 @@ export const Login = () => {
             onClick={() => {
               Auth.setOpenForgotPwdModal(true);
             }}
+            disabled={isSubmitting || App.loading}
           >
             Esqueci minha senha
           </Button>

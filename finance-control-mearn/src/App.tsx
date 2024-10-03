@@ -21,6 +21,9 @@ function App() {
         // light, dark: will be calculated from palette.secondary.main,
         // contrastText: "#47008F",
       },
+      warning: {
+        main: "#fdd835",
+      },
     },
     typography: {
       fontFamily: "Poppins",

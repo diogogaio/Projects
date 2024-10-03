@@ -15,6 +15,7 @@ import { TResetPwdData } from "../../pages/ResetPassword";
 interface IAuthMethods {
   userEmail: string;
   user: IUser | undefined;
+  openWelcomeDialog: boolean;
   openForgotPwdModal: boolean;
   openChangePasswordModal: boolean;
   logout: () => Promise<void>;
@@ -26,6 +27,7 @@ interface IAuthMethods {
   resetPassword: (data: TResetPwdData) => Promise<void | Error>;
   handleSignInWithGoogle: (GoogleToken: string) => Promise<void>;
   changePassword: (data: TChangePwdForm) => Promise<void | Error>;
+  setOpenWelcomeDialog: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenForgotPwdModal: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenChangePasswordModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -60,9 +62,11 @@ export const AuthProvider = ({
   const [user, setUser] = useState<IUser | undefined>(undefined);
 
   const [openForgotPwdModal, setOpenForgotPwdModal] = useState(false);
+  const [openWelcomeDialog, setOpenWelcomeDialog] = useState(false);
   const [openChangePasswordModal, setOpenChangePasswordModal] = useState(false);
 
   const appName = "Finance App";
+
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -126,6 +130,7 @@ export const AuthProvider = ({
     setAuthToken(token);
     setUserEmail(user.email);
     navigate("/");
+    setOpenWelcomeDialog(true);
 
     return user;
   };
@@ -166,6 +171,7 @@ export const AuthProvider = ({
       setAuthToken(token);
       setUserEmail(user.email);
       navigate("/");
+      if (response.newUser) setOpenWelcomeDialog(true);
     }
   };
 
@@ -324,6 +330,7 @@ export const AuthProvider = ({
   const Auth = {
     user,
     userEmail,
+    openWelcomeDialog,
     openForgotPwdModal,
     openChangePasswordModal,
     login,
@@ -334,6 +341,7 @@ export const AuthProvider = ({
     createNewUser,
     resetPassword,
     changePassword,
+    setOpenWelcomeDialog,
     setOpenForgotPwdModal,
     handleSignInWithGoogle,
     setOpenChangePasswordModal,

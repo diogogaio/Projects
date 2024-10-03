@@ -130,6 +130,7 @@ exports.signinWithGoogle = (0, asyncErrorHandler_1.default)(async (req, res, nex
         status: "success",
         token,
         user: user,
+        newUser: true,
     });
 });
 exports.login = (0, asyncErrorHandler_1.default)(async (req, res, next) => {

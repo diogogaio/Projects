@@ -23,7 +23,7 @@ interface IMenuItens {
   icon: string;
   label: string;
   onClick: () => void;
-  iconColor: "secondary" | "error";
+  iconColor: "secondary" | "error" | "warning";
 }
 
 export function AppMenu() {
@@ -60,6 +60,12 @@ export function AppMenu() {
         label: "Exportar PDF",
         iconColor: "error",
         onClick: () => generatePDF(Auth.userEmail, Transaction.list),
+      },
+      {
+        icon: "tips_and_updates_icon",
+        label: "Dicas de uso",
+        iconColor: "warning",
+        onClick: () => Auth.setOpenWelcomeDialog(true),
       },
       {
         icon: "person_off",

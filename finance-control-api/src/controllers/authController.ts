@@ -178,6 +178,7 @@ export const signinWithGoogle = asyncErroHandler(
       status: "success",
       token,
       user: user,
+      newUser: true,
     });
   }
 );

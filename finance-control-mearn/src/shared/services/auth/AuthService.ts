@@ -17,6 +17,7 @@ export interface ILoginForm {
 
 interface IUserData {
   status: "success";
+  newUser?: boolean;
   token: string;
   user: IUser;
 }

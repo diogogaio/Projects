@@ -16,7 +16,9 @@ export const GoogleLogin = () => {
 
     // Define the callback function globally so it can be accessed by Google callback
     (window as any).handleToken = async (response: any) => {
+      App.setLoading(true);
       await Auth.handleSignInWithGoogle(response);
+      App.setLoading(false);
     };
 
     return () => {
@@ -47,6 +49,10 @@ export const GoogleLogin = () => {
         data-text="signin_with"
         className="g_id_signin"
         data-logo_alignment="left"
+        style={{
+          pointerEvents: App.loading ? "none" : "auto",
+          opacity: App.loading ? 0.5 : 1,
+        }}
       ></div>
     </Box>
   );
