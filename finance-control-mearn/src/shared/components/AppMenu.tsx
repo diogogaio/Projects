@@ -69,7 +69,7 @@ export function AppMenu() {
       },
       {
         icon: "volunteer_activism_icon",
-        label: "Café para o desenvolvedor",
+        label: "Cafezinho do desenvolvedor",
         iconColor: "secondary",
         onClick: () => navigate(`/checkout`),
       },

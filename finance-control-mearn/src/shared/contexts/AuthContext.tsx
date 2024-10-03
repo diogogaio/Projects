@@ -157,7 +157,7 @@ export const AuthProvider = ({
   };
 
   const handleSignInWithGoogle = async (GoogleToken: string) => {
-    //Server will login user or create a new one with a random password, no token is stored in client
+    //Server will login user or create a new one with a random password, no token is stored in client' browser in THIS case.
     const response = await AuthService.handleSignInWithGoogle(GoogleToken);
 
     if (response instanceof Error) {

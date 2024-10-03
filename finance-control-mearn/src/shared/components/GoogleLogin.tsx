@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import { Box } from "@mui/material";
 
-import { useAuthContext } from "../contexts";
+import { useAppContext, useAuthContext } from "../contexts";
 
 export const GoogleLogin = () => {
   const { Auth } = useAuthContext();
+  const { App } = useAppContext();
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -14,8 +15,8 @@ export const GoogleLogin = () => {
     document.body.appendChild(script);
 
     // Define the callback function globally so it can be accessed by Google callback
-    (window as any).handleToken = (response: any) => {
-      Auth.handleSignInWithGoogle(response);
+    (window as any).handleToken = async (response: any) => {
+      await Auth.handleSignInWithGoogle(response);
     };
 
     return () => {
@@ -34,6 +35,7 @@ export const GoogleLogin = () => {
         data-auto_select="true"
         data-callback="handleToken"
         data-close_on_tap_outside="false"
+        data-intermediate_iframe_close_callback=""
         data-client_id={import.meta.env.VITE_OAUTH_GOOGLE_CLIENT_ID}
       ></div>
 
