@@ -1,8 +1,7 @@
 . Read me from both back and front
-. disable things when one-tap login loading
-. Warn about deleting recurrent transactions, will cancel recurrences
+. Check deleting recurrent clone transactions alerts
 
-. Apply correct searchParams on previous projects
+. Apply improved searchParams on previous projects
 . Remove all clg's from old projects
 
 npm install react-hook-form @hookform/resolvers zod

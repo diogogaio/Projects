@@ -243,7 +243,18 @@ export const TransactionProvider = ({
   };
 
   const deleteById = async (id: string) => {
-    if (window.confirm("Deseja realmente apagar esta transação?")) {
+    const isRecurrentAndRoot = list.find(
+      (item) =>
+        item._id === id && item.recurrent === true && item.clone === false
+    );
+
+    if (
+      window.confirm(
+        isRecurrentAndRoot
+          ? "Esta transação é a matriz de transações recorrentes, isto cancelará a recorrência, deseja continuar?"
+          : "Deseja realmente apagar esta transação?"
+      )
+    ) {
       App.setLoading(true);
       // await new Promise((resolve) => setTimeout(resolve, 2000));
       const result = await TransactionServices.deleteTransaction(id);
