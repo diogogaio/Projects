@@ -35,7 +35,9 @@ export const errorInterceptor = (error: AxiosError<IServerProdError>) => {
       return Promise.reject(new Error("Não Autorizado."));
     }
     if (error.response.data.status === 429) {
-      return Promise.reject(new Error("Solicitação enviada recentemente."));
+      return Promise.reject(
+        new Error("Limite de solicitações diárias excedido.")
+      );
     }
 
     return Promise.reject(new Error(error.response.data.message));

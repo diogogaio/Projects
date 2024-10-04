@@ -13,12 +13,9 @@ export const GoogleLogin = () => {
     script.async = true;
     script.defer = true;
     document.body.appendChild(script);
-
     // Define the callback function globally so it can be accessed by Google callback
     (window as any).handleToken = async (response: any) => {
-      App.setLoading(true);
       await Auth.handleSignInWithGoogle(response);
-      App.setLoading(false);
     };
 
     return () => {
@@ -37,7 +34,6 @@ export const GoogleLogin = () => {
         data-auto_select="true"
         data-callback="handleToken"
         data-close_on_tap_outside="false"
-        data-intermediate_iframe_close_callback=""
         data-client_id={import.meta.env.VITE_OAUTH_GOOGLE_CLIENT_ID}
       ></div>
 

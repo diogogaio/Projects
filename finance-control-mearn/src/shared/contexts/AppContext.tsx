@@ -21,7 +21,7 @@ interface IAppProviderProps {
 export const AppContext = createContext({} as IAppContextData);
 
 export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [appAlert, setAppAlert] = useState<IAppAlert | null>(null);
 
   const closeAppAlert = (_: React.SyntheticEvent | Event, reason?: string) => {

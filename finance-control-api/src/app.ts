@@ -17,6 +17,7 @@ import transactionRouter from "./routes/transactionRouter";
 const limiter = rateLimit({
   windowMs: 60 * 24 * 60 * 1000, // 1 day
   limit: 101, // Limit each IP to 100 requests
+  statusCode: 429,
   message:
     "Too many server request for a certain period, please try again later...",
 });

@@ -1,5 +1,5 @@
 import { PaymentReturn } from "../../pages/PaymentReturn";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 
 import {
   Login,
@@ -8,23 +8,29 @@ import {
   Transactions,
   ResetPassword,
 } from "../../pages";
+import { useAuthContext } from "../contexts";
 
 export const AppRoutes = () => {
-  //   const PrivateRoutes = () => {
-  //     const { userServerTag } = useServerContext();
+  const PrivateRoutes = () => {
+    const { Auth } = useAuthContext();
 
-  //     return userServerTag ? <Outlet /> : <Navigate to="/login" />;
-  //   };
+    return Auth.userEmail ? <Outlet /> : <Navigate to="/" />;
+  };
 
   return (
     <Routes>
-      <Route path="/" element={<Transactions />} />
-      <Route path="/login" element={<Login />} />
+      <Route path="/" element={<Login />} />
+      <Route element={<PrivateRoutes />}>
+        <Route path="/transactions" element={<Transactions />} />
+        <Route path="/checkout" element={<Checkout />} />
+      </Route>
       <Route path="/signup" element={<SignUp />} />
       <Route path="/resetPassword/:id/:token" element={<ResetPassword />} />
-      {<Route path="/paymentReturn/:session_id" element={<PaymentReturn />} />}
-      <Route path="/checkout" element={<Checkout />} />
+      <Route path="/paymentReturn/:session_id" element={<PaymentReturn />} />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 };
+
+{
+}

@@ -1,13 +1,12 @@
 // import { jwtDecode } from "jwt-decode";
 import { createContext, useContext } from "react";
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useState } from "react";
 
 import { TSignUp } from "../../pages";
 import { useAppContext } from "./AppContext";
-import { Environment } from "../environment";
 import { Api } from "../services/api/axios-config";
 import { useLocalBaseContext } from "./LocalBaseContext";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AuthService, ILoginForm, IUser } from "../services/auth/AuthService";
 import { TChangePwdForm } from "../components/modals";
 import { TResetPwdData } from "../../pages/ResetPassword";
@@ -19,6 +18,7 @@ interface IAuthMethods {
   openForgotPwdModal: boolean;
   openChangePasswordModal: boolean;
   logout: () => Promise<void>;
+  appInit: () => Promise<void>;
   deleteUser: () => Promise<void>;
   deleteTag: (tag: string) => Promise<void>;
   createTag: (newTag: string) => Promise<void>;
@@ -67,17 +67,7 @@ export const AuthProvider = ({
 
   const appName = "Finance App";
 
-  const location = useLocation();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const initialize = async () => {
-      console.log("Initializing App...");
-      console.log("Environment mode: " + Environment.ENV);
-      await appInit();
-    };
-    initialize();
-  }, []);
 
   const { App } = useAppContext();
 
@@ -90,18 +80,10 @@ export const AuthProvider = ({
   };
 
   const appInit = async () => {
-    App.setLoading(true);
-
-    if (location.pathname.includes("/resetPassword")) {
-      App.setLoading(false);
-      return;
-    }
-
+    //Oly checks if user has a token and redirects to the transactions page if it exists
     const token = await LocalBase.getData(appName, "credentials");
 
     if (!token) {
-      App.setLoading(false);
-      navigate("/login");
       return;
     }
 
@@ -129,7 +111,7 @@ export const AuthProvider = ({
     setUser(user);
     setAuthToken(token);
     setUserEmail(user.email);
-    navigate("/");
+    navigate("/transactions");
     setOpenWelcomeDialog(true);
 
     return user;
@@ -147,7 +129,7 @@ export const AuthProvider = ({
       setUser(user);
       setAuthToken(token);
       setUserEmail(user.email);
-      navigate("/");
+      navigate("/transactions");
 
       await LocalBase.setData(appName, "credentials", { token: token });
     }
@@ -170,7 +152,7 @@ export const AuthProvider = ({
       setUser(user);
       setAuthToken(token);
       setUserEmail(user.email);
-      navigate("/");
+      navigate("/transactions");
       if (response.newUser) setOpenWelcomeDialog(true);
     }
   };
@@ -181,8 +163,9 @@ export const AuthProvider = ({
     const response = await AuthService.getUser();
 
     if (response instanceof Error) {
+      alert("Erro ao buscar usuário.");
       App.setLoading(false);
-      navigate("/");
+      // navigate("/");
       return;
     }
 
@@ -191,9 +174,10 @@ export const AuthProvider = ({
     if (status === "success") {
       setUser(user);
       setUserEmail(user.email);
+      navigate("/transactions");
     } else {
+      alert("Falha ao buscar usuário.");
       App.setLoading(false);
-      navigate("/");
     }
   };
 
@@ -323,6 +307,7 @@ export const AuthProvider = ({
       //Delete user credentials:
       await LocalBase.deleteDocument(appName, "credentials");
 
+      navigate("/");
       window.location.reload();
     }
   };
@@ -335,6 +320,7 @@ export const AuthProvider = ({
     openChangePasswordModal,
     login,
     logout,
+    appInit,
     deleteTag,
     createTag,
     deleteUser,

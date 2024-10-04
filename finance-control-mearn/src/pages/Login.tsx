@@ -14,21 +14,23 @@ import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AppLayout, GoogleLogin } from "../shared/components";
-import { useAppContext, useAuthContext } from "../shared/contexts";
+import { useAuthContext } from "../shared/contexts";
 
 import { Environment } from "../shared/environment";
 import { ForgotPassword } from "../shared/components/modals";
 
 export const Login = () => {
   const { Auth } = useAuthContext();
-  const { App } = useAppContext();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (Auth.userEmail) {
-      reset();
-    }
-  }, [Auth.userEmail]);
+    const initialize = async () => {
+      console.log("Initializing App...");
+      console.log("Environment mode: " + Environment.ENV);
+      await Auth.appInit();
+    };
+    initialize();
+  }, []);
 
   type TFormField = z.infer<typeof schema>;
 
@@ -51,20 +53,17 @@ export const Login = () => {
     resolver: zodResolver(schema),
   });
 
-  // const closeThisModal = (_: React.SyntheticEvent, reason?: string) => {
-  //   if (reason && reason === "backdropClick") return;
-  //   else Auth.setOpenLoginModal(false);
-  // };
-
   const onSubmit: SubmitHandler<TFormField> = async (data) => {
-    clearErrors();
+    if (errors.root) clearErrors();
 
     const response = await Auth.login(data);
 
     if (response instanceof Error) {
       const errorMessage = response.message;
       setError("root", { message: errorMessage });
+      return;
     }
+    reset();
   };
 
   return (
@@ -97,12 +96,11 @@ export const Login = () => {
 
         <Divider />
 
-        {isSubmitting ||
-          (App.loading && (
-            <Box sx={{ width: "100%", mt: 2 }}>
-              <LinearProgress color="secondary" />
-            </Box>
-          ))}
+        {isSubmitting && (
+          <Box sx={{ width: "100%", mt: 2 }}>
+            <LinearProgress color="secondary" />
+          </Box>
+        )}
 
         {errors.root && (
           <Box mt={1} mb={1}>
@@ -129,7 +127,7 @@ export const Login = () => {
             variant="standard"
             error={!!errors.email}
             helperText={errors.email?.message}
-            disabled={isSubmitting || App.loading}
+            disabled={isSubmitting}
           />
           <TextField
             {...register("password")}
@@ -141,11 +139,11 @@ export const Login = () => {
             variant="standard"
             error={!!errors.password}
             helperText={errors.password?.message}
-            disabled={isSubmitting || App.loading}
+            disabled={isSubmitting}
           />
 
           <Divider flexItem sx={{ mt: 2 }} />
-          <GoogleLogin />
+          {!Auth?.userEmail && <GoogleLogin />}
 
           <Stack
             direction={{ xs: "column", sm: "row" }}
@@ -161,7 +159,7 @@ export const Login = () => {
                 navigate("/signup");
               }}
               color="secondary"
-              disabled={isSubmitting || App.loading}
+              disabled={isSubmitting}
               variant={Environment.BUTTON_VARIANT}
             >
               Criar Conta
@@ -170,7 +168,7 @@ export const Login = () => {
               type="submit"
               color="secondary"
               variant="contained"
-              disabled={isSubmitting || App.loading}
+              disabled={isSubmitting}
             >
               Entrar
             </Button>
@@ -180,13 +178,13 @@ export const Login = () => {
             onClick={() => {
               Auth.setOpenForgotPwdModal(true);
             }}
-            disabled={isSubmitting || App.loading}
+            disabled={isSubmitting}
           >
             Esqueci minha senha
           </Button>
         </Box>
+        {/* Modals: */}
       </Box>
-      {/* Modals: */}
       <ForgotPassword />
     </AppLayout>
   );

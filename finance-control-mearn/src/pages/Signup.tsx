@@ -9,7 +9,6 @@ import {
   LinearProgress,
 } from "@mui/material";
 import { z } from "zod";
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -46,12 +45,6 @@ export const SignUp = () => {
   const { Auth } = useAuthContext();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (Auth.userEmail) {
-      reset();
-    }
-  }, [Auth.userEmail]);
-
   const {
     reset,
     register,
@@ -70,6 +63,7 @@ export const SignUp = () => {
       const errorMessage = response.message;
       setError("root", { message: errorMessage });
     }
+    reset();
   };
 
   const handleCancel = () => {
