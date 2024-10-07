@@ -22,9 +22,10 @@ const limiter = rateLimit({
   message:
     "Too many server request for a certain period, please try again later...",
 });
-app.set("trust proxy", 3);
 
-app.get("/ip", (request, response) => response.send(request.ip));
+//https://express-rate-limit.mintlify.app/guides/troubleshooting-proxy-issues
+// Solve the render.com proxies issue with rate limiter:
+app.set("trust proxy", 3);
 
 // Apply the rate limiting middleware to all requests.
 app.use(limiter);
