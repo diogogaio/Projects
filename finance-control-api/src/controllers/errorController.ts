@@ -92,7 +92,6 @@ export const logErrorOnServer = async (
       if (body[field]) body[field] = undefined;
     });
   }
-
   try {
     const errorLog = await ErrorLogModel.create({
       tenantId,
@@ -105,6 +104,7 @@ export const logErrorOnServer = async (
       error: error?.message,
       createdAt: new Date(),
     });
+    console.log("Logged error: ", errorLog);
   } catch (error) {
     console.log("Not able to log error on server: ", error);
   }

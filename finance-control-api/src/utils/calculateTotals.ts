@@ -1,5 +1,3 @@
-import { Query } from "mongoose";
-
 interface ITransactionTypeTotals {
   _id: string; // "income" or "outcome"
   totalAmount: number; // Total amount for the transaction type

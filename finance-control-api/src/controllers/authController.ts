@@ -1,4 +1,3 @@
-import util from "util";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
@@ -9,7 +8,6 @@ import { Request, Response, NextFunction /* CookieOptions */ } from "express";
 import sendMail from "../utils/email";
 import { Environment } from "../Environment";
 import CustomError from "../utils/customError";
-import { setOrigin } from "../utils/corsConfig";
 import { UserModel, IUser } from "../models/userModel";
 import asyncErroHandler from "../utils/asyncErrorHandler";
 import TransactionModel from "../models/transactionModel";
@@ -524,17 +522,16 @@ export const protect = asyncErroHandler(
 
     if (token && token.startsWith("bearer")) {
       token = token.split(" ")[1];
-
-      // console.log("Token string: ", token);
     }
     // 2.Validate the token:
 
     // console.log("SECRET STR: ", process.env.SECRET_STR);
 
-    const decodedToken = await util.promisify(jwt.verify)(
-      token,
-      process.env.SECRET_STR
-    );
+    const decodedToken = jwt.verify(token, process.env.SECRET_STR as string);
+
+    if (typeof decodedToken === "string") {
+      return next(new CustomError("Failed to verify token", 500));
+    }
 
     // console.log("DECODED TOKEN: ", decodedToken);
 
@@ -547,6 +544,7 @@ export const protect = asyncErroHandler(
         new CustomError("User with given access token was not found.", 404)
       );
     }
+
     //Pass user information forward to next middleware
     req.userEmail = user.email;
     req.tenantId = decodedToken.id;

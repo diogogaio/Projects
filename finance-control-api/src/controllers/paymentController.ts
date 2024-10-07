@@ -1,7 +1,7 @@
 import Stripe from "stripe";
+import CustomError from "../utils/customError";
 import { Request, Response, NextFunction } from "express";
 import asyncErroHandler from "../utils/asyncErrorHandler";
-import CustomError from "../utils/customError";
 
 export const createCheckoutSession = asyncErroHandler(
   async (req: Request, res: Response, next: NextFunction) => {
