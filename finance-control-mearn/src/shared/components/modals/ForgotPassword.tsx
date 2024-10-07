@@ -17,6 +17,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Environment } from "../../environment";
 import { AuthService } from "../../services/auth/AuthService";
+import { timer } from "../../utils/timer";
 
 export const ForgotPassword = () => {
   const [successAlert, setSuccessAlert] = useState("");
@@ -42,9 +43,11 @@ export const ForgotPassword = () => {
 
   const onSubmit: SubmitHandler<TForgotPassword> = async (data) => {
     if (errors) clearErrors();
+    timer.startRequestTimer();
     const response = await AuthService.forgotPassword(data.email);
 
     if (response instanceof Error) {
+      timer.cancelRequestTimer();
       const errorMessage = response.message;
 
       setError("root", { message: errorMessage });
@@ -58,6 +61,7 @@ export const ForgotPassword = () => {
     }
 
     reset();
+    timer.cancelRequestTimer();
     setSuccessAlert("Sucesso: Agora confira seu email.");
   };
 

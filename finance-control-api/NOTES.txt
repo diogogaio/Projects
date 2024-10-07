@@ -1,4 +1,4 @@
-    
+. ValidationError: The 'X-Forwarded-For' on render
  . Handle and log stripe erros
     Improvements and to do's:
 

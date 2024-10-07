@@ -3,39 +3,48 @@ import { Box } from "@mui/material";
 
 import { useAppContext, useAuthContext } from "../contexts";
 
+let tokenHandled = false;
+
 export const GoogleLogin = () => {
-  const { Auth } = useAuthContext();
   const { App } = useAppContext();
+  const { Auth } = useAuthContext();
 
   useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://accounts.google.com/gsi/client";
-    script.async = true;
-    script.defer = true;
-    document.body.appendChild(script);
-    // Define the callback function globally so it can be accessed by Google callback
-    (window as any).handleToken = async (response: any) => {
-      await Auth.handleSignInWithGoogle(response);
-    };
+    if (!Auth.userEmail) {
+      const script = document.createElement("script");
+      script.src = "https://accounts.google.com/gsi/client";
+      script.async = true;
+      script.defer = true;
+      document.body.appendChild(script);
 
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
+      if (!tokenHandled) {
+        (window as any).handleToken = async (response: any) => {
+          App.setLoading(true);
+          tokenHandled = true;
+          await Auth.handleSignInWithGoogle(response);
+        };
+      }
+      return () => {
+        document.body.removeChild(script);
+      };
+    }
+  }, [Auth.userEmail]);
 
   return (
     <Box sx={{ mt: 3 }}>
-      <div
-        id="g_id_onload"
-        data-ux_mode="popup"
-        data-context="signin"
-        data-itp_support="true"
-        data-auto_prompt="true"
-        data-auto_select="true"
-        data-callback="handleToken"
-        data-close_on_tap_outside="false"
-        data-client_id={import.meta.env.VITE_OAUTH_GOOGLE_CLIENT_ID}
-      ></div>
+      {!tokenHandled && (
+        <div
+          id="g_id_onload"
+          data-ux_mode="popup"
+          data-context="signin"
+          data-itp_support="true"
+          data-auto_prompt={tokenHandled ? false : true}
+          data-auto_select="true"
+          data-callback="handleToken"
+          data-close_on_tap_outside="false"
+          data-client_id={import.meta.env.VITE_OAUTH_GOOGLE_CLIENT_ID}
+        ></div>
+      )}
 
       <div
         data-shape="pill"

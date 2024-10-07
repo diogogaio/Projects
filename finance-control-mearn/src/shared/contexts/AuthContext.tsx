@@ -1,15 +1,16 @@
 // import { jwtDecode } from "jwt-decode";
-import { createContext, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { ReactElement, useState } from "react";
+import { createContext, useContext } from "react";
 
 import { TSignUp } from "../../pages";
+import { timer } from "../utils/timer";
 import { useAppContext } from "./AppContext";
 import { Api } from "../services/api/axios-config";
-import { useLocalBaseContext } from "./LocalBaseContext";
-import { useNavigate } from "react-router-dom";
-import { AuthService, ILoginForm, IUser } from "../services/auth/AuthService";
 import { TChangePwdForm } from "../components/modals";
+import { useLocalBaseContext } from "./LocalBaseContext";
 import { TResetPwdData } from "../../pages/ResetPassword";
+import { AuthService, ILoginForm, IUser } from "../services/auth/AuthService";
 
 interface IAuthMethods {
   userEmail: string;
@@ -99,12 +100,15 @@ export const AuthProvider = ({
   };
 
   const createNewUser = async (form: TSignUp) => {
+    timer.startRequestTimer();
     const response = await AuthService.signup(form);
 
     if (response instanceof Error) {
+      timer.cancelRequestTimer();
       return response;
     }
 
+    timer.cancelRequestTimer();
     const userData = response;
     const { user, token } = userData;
     await LocalBase.setData(appName, "credentials", { token: token });
@@ -118,13 +122,16 @@ export const AuthProvider = ({
   };
 
   const login = async (form: ILoginForm) => {
+    timer.startRequestTimer();
     const response = await AuthService.login(form);
     if (response instanceof Error) {
+      timer.cancelRequestTimer();
       return response;
     }
 
     const { user, token } = response;
 
+    timer.cancelRequestTimer();
     if (response.status === "success") {
       setUser(user);
       setAuthToken(token);
@@ -137,32 +144,37 @@ export const AuthProvider = ({
 
   const handleSignInWithGoogle = async (GoogleToken: string) => {
     //Server will login user or create a new one with a random password, no token is stored in client' browser in THIS case.
+    timer.startRequestTimer();
     const response = await AuthService.handleSignInWithGoogle(GoogleToken);
 
     if (response instanceof Error) {
+      timer.cancelRequestTimer();
       alert(
-        "Falha ao realizar login pelo Google, favor usar login e senha ou se cadastrar."
+        `Falha ao realizar login pelo Google:"${response.message}". Favor usar login e senha ou se cadastrar.`
       );
       console.log("Erro:", response);
       return;
     }
     const { user, token } = response;
 
+    timer.cancelRequestTimer();
     if (response.status === "success") {
       setUser(user);
       setAuthToken(token);
       setUserEmail(user.email);
       navigate("/transactions");
       if (response.newUser) setOpenWelcomeDialog(true);
-    }
+    } else App.setLoading(false);
   };
 
   const getUser = async () => {
+    timer.startRequestTimer();
     if (!App.loading) App.setLoading(true);
 
     const response = await AuthService.getUser();
 
     if (response instanceof Error) {
+      timer.cancelRequestTimer();
       alert("Erro ao buscar usuário.");
       App.setLoading(false);
       // navigate("/");
@@ -170,7 +182,7 @@ export const AuthProvider = ({
     }
 
     const { user, status } = response;
-
+    timer.cancelRequestTimer();
     if (status === "success") {
       setUser(user);
       setUserEmail(user.email);

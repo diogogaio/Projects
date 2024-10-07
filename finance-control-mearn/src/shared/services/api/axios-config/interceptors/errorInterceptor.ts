@@ -6,10 +6,6 @@ export type IServerProdError = {
 };
 
 export const errorInterceptor = (error: AxiosError<IServerProdError>) => {
-  if (error.message === "Network Error") {
-    return Promise.reject(new Error("Erro de conexão"));
-  }
-
   if (error.response?.data) {
     if (error.response.data.message === "User already exists.") {
       return Promise.reject(new Error("Usuário já existe."));
@@ -38,6 +34,9 @@ export const errorInterceptor = (error: AxiosError<IServerProdError>) => {
       return Promise.reject(
         new Error("Limite de solicitações diárias excedido.")
       );
+    }
+    if (error.message === "Network Error") {
+      return Promise.reject(new Error("Erro de conexão"));
     }
 
     return Promise.reject(new Error(error.response.data.message));
