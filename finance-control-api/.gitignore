@@ -11,6 +11,9 @@ config.env
 .env.local
 .env.*.local
 
+# Text files
+NOTES.txt
+
 # Logs
 logs
 *.log
