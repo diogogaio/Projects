@@ -22,7 +22,7 @@ const limiter = rateLimit({
   message:
     "Too many server request for a certain period, please try again later...",
 });
-app.set("trust proxy", 1 /* number of proxies between user and server */);
+app.set("trust proxy", 2 /* number of proxies between user and server */);
 app.get("/ip", (request, response) => response.send(request.ip));
 
 // Apply the rate limiting middleware to all requests.
