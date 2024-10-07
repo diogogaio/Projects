@@ -1,30 +1,19 @@
-# React + TypeScript + Vite
+About search filter dates:
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+    .All Date types from search filters or new transactions sent to the backend must be in "YYYY-MM-DD" format to be parsed into Date object.
+    . Dates are saved in UTC at midnight (0:00) on server to make date filtering easier disregarding time created.
+    . Displaying dates parsed with .toLocaleString() will show the day before if options 'timeZone: "UTC"' not specified, because browser will subtract -03:00 (brazilian local time) from 0:00Z (zulu time).
 
-Currently, two official plugins are available:
+Creating and Deleting transactions :
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+    . Fetching transaction from server after creating and getting the mongoDb "_.id" is required to allow user to delete it right away if needed. Queries by "._id" are auto indexed by mongoDb and more performant.
 
-## Expanding the ESLint configuration
+# In case of "styled_component" error in the console, rollback the MUI updates by downgrading the versions in package.json file to the ones below and run npm install:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
+"dependencies": {
+"@emotion/react": "^11.11.4",
+"@emotion/styled": "^11.11.5",
+"@mui/icons-material": "^5.16.0",
+"@mui/lab": "^5.0.0-alpha.171",
+"@mui/material": "^5.16.0",
 }
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
