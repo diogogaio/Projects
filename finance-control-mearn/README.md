@@ -8,7 +8,7 @@ Creating and Deleting transactions :
 
     . Fetching transaction from server after creating and getting the mongoDb "_.id" is required to allow user to delete it right away if needed. Queries by "._id" are auto indexed by mongoDb and more performant.
 
-# In case of "styled_component" error in the console, rollback the MUI updates by downgrading the versions in package.json file to the ones below and run npm install:
+In case of "styled_component" error in the console, rollback the MUI updates by downgrading the versions in package.json file to the ones below and run npm install:
 
 "dependencies": {
 "@emotion/react": "^11.11.4",
