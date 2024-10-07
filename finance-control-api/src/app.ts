@@ -22,7 +22,7 @@ const limiter = rateLimit({
   message:
     "Too many server request for a certain period, please try again later...",
 });
-app.set("trust proxy", true);
+app.set("trust proxy", 3);
 
 app.get("/ip", (request, response) => response.send(request.ip));
 
