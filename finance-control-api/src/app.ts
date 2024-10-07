@@ -14,6 +14,7 @@ import transactionRouter from "./routes/transactionRouter";
 // import mongoose from "mongoose";
 // mongoose.set("debug", true);
 
+const app = express();
 const limiter = rateLimit({
   windowMs: 60 * 24 * 60 * 1000, // 1 day
   limit: 101, // Limit each IP to 100 requests
@@ -21,8 +22,8 @@ const limiter = rateLimit({
   message:
     "Too many server request for a certain period, please try again later...",
 });
-
-const app = express();
+app.set("trust proxy", 1 /* number of proxies between user and server */);
+app.get("/ip", (request, response) => response.send(request.ip));
 
 // Apply the rate limiting middleware to all requests.
 app.use(limiter);
