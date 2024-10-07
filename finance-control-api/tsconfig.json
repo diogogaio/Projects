@@ -7,7 +7,7 @@
     "outDir": "dist",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "noEmitOnError": false
+    "noEmitOnError": true
   },
   "include": ["src/**/*", "src/types/**/*"]
 }
