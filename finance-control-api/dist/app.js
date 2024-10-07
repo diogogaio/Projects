@@ -18,12 +18,15 @@ const transactionRouter_1 = __importDefault(require("./routes/transactionRouter"
 // import cookieParser from "cookie-parser";
 // import mongoose from "mongoose";
 // mongoose.set("debug", true);
+const app = (0, express_1.default)();
 const limiter = (0, express_rate_limit_1.rateLimit)({
     windowMs: 60 * 24 * 60 * 1000, // 1 day
     limit: 101, // Limit each IP to 100 requests
+    statusCode: 429,
     message: "Too many server request for a certain period, please try again later...",
 });
-const app = (0, express_1.default)();
+app.set("trust proxy", 1 /* number of proxies between user and server */);
+app.get("/ip", (request, response) => response.send(request.ip));
 // Apply the rate limiting middleware to all requests.
 app.use(limiter);
 // Define the CORS options
