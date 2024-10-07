@@ -1,2 +1,0 @@
-. Backup option
-. Typescript any types 
