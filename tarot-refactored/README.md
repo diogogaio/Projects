@@ -1,30 +1,20 @@
-# React + TypeScript + Vite
+## 📋 Project Overview
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### 2. [Tarot Ametista](https://tarotametista.web.app/)
+- **Description**: A tool to help interpret tarot card readings with in-depth card meanings and additional features to make readings easier to understand.
+- **Tech Stack**:  
+  - React.js  
+  - TypeScript  
+  - Material-UI  
+  - Firebase  
+  - LocalBase
+- **Features**:  
+  - 🔮 Tarot card lookup and meanings  
+  - 🧭 User-friendly interface for reading spreads  
+  - 📚 Save readings and filter them for future reference  
+  - ☁️ Cross-device sync with Firebase  
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
