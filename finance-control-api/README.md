@@ -1,11 +1,11 @@
-    Before Deployment:
+    - **Before Deployment**:
 
-    . Clear logs
-    . check cors
-    . check limiter
-    . check cookies
-    . check imports
-    . delete comments
+    - Clear logs
+    - check cors
+    - check limiter
+    - check cookies
+    - check imports
+    - delete comments
     . Organize imports
     . check env.config
     . check mongoDb authorized IP's
