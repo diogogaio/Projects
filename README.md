@@ -42,3 +42,6 @@ Features:
 📊 PDF export and chart visualization
 🔑 Google Sign-In and one-tap authentication
 📧 Password reset via email
+🛠️ How to Run Locally
+Clone the repository:
+
