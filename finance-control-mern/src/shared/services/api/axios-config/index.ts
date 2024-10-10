@@ -5,7 +5,7 @@ import { errorInterceptor, responseInterceptor } from "./interceptors";
 const Api = axios.create({
   baseURL:
     Environment.ENV === "production"
-      ? "https://equilibrio-financeiro-api.onrender.com"
+      ? "https://finance-control-api-o5t9.onrender.com"
       : "http://127.0.0.1:3000",
   // withCredentials: true, // Include cookies in requests
 });

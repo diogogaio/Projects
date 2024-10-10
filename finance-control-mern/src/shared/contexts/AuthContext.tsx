@@ -175,9 +175,7 @@ export const AuthProvider = ({
 
     if (response instanceof Error) {
       timer.cancelRequestTimer();
-      alert("Erro ao buscar usuário.");
       App.setLoading(false);
-      // navigate("/");
       return;
     }
 
