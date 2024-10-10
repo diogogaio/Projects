@@ -19,7 +19,11 @@ export const errorInterceptor = (error: AxiosError<IServerProdError>) => {
     }
 
     if (error.response.data.status === 500) {
-      return Promise.reject(new Error("Ocorreu um erro no servidor."));
+      return Promise.reject(
+        new Error(
+          "Limite de requisições diárias excedidas ou possível falha no servidor"
+        )
+      );
     }
     if (error.response.data.status === 400) {
       return Promise.reject(new Error("Confira os dados enviados."));

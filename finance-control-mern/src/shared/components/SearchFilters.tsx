@@ -476,7 +476,7 @@ export const SearchFilters = () => {
               variant="contained"
               disabled={!searchParamsCount}
               onClick={async () => {
-                navigate("/");
+                navigate("/transactions");
                 await Transaction.fetchMonthTransactions();
                 scrollIntoView();
               }}
