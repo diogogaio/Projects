@@ -24,6 +24,7 @@ export function SortTransaction() {
   const handleRowsPerPage = (value: string) => {
     setSearchParams((prev) => {
       prev.set("limit", value);
+      prev.delete("page");
       return prev;
     });
   };
@@ -57,12 +58,13 @@ export function SortTransaction() {
         }}
       >
         <MenuList sx={{ textAlign: "center" }}>
-          <MenuItem disabled>Agrupar por:</MenuItem>
+          <MenuItem>Agrupar por:</MenuItem>
           <MenuItem onClick={Transaction.sortByAmount}>Valor</MenuItem>
           <MenuItem onClick={Transaction.sortByTag}>Setor</MenuItem>
           <MenuItem onClick={Transaction.sortByDate}>Data</MenuItem>
+          {/* <MenuItem onClick={Transaction.sortByDate}>Tipo</MenuItem> */}
           <Divider />
-          <MenuItem disabled>Linhas por página:</MenuItem>
+          <MenuItem>Linhas por página:</MenuItem>
           {rowsPerPageMenu.map((value) => (
             <MenuItem
               key={value}

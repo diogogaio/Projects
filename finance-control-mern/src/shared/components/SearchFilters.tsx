@@ -14,15 +14,15 @@ import {
 import dayjs from "dayjs";
 import debounce from "lodash.debounce";
 import { useTheme } from "@mui/material/styles";
+import { useSearchParams } from "react-router-dom";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { useNavigate, useSearchParams } from "react-router-dom";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
-import { useAppContext, useTransactionContext } from "../contexts";
 import { capitalizeFirstLetter } from "../utils/formatText";
+import { useAppContext, useTransactionContext } from "../contexts";
 
 export const SearchFilters = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -30,8 +30,6 @@ export const SearchFilters = () => {
   const theme = useTheme();
   const xsDown = useMediaQuery(theme.breakpoints.only("xs"));
   const [isExpanded, setIsExpanded] = useState(!xsDown);
-
-  const navigate = useNavigate();
 
   const { App } = useAppContext();
   const { Transaction } = useTransactionContext();
@@ -78,6 +76,7 @@ export const SearchFilters = () => {
       (name: string, value: string) => {
         setSearchParams(
           (prev) => {
+            prev.delete("page");
             prev.set(name, value);
             return prev;
           },
@@ -474,10 +473,9 @@ export const SearchFilters = () => {
             <Button
               color="secondary"
               variant="contained"
-              disabled={!searchParamsCount}
-              onClick={async () => {
-                navigate("/transactions");
-                await Transaction.fetchMonthTransactions();
+              disabled={!Transaction.isCustomSearch}
+              onClick={() => {
+                Transaction.fetchMonthTransactions();
                 scrollIntoView();
               }}
             >

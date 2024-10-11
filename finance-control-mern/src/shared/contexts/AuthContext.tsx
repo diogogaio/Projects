@@ -148,6 +148,7 @@ export const AuthProvider = ({
     const response = await AuthService.handleSignInWithGoogle(GoogleToken);
 
     if (response instanceof Error) {
+      App.setLoading(false);
       timer.cancelRequestTimer();
       alert(
         `Falha ao realizar login pelo Google:"${response.message}". Favor usar login e senha ou se cadastrar.`

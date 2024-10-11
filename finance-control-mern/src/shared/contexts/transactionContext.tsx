@@ -9,19 +9,27 @@ import {
 } from "../services/transaction/TransactionService";
 import { useAppContext } from "./AppContext";
 import { useAuthContext } from "./AuthContext";
-import { useLocation } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import { capitalizeFirstLetter } from "../utils/formatText";
 
 let tag = "Todos Setores";
 let listInfo = "Mês atual";
+let isCustomSearch = false;
 let amountSortBy: "asc" | "desc";
 let dateSortBy: "asc" | "desc" = "asc";
+const date = new Date();
+const year = date.getFullYear();
+const month = String(date.getMonth() + 1).padStart(2, "0"); // getMonth() returns month index (0-11), so add 1 for 1-12
+const firstDayOfMonth_YYYYMMDD = `${year}-${month}-01`;
+const lastDayOfMonth_DD = lastDayOfMonth(new Date()).getDate();
+const lastDayOfMonth_YYYYMMDD = `${year}-${month}-${lastDayOfMonth_DD}`;
 
 interface ITransactionMethods {
   tag: string;
   count: number;
   listInfo: string;
   list: ITransaction[];
+  isCustomSearch: boolean;
   openNewTransaction: boolean;
   sortByTypeIsChecked: boolean;
   totals: ITransactionTotals | null;
@@ -30,8 +38,8 @@ interface ITransactionMethods {
   sortByDate: () => void;
   sortByType: () => void;
   sortByAmount: () => void;
+  fetchMonthTransactions: () => void;
   deleteById: (id: string) => Promise<void>;
-  fetchMonthTransactions: () => Promise<void>;
   stopRecurrence: (id: string) => Promise<void>;
   filterTransactions: (query: string) => Promise<void>;
   setList: React.Dispatch<React.SetStateAction<ITransaction[]>>;
@@ -60,6 +68,7 @@ export const TransactionProvider = ({
 
   const location = useLocation();
   const searchUrl = location.search;
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const { Auth } = useAuthContext();
   const { App } = useAppContext();
@@ -89,40 +98,43 @@ export const TransactionProvider = ({
     }
 
     Transaction.listInfo === "Mês atual"
-      ? await Transaction.fetchMonthTransactions()
+      ? Transaction.fetchMonthTransactions()
       : await Transaction.filterTransactions(searchUrl);
 
     setOpenNewTransaction(false);
     App.setAppAlert({ message: "Nova transação criada.", severity: "success" });
   };
 
-  const fetchMonthTransactions = async () => {
-    if (!App.loading) App.setLoading(true);
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // getMonth() returns month index (0-11), so add 1 for 1-12
-    const firstDayOfMonth_YYYYMMDD = `${year}-${month}-01`;
-    const lastDayOfMonth_DD = lastDayOfMonth(new Date()).getDate();
-    const lastDayOfMonth_YYYYMMDD = `${year}-${month}-${lastDayOfMonth_DD}`;
-
-    const response = await TransactionServices.getTransactions(
-      `?createdAt[gte]=${firstDayOfMonth_YYYYMMDD}&createdAt[lte]=${lastDayOfMonth_YYYYMMDD}`
-    );
-
-    if (response instanceof Error) {
-      alert("Erro ao buscar transações mensais: " + response.message);
-      App.setLoading(false);
-      return;
-    }
+  const fetchMonthTransactions = () => {
     listInfo = "Mês atual";
-    setCount(response.count);
-    setList(response.transactions || []);
-    setTotals(response.totals);
-    App.setLoading(false);
+    isCustomSearch = false;
+
+    setSearchParams({
+      "createdAt[gte]": firstDayOfMonth_YYYYMMDD,
+      "createdAt[lte]": lastDayOfMonth_YYYYMMDD,
+    });
   };
 
   const filterTransactions = async (query: string) => {
     if (!App.loading) App.setLoading(true);
+    listInfo = "Busca personalizada";
+    isCustomSearch = true;
+
+    const filteredTag = searchParams.get("tag");
+    if (filteredTag) tag = filteredTag;
+
+    const createdAt_gte = searchParams.get("createdAt[gte]");
+    const createdAt_lte = searchParams.get("createdAt[lte]");
+
+    if (searchParams.size === 2 && createdAt_gte && createdAt_lte) {
+      if (
+        createdAt_gte === firstDayOfMonth_YYYYMMDD &&
+        createdAt_lte === lastDayOfMonth_YYYYMMDD
+      ) {
+        listInfo = " Mês Atual";
+        isCustomSearch = false;
+      }
+    }
 
     const response = await TransactionServices.getTransactions(query);
 
@@ -134,15 +146,6 @@ export const TransactionProvider = ({
       return;
     }
 
-    const queryString = query.startsWith("?") ? query.slice(1) : query;
-
-    // Convert the query string to an object
-    const params = new URLSearchParams(queryString);
-    const paramsObject = Object.fromEntries(params.entries());
-
-    listInfo = "Busca personalizada";
-    if (Object.keys(paramsObject).some((key) => key.startsWith("tag")))
-      tag = paramsObject.tag;
     App.setLoading(false);
 
     setList(response.transactions);
@@ -256,7 +259,6 @@ export const TransactionProvider = ({
       )
     ) {
       App.setLoading(true);
-      // await new Promise((resolve) => setTimeout(resolve, 2000));
       const result = await TransactionServices.deleteTransaction(id);
 
       if (result instanceof Error) {
@@ -277,6 +279,7 @@ export const TransactionProvider = ({
     count,
     totals,
     listInfo,
+    isCustomSearch,
     transactionTags,
     openNewTransaction,
     sortByTypeIsChecked,

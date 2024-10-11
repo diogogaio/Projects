@@ -16,9 +16,9 @@ import {
   useTransactionContext,
 } from "../shared/contexts";
 import {
+  WelcomeDialog,
   ChangePassword,
   NewTransaction,
-  WelcomeDialog,
 } from "../shared/components/modals";
 import {
   Charts,
@@ -66,6 +66,13 @@ export function Transactions() {
       Transaction.filterTransactions(searchUrl);
     }
   }, [searchUrl, userEmail]);
+
+  const handlePageChange = (value: number) => {
+    setSearchParams((prev) => {
+      prev.set("page", String(value));
+      return prev;
+    });
+  };
 
   return (
     <AppLayout>
@@ -129,10 +136,7 @@ export function Transactions() {
             size={smDown ? "small" : "medium"}
             count={Math.ceil((Transaction.count || 1) / perPage)}
             onChange={(_: React.ChangeEvent<unknown>, value: number) =>
-              setSearchParams((prev) => {
-                prev.set("page", String(value));
-                return prev;
-              })
+              handlePageChange(value)
             }
           />
         )}
