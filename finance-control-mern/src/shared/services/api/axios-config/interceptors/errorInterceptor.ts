@@ -1,4 +1,5 @@
 import { AxiosError } from "axios";
+import { Environment } from "../../../../environment";
 
 export type IServerProdError = {
   status: string | number;
@@ -6,6 +7,10 @@ export type IServerProdError = {
 };
 
 export const errorInterceptor = (error: AxiosError<IServerProdError>) => {
+  if (Environment.ENV === "development") {
+    console.log("Error:", error.response);
+  }
+
   if (error.response?.data) {
     if (error.response.data.message === "User already exists.") {
       return Promise.reject(new Error("Usuário já existe."));

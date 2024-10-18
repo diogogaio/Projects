@@ -156,13 +156,15 @@ export const AuthProvider = ({
       console.log("Erro:", response);
       return;
     }
+
     const { user, token } = response;
 
     timer.cancelRequestTimer();
     if (response.status === "success") {
+      console.log("login google ok");
+      setUserEmail(user.email);
       setUser(user);
       setAuthToken(token);
-      setUserEmail(user.email);
       navigate("/transactions");
       if (response.newUser) setOpenWelcomeDialog(true);
     } else App.setLoading(false);
@@ -185,6 +187,7 @@ export const AuthProvider = ({
     if (status === "success") {
       setUser(user);
       setUserEmail(user.email);
+      App.setLoading(false);
       navigate("/transactions");
     } else {
       alert("Falha ao buscar usuário.");

@@ -31,7 +31,7 @@ export const Login = () => {
       await Auth.appInit();
     };
     initialize();
-  }, []);
+  }, [Environment.ENV]);
 
   type TFormField = z.infer<typeof schema>;
 

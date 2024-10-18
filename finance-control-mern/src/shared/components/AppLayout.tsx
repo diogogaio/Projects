@@ -12,26 +12,25 @@ interface IMain {
   children: ReactNode;
 }
 
+const Main = ({ children }: IMain) => {
+  return (
+    <Box
+      component="main"
+      sx={{
+        px: 1,
+        gap: 4,
+        flex: 1,
+        display: "flex",
+        marginTop: "-6rem",
+        alignItems: "center",
+        flexDirection: "column",
+      }}
+    >
+      {children}
+    </Box>
+  );
+};
 export const AppLayout = ({ children }: IAppLayout) => {
-  const Main = ({ children }: IMain) => {
-    return (
-      <Box
-        component="main"
-        sx={{
-          px: 1,
-          gap: 4,
-          flex: 1,
-          display: "flex",
-          marginTop: "-6rem",
-          alignItems: "center",
-          flexDirection: "column",
-        }}
-      >
-        {children}
-      </Box>
-    );
-  };
-
   return (
     <Box
       sx={{

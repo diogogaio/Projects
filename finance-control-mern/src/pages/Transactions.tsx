@@ -58,14 +58,14 @@ export function Transactions() {
   );
 
   useEffect(() => {
-    if (!searchUrl && userEmail) {
-      Transaction.fetchMonthTransactions();
-    }
+    console.log("transaction page effect");
 
-    if (searchUrl && userEmail) {
+    if (searchUrl) {
       Transaction.filterTransactions(searchUrl);
+      return;
     }
-  }, [searchUrl, userEmail]);
+    Transaction.fetchMonthTransactions();
+  }, [searchUrl]);
 
   const handlePageChange = (value: number) => {
     setSearchParams((prev) => {

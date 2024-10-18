@@ -35,6 +35,7 @@ function App() {
       },
     },
   });
+
   return (
     <LocalBaseProvider>
       <AppProvider>

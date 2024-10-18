@@ -1,7 +1,7 @@
 import {
   Radio,
+  Stack,
   Button,
-  Checkbox,
   TextField,
   FormLabel,
   RadioGroup,
@@ -11,14 +11,18 @@ import {
   InputAdornment,
   FormControlLabel,
 } from "@mui/material";
+import { z } from "zod";
 import dayjs from "dayjs";
+import isequal from "lodash.isequal";
 import debounce from "lodash.debounce";
+import Grid from "@mui/material/Unstable_Grid2";
 import { useTheme } from "@mui/material/styles";
 import { useSearchParams } from "react-router-dom";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import { useEffect, useRef, useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 import { capitalizeFirstLetter } from "../utils/formatText";
@@ -34,8 +38,6 @@ export const SearchFilters = () => {
   const { App } = useAppContext();
   const { Transaction } = useTransactionContext();
 
-  const searchParamsCount = searchParams.size;
-
   useEffect(() => {
     if (xsDown && isExpanded) {
       setIsExpanded(false);
@@ -44,24 +46,13 @@ export const SearchFilters = () => {
     }
   }, [xsDown]);
 
-  const startDate = useMemo(() => {
-    const dateParam = searchParams.get("createdAt[gte]") || undefined;
-    if (dateParam) {
-      return dayjs(dateParam);
-    }
-    return undefined;
-  }, [searchParams]);
-
-  const endDate = useMemo(() => {
-    const dateParam = searchParams.get("createdAt[lte]") || undefined;
-    if (dateParam) {
-      return dayjs(dateParam);
-    }
-    return undefined;
-  }, [searchParams]);
-
-  const startDateRef = useRef(startDate);
-  const endDateRef = useRef(endDate);
+  // For calculating date picker's max and min values only:
+  const [startDate, setStartDate] = useState<dayjs.Dayjs | undefined>(
+    dayjs(undefined)
+  );
+  const [endDate, setEndDate] = useState<dayjs.Dayjs | undefined>(
+    dayjs(undefined)
+  );
 
   const scrollIntoView = () => {
     const searchContainer = document.getElementById("search-container");
@@ -71,38 +62,127 @@ export const SearchFilters = () => {
     });
   };
 
-  const debounceSearchParams = useCallback(
-    debounce(
-      (name: string, value: string) => {
-        setSearchParams(
-          (prev) => {
-            prev.delete("page");
-            prev.set(name, value);
-            return prev;
-          },
-          { replace: true }
-        );
-      },
-      1500,
-      { leading: false, trailing: true }
-    ),
-    []
-  );
+  type TSearchForm = z.infer<typeof schema>;
 
-  const clearDebounce = useCallback(
-    debounce(
-      (name: string) => {
-        setSearchParams((prev) => {
-          prev.delete(name);
-          return prev;
-        });
-        scrollIntoView();
-      },
-      500,
-      { leading: false, trailing: true }
-    ),
-    []
+  const schema = z.object({
+    tag: z.string().nullable().optional(),
+    description: z
+      .string()
+      .max(20, { message: "Limite de caracteres excedidos." })
+      .nullable()
+      .optional(),
+    amount_gte: z
+      .string()
+      .max(10, { message: "Limite de caracteres excedidos." })
+      .nullable()
+      .optional(),
+    amount_lte: z
+      .string()
+      .max(10, { message: "Limite de caracteres excedidos." })
+      .nullable()
+      .optional(),
+    createdAt_gte: z.string().nullable().optional(),
+    createdAt_lte: z.string().nullable().optional(),
+    transactionType: z.enum(["income", "outcome"]).nullable().optional(),
+  });
+
+  const {
+    reset,
+    watch,
+    control,
+    register,
+    clearErrors,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<TSearchForm>({
+    resolver: zodResolver(schema),
+  });
+
+  const lastSubmittedData = useRef<TSearchForm | null>(null);
+
+  const onSubmit: SubmitHandler<TSearchForm> = (data) => {
+    if (errors.root) clearErrors();
+
+    // Helper function to transform keys like"amount_gte" into "amount[gte]"
+    const transformKey = (key: string) => {
+      const parts = key.split("_");
+      if (parts.length > 1) {
+        const lastPart = parts.pop();
+        return `${parts.join("_")}[${lastPart}]`;
+      }
+      return key;
+    };
+
+    // Remove empty values and add brackets to properly build search string
+    const filteredData = Object.fromEntries(
+      Object.entries(data)
+        .filter(([_, value]) => Boolean(value))
+        .map(([key, value]) => [transformKey(key), value])
+    );
+    const isEmpty = Object.keys(filteredData).length === 0;
+
+    if (isEmpty) {
+      return alert("Busca vazia.");
+    }
+
+    console.log("DATA: ", data);
+
+    // if (isequal(data, lastSubmittedData.current)) {
+    //   alert("Busca repetida, altere os parâmetros e tente novamente.");
+    //   return; // Prevent duplicate submission
+    // }
+
+    lastSubmittedData.current = data;
+
+    setSearchParams(
+      new URLSearchParams(filteredData as Record<string, string>),
+      { replace: true }
+    );
+  };
+
+  const [hasFormValues, setHasFormValues] = useState(false);
+
+  const formValues = watch();
+
+  // Check if any value is present in the form
+  useEffect(() => {
+    const hasValues = Object.values(formValues).some((value) => Boolean(value));
+
+    setHasFormValues(hasValues);
+  }, [formValues]);
+
+  const invalidFieldsError = (error: any) => {
+    alert(`Favor conferir os dados enviados`);
+    console.log("Invalid search fields:", error);
+  };
+
+  //this is submitted imediately but doesnt submit
+  const debouncedSubmit = debounce(
+    () => {
+      console.log("here");
+      return handleSubmit(onSubmit, invalidFieldsError);
+    },
+    1500,
+    { leading: true, trailing: false }
   );
+  //This works but nee to be submited imediately
+  // const debouncedSubmit = debounce(
+  //   handleSubmit(onSubmit, invalidFieldsError),
+  //   1500,
+  //   { leading: true, trailing: false }
+  // );
+
+  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    debouncedSubmit();
+  };
+
+  const cleanSearchFields = () => {
+    reset();
+    setStartDate(undefined);
+    setEndDate(undefined);
+    scrollIntoView();
+  };
 
   return (
     <>
@@ -110,19 +190,20 @@ export const SearchFilters = () => {
         <LinearProgress color="secondary" sx={{ width: "100%" }} />
       )}
       <Grid
-        container
-        spacing={2}
-        component="form"
-        id="search-container"
         sx={{
           p: 2,
           boxShadow: 20,
           width: " 100%",
           borderRadius: 2,
           display: "flex",
-          // border: "1px solid #283593",
           justifyContent: "center",
         }}
+        container
+        noValidate
+        spacing={2}
+        component="form"
+        id="search-container"
+        onSubmit={handleFormSubmit}
       >
         {/* Description */}
         {isExpanded && (
@@ -136,25 +217,27 @@ export const SearchFilters = () => {
             <TextField
               rows={1}
               fullWidth
-              name="description"
-              disabled={App.loading}
+              error={!!errors.description}
+              {...register("description")}
               label="Filtrar por descrição:"
               id="Filtro descrição da transação"
-              defaultValue={searchParams.get("description") || ""}
+              disabled={App.loading || isSubmitting}
+              defaultValue={searchParams.get("description")}
+              helperText={errors.description?.message}
               inputProps={{
-                maxLength: 10,
+                maxLength: 21,
               }}
-              onChange={(event) => {
-                const text = event.target.value;
-                if (!text) {
-                  debounceSearchParams.cancel();
-                  clearDebounce("description");
-                }
+              // onChange={(event) => {
+              //   const text = event.target.value;
+              //   if (!text) {
+              //     debounceSearchParams.cancel();
+              //     clearDebounce("description");
+              //   }
 
-                if (text.length >= 2) {
-                  debounceSearchParams("description", text);
-                }
-              }}
+              //   if (text.length >= 2) {
+              //     debounceSearchParams("description", text);
+              //   }
+              // }}
             />
           </Grid>
         )}
@@ -167,36 +250,33 @@ export const SearchFilters = () => {
           lg={2}
           sx={{ textAlign: "center", order: { md: 3, lg: 1 } }}
         >
-          <Autocomplete
-            autoComplete
-            disablePortal
-            openText="Abrir"
-            closeText="Fechar"
-            disabled={App.loading}
-            noOptionsText="Sem opções"
-            loadingText="Carregando..."
-            value={capitalizeFirstLetter(searchParams.get("tag") || null)}
-            onChange={(_, newValue) => {
-              if (!newValue) {
-                debounceSearchParams.cancel();
-                clearDebounce("tag");
-                return;
-              }
-
-              debounceSearchParams("tag", newValue.toLowerCase());
-            }}
-            options={
-              Transaction.transactionTags &&
-              Transaction.transactionTags.length > 0
-                ? Transaction.transactionTags
-                : ["geral"]
-            }
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                name="tag"
-                //   disabled={serverLoading}
-                label="Setor: "
+          <Controller
+            name="tag"
+            control={control}
+            render={({ field: { onChange, value, ref } }) => (
+              <Autocomplete
+                autoComplete
+                disablePortal
+                openText="Abrir"
+                closeText="Fechar"
+                noOptionsText="Sem opções"
+                loadingText="Carregando..."
+                disabled={App.loading || isSubmitting}
+                options={
+                  Transaction.transactionTags?.length > 0
+                    ? Transaction.transactionTags
+                    : ["geral"]
+                }
+                value={value || null}
+                onChange={(_, selectedValue) => onChange(selectedValue)}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    inputRef={ref}
+                    name="tag"
+                    label="Setor:"
+                  />
+                )}
               />
             )}
           />
@@ -212,38 +292,39 @@ export const SearchFilters = () => {
             sx={{ textAlign: "center", order: { md: 1, lg: 2 } }}
           >
             <TextField
-              required
               fullWidth
               type="number"
               variant="filled"
-              name="amount[gte]"
               placeholder="1000,00"
-              disabled={App.loading}
+              {...register("amount_gte")}
               label="Valores maiores que: "
+              error={!!errors.amount_gte}
+              helperText={errors.amount_gte?.message}
+              disabled={App.loading || isSubmitting}
               defaultValue={searchParams.get("amount[gte]") || null}
-              onChange={(e) => {
-                const value = e.target.value;
+              // onChange={(e) => {
+              //   const value = e.target.value;
 
-                if (!value) {
-                  debounceSearchParams.cancel();
-                  clearDebounce("amount[gte]");
-                  return;
-                }
+              //   if (!value) {
+              //     debounceSearchParams.cancel();
+              //     clearDebounce("amount[gte]");
+              //     return;
+              //   }
 
-                const formattedValue = value.replace(",", ".");
-                const numberValue = Number(parseFloat(formattedValue));
+              //   const formattedValue = value.replace(",", ".");
+              //   const numberValue = Number(parseFloat(formattedValue));
 
-                // Ensure the value doesn't exceed the maximum allowed
-                if (numberValue > 9999999999) {
-                  // setError("Valor não permitido");
-                  alert("Valor acima do permitido.");
-                  return;
-                } /* else setError(""); */
-                debounceSearchParams(
-                  "amount[gte]",
-                  String(numberValue.toFixed(2))
-                );
-              }}
+              //   // Ensure the value doesn't exceed the maximum allowed
+              //   // if (numberValue > 9999999999) {
+              //   //   // setError("Valor não permitido");
+              //   //   alert("Valor acima do permitido.");
+              //   //   return;
+              //   // } /* else setError(""); */
+              //   debounceSearchParams(
+              //     "amount[gte]",
+              //     String(numberValue.toFixed(2))
+              //   );
+              // }}
               InputProps={{
                 inputProps: { step: "0.01", min: "0", max: "10000000000" },
                 startAdornment: (
@@ -255,7 +336,6 @@ export const SearchFilters = () => {
         )}
 
         {/* Amount[lte] */}
-
         {isExpanded && (
           <Grid
             xs={12}
@@ -265,40 +345,39 @@ export const SearchFilters = () => {
             sx={{ textAlign: "center", order: { md: 4, lg: 3 } }}
           >
             <TextField
-              required
               fullWidth
               type="number"
               variant="filled"
-              name="amount[lte]"
-              // error={!!error}
               placeholder="1000,00"
-              disabled={App.loading}
+              disabled={App.loading || isSubmitting}
+              {...register("amount_lte")}
               label="Valores menores que: "
-              // helperText={error ? error : ""}
+              error={!!errors.amount_lte}
+              helperText={errors.amount_lte?.message}
               defaultValue={searchParams.get("amount[lte]") || null}
-              onChange={(e) => {
-                const value = e.target.value;
+              // onChange={(e) => {
+              //   const value = e.target.value;
 
-                if (!value) {
-                  debounceSearchParams.cancel();
-                  clearDebounce("amount[lte]");
-                  return;
-                }
+              //   if (!value) {
+              //     debounceSearchParams.cancel();
+              //     clearDebounce("amount[lte]");
+              //     return;
+              //   }
 
-                const formattedValue = value.replace(",", ".");
-                const numberValue = Number(parseFloat(formattedValue));
+              //   const formattedValue = value.replace(",", ".");
+              //   const numberValue = Number(parseFloat(formattedValue));
 
-                // Ensure the value doesn't exceed the maximum allowed
-                if (numberValue > 9999999999) {
-                  // setError("Valor não permitido");
-                  alert("Valor acima do permitido.");
-                  return;
-                } /* else setError(""); */
-                debounceSearchParams(
-                  "amount[lte]",
-                  String(numberValue.toFixed(2))
-                );
-              }}
+              //   // Ensure the value doesn't exceed the maximum allowed
+              //   if (numberValue > 9999999999) {
+              //     // setError("Valor não permitido");
+              //     alert("Valor acima do permitido.");
+              //     return;
+              //   } /* else setError(""); */
+              //   debounceSearchParams(
+              //     "amount[lte]",
+              //     String(numberValue.toFixed(2))
+              //   );
+              // }}
               InputProps={{
                 inputProps: { step: "0.01", min: "0", max: "10000000" },
                 startAdornment: (
@@ -318,34 +397,35 @@ export const SearchFilters = () => {
             lg={2}
             sx={{
               textAlign: "center",
-              order: { md: 2, lg: 4 },
+              order: { md: 5, lg: 5 },
             }}
           >
-            <LocalizationProvider
-              dateAdapter={AdapterDayjs}
-              adapterLocale="pt-br"
-            >
-              <DatePicker
-                disableFuture
-                label="De:"
-                name="createdAt[gte]"
-                disabled={App.loading}
-                onError={() => alert("Verifique a data inserida.")}
-                maxDate={
-                  endDateRef
-                    ? dayjs(endDateRef.current, "DD/MM/YYYY")
-                    : undefined
-                }
-                value={startDateRef.current}
-                onChange={(newValue) => {
-                  if (newValue) {
-                    startDateRef.current = newValue;
-                    const formattedDate = newValue.format("YYYY-MM-DD");
-                    debounceSearchParams("createdAt[gte]", formattedDate);
-                  }
-                }}
-              />
-            </LocalizationProvider>
+            <Controller
+              name="createdAt_gte"
+              control={control}
+              render={({ field: { onChange, value, ref } }) => (
+                <LocalizationProvider
+                  dateAdapter={AdapterDayjs}
+                  adapterLocale="pt-br"
+                >
+                  <DatePicker
+                    label="De:"
+                    disabled={App.loading}
+                    onError={() => alert("Verifique a data inserida.")}
+                    maxDate={endDate}
+                    inputRef={ref} // Pass ref to the input
+                    value={value ? dayjs(value) : null}
+                    onChange={(newValue) => {
+                      if (newValue) {
+                        setStartDate(newValue);
+                        const formattedDate = newValue.format("YYYY-MM-DD");
+                        onChange(formattedDate); // Update Controller's
+                      }
+                    }}
+                  />
+                </LocalizationProvider>
+              )}
+            />
           </Grid>
         )}
 
@@ -361,30 +441,32 @@ export const SearchFilters = () => {
               order: { md: 5, lg: 5 },
             }}
           >
-            <LocalizationProvider
-              dateAdapter={AdapterDayjs}
-              adapterLocale="pt-br"
-            >
-              <DatePicker
-                label="Até:"
-                name="createdAt[lte]"
-                disabled={App.loading}
-                onError={() => alert("Verifique a data inserida.")}
-                minDate={
-                  startDateRef
-                    ? dayjs(startDateRef.current, "DD/MM/YYYY")
-                    : undefined
-                }
-                value={endDateRef.current}
-                onChange={(newValue) => {
-                  if (newValue) {
-                    endDateRef.current = newValue;
-                    const formattedDate = newValue.format("YYYY-MM-DD");
-                    debounceSearchParams("createdAt[lte]", formattedDate);
-                  }
-                }}
-              />
-            </LocalizationProvider>
+            <Controller
+              name="createdAt_lte"
+              control={control}
+              render={({ field: { onChange, value, ref } }) => (
+                <LocalizationProvider
+                  dateAdapter={AdapterDayjs}
+                  adapterLocale="pt-br"
+                >
+                  <DatePicker
+                    label="Até:"
+                    disabled={App.loading}
+                    onError={() => alert("Verifique a data inserida.")}
+                    minDate={startDate}
+                    inputRef={ref} // Pass ref to the input
+                    value={value ? dayjs(value) : null}
+                    onChange={(newValue) => {
+                      if (newValue) {
+                        setEndDate(newValue);
+                        const formattedDate = newValue.format("YYYY-MM-DD");
+                        onChange(formattedDate); // Update Controller's
+                      }
+                    }}
+                  />
+                </LocalizationProvider>
+              )}
+            />
           </Grid>
         )}
 
@@ -401,88 +483,63 @@ export const SearchFilters = () => {
             <FormLabel id="seleção tipo de transação">
               Tipo de Transação:
             </FormLabel>
-            <RadioGroup
-              row
+            <Controller
               name="transactionType"
-              sx={{ justifyContent: "center" }}
-              defaultValue={searchParams.get("transactionType") || undefined}
-              onChange={(e) =>
-                debounceSearchParams("transactionType", e.target.value)
+              control={control}
+              defaultValue={
+                (searchParams.get("transactionType") as "income" | "outcome") ||
+                null
               }
-              aria-labelledby="seleção tipo de transação"
-            >
-              <FormControlLabel
-                value="income"
-                label="Entrada"
-                control={<Radio />}
-                disabled={App.loading}
-              />
-              <FormControlLabel
-                value="outcome"
-                label="Saída"
-                control={<Radio />}
-                disabled={App.loading}
-              />
-            </RadioGroup>
+              render={({ field }) => (
+                <RadioGroup sx={{ justifyContent: "center" }} {...field} row>
+                  <FormControlLabel
+                    value="income"
+                    control={<Radio />}
+                    label="Entrada"
+                  />
+                  <FormControlLabel
+                    value="outcome"
+                    control={<Radio />}
+                    label="Saída"
+                  />
+                </RadioGroup>
+              )}
+            />
           </Grid>
         )}
 
-        {/* Sort by Transaction type */}
+        {/* Submit and clean button*/}
         <Grid
-          // border="1px solid red"
-          xs={12}
+          xs={6}
           sm={6}
           md={4}
           lg={4}
           sx={{
             display: "flex",
             alignItems: "center",
-            flexDirection: "column",
             justifyContent: "center",
             order: { md: 8, lg: 7 },
           }}
         >
-          <FormLabel id="seleção tipo de transação">Agrupar por:</FormLabel>
-          <FormControlLabel
-            label="tipo de transação"
-            control={
-              <Checkbox
-                name="sort"
-                disabled={App.loading}
-                onChange={Transaction.sortByType}
-                checked={Transaction.sortByTypeIsChecked}
-              />
-            }
-          />
-        </Grid>
-
-        {/* Clear filters */}
-        {(isExpanded || searchParamsCount > 0) && (
-          <Grid
-            xs={12}
-            sm={12}
-            md={4}
-            lg={4}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              order: { md: 8, lg: 8 },
-            }}
-          >
+          <Stack direction="row" spacing={2}>
             <Button
+              type="submit"
               color="secondary"
               variant="contained"
-              disabled={!Transaction.isCustomSearch}
-              onClick={() => {
-                Transaction.fetchMonthTransactions();
-                scrollIntoView();
-              }}
+              disabled={!hasFormValues || App.loading || isSubmitting}
             >
-              Limpar Busca
+              Buscar
             </Button>
-          </Grid>
-        )}
+            <Button
+              color="secondary"
+              variant="outlined"
+              onClick={cleanSearchFields}
+              disabled={!hasFormValues || isSubmitting || App.loading}
+            >
+              Limpar
+            </Button>
+          </Stack>
+        </Grid>
 
         {xsDown && (
           <Grid
