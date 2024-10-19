@@ -14,7 +14,6 @@ import {
 import { z } from "zod";
 import dayjs from "dayjs";
 import isequal from "lodash.isequal";
-import debounce from "lodash.debounce";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useTheme } from "@mui/material/styles";
 import { useSearchParams } from "react-router-dom";
@@ -25,7 +24,6 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
-import { capitalizeFirstLetter } from "../utils/formatText";
 import { useAppContext, useTransactionContext } from "../contexts";
 
 export const SearchFilters = () => {
@@ -53,14 +51,6 @@ export const SearchFilters = () => {
   const [endDate, setEndDate] = useState<dayjs.Dayjs | undefined>(
     dayjs(undefined)
   );
-
-  const scrollIntoView = () => {
-    const searchContainer = document.getElementById("search-container");
-    searchContainer?.scrollIntoView({
-      behavior: "instant",
-      block: "center",
-    });
-  };
 
   type TSearchForm = z.infer<typeof schema>;
 
@@ -101,7 +91,7 @@ export const SearchFilters = () => {
   const lastSubmittedData = useRef<TSearchForm | null>(null);
 
   const onSubmit: SubmitHandler<TSearchForm> = (data) => {
-    if (errors.root) clearErrors();
+    clearErrors();
 
     // Helper function to transform keys like"amount_gte" into "amount[gte]"
     const transformKey = (key: string) => {
@@ -127,10 +117,10 @@ export const SearchFilters = () => {
 
     console.log("DATA: ", data);
 
-    // if (isequal(data, lastSubmittedData.current)) {
-    //   alert("Busca repetida, altere os parâmetros e tente novamente.");
-    //   return; // Prevent duplicate submission
-    // }
+    if (isequal(data, lastSubmittedData.current)) {
+      alert("Busca repetida, altere os parâmetros e tente novamente.");
+      return; // Prevent duplicate submission
+    }
 
     lastSubmittedData.current = data;
 
@@ -156,32 +146,10 @@ export const SearchFilters = () => {
     console.log("Invalid search fields:", error);
   };
 
-  //this is submitted imediately but doesnt submit
-  const debouncedSubmit = debounce(
-    () => {
-      console.log("here");
-      return handleSubmit(onSubmit, invalidFieldsError);
-    },
-    1500,
-    { leading: true, trailing: false }
-  );
-  //This works but nee to be submited imediately
-  // const debouncedSubmit = debounce(
-  //   handleSubmit(onSubmit, invalidFieldsError),
-  //   1500,
-  //   { leading: true, trailing: false }
-  // );
-
-  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    debouncedSubmit();
-  };
-
   const cleanSearchFields = () => {
     reset();
     setStartDate(undefined);
     setEndDate(undefined);
-    scrollIntoView();
   };
 
   return (
@@ -203,7 +171,7 @@ export const SearchFilters = () => {
         spacing={2}
         component="form"
         id="search-container"
-        onSubmit={handleFormSubmit}
+        onSubmit={handleSubmit(onSubmit, invalidFieldsError)}
       >
         {/* Description */}
         {isExpanded && (
@@ -227,17 +195,6 @@ export const SearchFilters = () => {
               inputProps={{
                 maxLength: 21,
               }}
-              // onChange={(event) => {
-              //   const text = event.target.value;
-              //   if (!text) {
-              //     debounceSearchParams.cancel();
-              //     clearDebounce("description");
-              //   }
-
-              //   if (text.length >= 2) {
-              //     debounceSearchParams("description", text);
-              //   }
-              // }}
             />
           </Grid>
         )}
@@ -302,29 +259,6 @@ export const SearchFilters = () => {
               helperText={errors.amount_gte?.message}
               disabled={App.loading || isSubmitting}
               defaultValue={searchParams.get("amount[gte]") || null}
-              // onChange={(e) => {
-              //   const value = e.target.value;
-
-              //   if (!value) {
-              //     debounceSearchParams.cancel();
-              //     clearDebounce("amount[gte]");
-              //     return;
-              //   }
-
-              //   const formattedValue = value.replace(",", ".");
-              //   const numberValue = Number(parseFloat(formattedValue));
-
-              //   // Ensure the value doesn't exceed the maximum allowed
-              //   // if (numberValue > 9999999999) {
-              //   //   // setError("Valor não permitido");
-              //   //   alert("Valor acima do permitido.");
-              //   //   return;
-              //   // } /* else setError(""); */
-              //   debounceSearchParams(
-              //     "amount[gte]",
-              //     String(numberValue.toFixed(2))
-              //   );
-              // }}
               InputProps={{
                 inputProps: { step: "0.01", min: "0", max: "10000000000" },
                 startAdornment: (
@@ -355,29 +289,6 @@ export const SearchFilters = () => {
               error={!!errors.amount_lte}
               helperText={errors.amount_lte?.message}
               defaultValue={searchParams.get("amount[lte]") || null}
-              // onChange={(e) => {
-              //   const value = e.target.value;
-
-              //   if (!value) {
-              //     debounceSearchParams.cancel();
-              //     clearDebounce("amount[lte]");
-              //     return;
-              //   }
-
-              //   const formattedValue = value.replace(",", ".");
-              //   const numberValue = Number(parseFloat(formattedValue));
-
-              //   // Ensure the value doesn't exceed the maximum allowed
-              //   if (numberValue > 9999999999) {
-              //     // setError("Valor não permitido");
-              //     alert("Valor acima do permitido.");
-              //     return;
-              //   } /* else setError(""); */
-              //   debounceSearchParams(
-              //     "amount[lte]",
-              //     String(numberValue.toFixed(2))
-              //   );
-              // }}
               InputProps={{
                 inputProps: { step: "0.01", min: "0", max: "10000000" },
                 startAdornment: (
@@ -473,7 +384,6 @@ export const SearchFilters = () => {
         {/* Transaction type */}
         {isExpanded && (
           <Grid
-            // border="1px solid red"
             xs={12}
             sm={6}
             md={4}
