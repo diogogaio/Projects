@@ -55,10 +55,15 @@ export const SearchFilters = () => {
   type TSearchForm = z.infer<typeof schema>;
 
   const schema = z.object({
-    tag: z.string().nullable().optional(),
+    tag: z
+      .string()
+      .regex(/^[^\[\]]*$/, "Colchetes não são permitidos.")
+      .nullable()
+      .optional(),
     description: z
       .string()
       .max(20, { message: "Limite de caracteres excedidos." })
+      .regex(/^[^\[\]]*$/, "Colchetes não são permitidos.") // Regex to disallow square brackets
       .nullable()
       .optional(),
     amount_gte: z
@@ -142,8 +147,12 @@ export const SearchFilters = () => {
   }, [formValues]);
 
   const invalidFieldsError = (error: any) => {
-    alert(`Favor conferir os dados enviados`);
     console.log("Invalid search fields:", error);
+    let invalidMessages: string = "";
+    Object.keys(error).forEach((field) => {
+      invalidMessages += `${error[field].message ?? error[field].type} `;
+    });
+    alert(`Favor conferir os dados enviados: ${invalidMessages}`);
   };
 
   const cleanSearchFields = () => {
