@@ -199,7 +199,7 @@ export const SearchFilters = () => {
               label="Filtrar por descrição:"
               id="Filtro descrição da transação"
               disabled={App.loading || isSubmitting}
-              defaultValue={searchParams.get("description")}
+              // defaultValue={searchParams.get("description")}
               helperText={errors.description?.message}
               inputProps={{
                 maxLength: 21,
@@ -405,10 +405,6 @@ export const SearchFilters = () => {
             <Controller
               name="transactionType"
               control={control}
-              defaultValue={
-                (searchParams.get("transactionType") as "income" | "outcome") ||
-                null
-              }
               render={({ field }) => (
                 <RadioGroup sx={{ justifyContent: "center" }} {...field} row>
                   <FormControlLabel

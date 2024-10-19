@@ -17,16 +17,24 @@ import {
   InputAdornment,
   FormControlLabel,
   CircularProgress,
+  FormControl,
+  FormHelperText,
 } from "@mui/material";
+import { z } from "zod";
 import dayjs from "dayjs";
 import { nanoid } from "nanoid";
-import { Save } from "@mui/icons-material";
+import { Message, Save } from "@mui/icons-material";
 import { FormEvent, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
+import { DatePicker } from "@mui/x-date-pickers";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import LoadingButton from "@mui/lab/LoadingButton";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 import {
   useAppContext,
@@ -34,7 +42,6 @@ import {
   useTransactionContext,
 } from "../../contexts";
 import { Environment } from "../../environment";
-import { AppDatePicker } from "../AppDatePicker";
 import { ITransaction } from "../../services/transaction/TransactionService";
 
 export const NewTransaction = () => {
@@ -43,51 +50,78 @@ export const NewTransaction = () => {
   const [loading, setLoading] = useState(false);
   const [tag, setTag] = useState<string | null>(null);
   const [createNewTag, setCreateNewTag] = useState(false);
-  const [form, setForm] = useState<ITransaction>({
-    amount: 0,
-    tag: "geral",
-    description: "",
-    recurrent: false,
-    transactionId: "",
-    transactionType: "outcome",
-    createdAt: dayjs(new Date()).format("YYYY-MM-DD"),
-  });
+  // const [form, setForm] = useState<ITransaction>({
+  //   amount: 0,
+  //   tag: "geral",
+  //   description: "",
+  //   recurrent: false,
+  //   transactionId: "",
+  //   transactionType: "outcome",
+  //   createdAt: dayjs(new Date()).format("YYYY-MM-DD"),
+  // });
 
   const { App } = useAppContext();
   const { Auth } = useAuthContext();
   const { Transaction } = useTransactionContext();
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
+  type TNewTransaction = z.infer<typeof schema>;
 
-    // Convert comma to dot for decimal separator and ensure two decimal places
-    let formattedValue = value;
-    if (name === "amount") {
-      formattedValue = value.replace(",", ".");
-      const numberValue = parseFloat(formattedValue);
-      formattedValue = numberValue.toFixed(2);
-      // Ensure the value doesn't exceed the maximum allowed
-      if (numberValue > 99999999) {
-        setError("Valor não permitido");
-        return;
-      } else setError("");
-    }
-
-    setForm((prevForm) => ({
-      ...prevForm,
-      [name]: type === "checkbox" ? checked : value,
-    }));
+  const formatValue = (value: string) => {
+    // Replace comma with dot, parse float, and format to two decimal places
+    let formattedValue = value.replace(",", ".");
+    const numberValue = parseFloat(formattedValue);
+    return parseFloat(numberValue.toFixed(2)); // Return value formatted to two decimal places
   };
 
+  const schema = z.object({
+    description: z
+      .string()
+      .min(3, { message: "Mínimo de 3 caracteres." })
+      .max(20, { message: "Limite de caracteres excedidos." })
+      .regex(/^[^\[\]]*$/, "Colchetes não são permitidos."), // Regex to disallow square brackets
+    tag: z
+      .string()
+      .min(3, { message: "Mínimo de 3 caracteres" })
+      .max(20, { message: "Máximo de 20 caracteres" })
+      .regex(/^[^\[\]]*$/, "Colchetes não são permitidos.")
+      .transform((value) => value.toLocaleLowerCase()),
+    amount: z
+      .string()
+      .min(1, { message: "Valor obrigatório." })
+      .max(10, { message: "Limite de caracteres excedidos." })
+      .regex(/^(?!0$)(\d+([.,]?\d{1,2})?)$/, "Valor é inválido.") // Regex to validate format
+      .refine((value) => !isNaN(parseFloat(value)) || parseFloat(value) === 0, {
+        message: "Número inválido.",
+      }) // Ensure the value is a valid number
+      .transform((value) => formatValue(value)),
+    createdAt: z.string().default(dayjs(new Date()).format("YYYY-MM-DD")),
+    recurrent: z.boolean().default(false),
+    transactionType: z.enum(["income", "outcome"], {
+      errorMap: () => ({ message: "Selecione algum tipo." }),
+    }),
+  });
+
+  const {
+    reset,
+    control,
+    register,
+    clearErrors,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<TNewTransaction>({
+    resolver: zodResolver(schema),
+  });
+
   const handleNewTag = async () => {
-    const newTag = form.tag.trim();
+    console.log("not available yet");
+    // const newTag = form.tag.trim();
 
-    if (!newTag || newTag === "") return alert("Favor inserir novo setor.");
+    // if (!newTag || newTag === "") return alert("Favor inserir novo setor.");
 
-    setLoading(true);
-    await Auth.createTag(newTag);
-    setLoading(false);
-    App.setAppAlert({ message: "Setor Adicionado.", severity: "success" });
+    // setLoading(true);
+    // await Auth.createTag(newTag);
+    // setLoading(false);
+    // App.setAppAlert({ message: "Setor Adicionado.", severity: "success" });
   };
 
   const handleDeleteTag = async () => {
@@ -107,20 +141,36 @@ export const NewTransaction = () => {
     }
   };
 
-  const submitTransaction = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const onSubmit: SubmitHandler<TNewTransaction> = async (data) => {
+    clearErrors();
 
-    if (createNewTag)
-      return alert("Por favor finalize a criação do novo setor.");
+    console.log("@ DATA @ ", data);
+    // if (createNewTag)
+    //   return alert("Por favor finalize a criação do novo setor.");
 
-    const NewTransaction: ITransaction = { ...form, transactionId: nanoid() };
+    const newTransaction: ITransaction = { ...data, transactionId: nanoid() };
 
-    Transaction.createNewTransaction(NewTransaction);
+    Transaction.createNewTransaction(newTransaction);
+    reset();
+    clearErrors();
+    Transaction.setOpenNewTransaction(false);
+  };
+
+  const invalidFieldsError = (error: any) => {
+    console.log("Invalid fields:", error);
+    let invalidMessages: string = "";
+    Object.keys(error).forEach((field) => {
+      invalidMessages += `${error[field].message ?? error[field].type} `;
+    });
   };
 
   const closeThisModal = (_: React.SyntheticEvent, reason?: string) => {
     if (reason && reason === "backdropClick") return;
-    else Transaction.setOpenNewTransaction(false);
+    else {
+      Transaction.setOpenNewTransaction(false);
+      clearErrors();
+      reset();
+    }
   };
 
   return (
@@ -159,36 +209,48 @@ export const NewTransaction = () => {
         <Divider />
         <Box
           component="form"
-          onSubmit={submitTransaction}
+          onSubmit={handleSubmit(onSubmit, invalidFieldsError)}
           sx={{ display: "flex", flexDirection: "column", gap: 2 }}
         >
           {/* Transaction Tag */}
           <Stack id="tag-selector" direction="row">
-            <Autocomplete
-              fullWidth
-              value={tag}
-              autoComplete
-              disablePortal
-              openText="Abrir"
-              closeText="Fechar"
-              onChange={(_, newValue) => {
-                if (newValue) setForm({ ...form, tag: newValue.toLowerCase() });
-                setTag(newValue);
-              }}
-              options={
-                Transaction.transactionTags &&
-                Transaction.transactionTags.length > 0
-                  ? Transaction.transactionTags
-                  : []
-              }
-              noOptionsText="Sem opções"
-              loadingText="Carregando..."
-              disabled={createNewTag || App.loading || loading}
-              renderInput={(params) => (
-                <TextField {...params} name="tag" label="Setor: " />
+            <Controller
+              name="tag"
+              control={control}
+              render={({ field: { onChange, ref } }) => (
+                <Autocomplete
+                  fullWidth
+                  autoComplete
+                  disablePortal
+                  openText="Abrir"
+                  closeText="Fechar"
+                  onChange={(_, newValue) => {
+                    if (newValue) onChange(newValue);
+                  }}
+                  options={
+                    Transaction.transactionTags &&
+                    Transaction.transactionTags.length > 0
+                      ? Transaction.transactionTags
+                      : ["geral"]
+                  }
+                  noOptionsText="Sem opções"
+                  loadingText="Carregando..."
+                  disabled={
+                    createNewTag || App.loading || loading || isSubmitting
+                  }
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      inputRef={ref}
+                      error={!!errors.tag}
+                      helperText={errors.tag?.message}
+                      name="tag"
+                      label="Setor: "
+                    />
+                  )}
+                />
               )}
             />
-
             <Stack direction="row">
               {!tag && (
                 <IconButton
@@ -232,7 +294,7 @@ export const NewTransaction = () => {
                 name="tag"
                 disabled={loading}
                 label="Adicionar setor: "
-                onChange={handleInputChange}
+                // onChange={handleInputChange}
                 placeholder="Ex: gastos escolares"
                 inputProps={{ maxLength: 20 }}
                 FormHelperTextProps={{
@@ -241,27 +303,30 @@ export const NewTransaction = () => {
               />
 
               <Stack direction="row">
-                {form.tag && form.tag.toLowerCase() !== "geral" && !loading && (
-                  <IconButton
-                    color="success"
-                    disabled={loading}
-                    aria-label="adicionar-setor-inserido"
-                    onClick={() => {
-                      handleNewTag();
-                    }}
-                  >
-                    <CheckIcon />
-                  </IconButton>
-                )}
+                {
+                  /* form.tag && form.tag.toLowerCase() !== "geral" && */ !loading && (
+                    <IconButton
+                      color="success"
+                      disabled={loading}
+                      aria-label="adicionar-setor-inserido"
+                      onClick={() => {
+                        handleNewTag();
+                      }}
+                    >
+                      <CheckIcon />
+                    </IconButton>
+                  )
+                }
                 {!loading && (
                   <IconButton
                     color="error"
                     disabled={loading}
                     aria-label="cancelar-criação-setor'"
                     onClick={() => {
-                      setForm({ ...form, tag: "geral" });
-                      setTag(null);
-                      setCreateNewTag(false);
+                      console.log("not set yet");
+                      // setForm({ ...form, tag: "geral" });
+                      // setTag(null);
+                      // setCreateNewTag(false);
                     }}
                   >
                     <CloseIcon />
@@ -278,36 +343,58 @@ export const NewTransaction = () => {
             </Stack>
           )}
 
-          {/* Transaction date picker */}
-          <AppDatePicker form={form} setForm={setForm} />
+          {/* Transaction date */}
+          <Controller
+            name="createdAt"
+            control={control}
+            defaultValue={dayjs(new Date()).format("YYYY-MM-DD")}
+            render={({ field: { onChange, value, ref } }) => (
+              <LocalizationProvider
+                dateAdapter={AdapterDayjs}
+                adapterLocale="pt-br"
+              >
+                <DatePicker
+                  label="De:"
+                  disabled={App.loading}
+                  onError={() => alert("Verifique a data inserida.")}
+                  inputRef={ref} // Pass ref to the input
+                  value={value ? dayjs(value) : null}
+                  onChange={(newValue: dayjs.Dayjs | null) => {
+                    if (newValue) {
+                      const formattedDate = newValue.format("YYYY-MM-DD");
+                      onChange(formattedDate); // Update Controller's
+                    }
+                  }}
+                />
+              </LocalizationProvider>
+            )}
+          />
 
           {/* Description */}
           <TextField
-            required
-            name="description"
             label="Descrição: "
-            onChange={handleInputChange}
+            {...register("description")}
             placeholder="Ex: Mensalidade Escolar"
-            inputProps={{ maxLength: 20 }}
+            inputProps={{ maxLength: 21 }}
             FormHelperTextProps={{
               style: { color: "warning" },
             }}
+            error={!!errors.description}
+            disabled={App.loading || isSubmitting}
+            helperText={errors.description?.message}
           />
           {/* Amount */}
           <TextField
-            required
             fullWidth
             type="number"
-            name="amount"
             label="Valor: "
             variant="filled"
             placeholder="1000,00"
-            onChange={handleInputChange}
-            error={!!error}
-            helperText={error ? error : ""}
+            {...register("amount")}
+            error={!!errors.amount}
+            helperText={errors?.amount?.message}
             InputProps={{
-              inputProps: { step: "0.01", min: "0", max: "10000000" }, // Set step and min attributes for number input
-
+              inputProps: { step: "0.01", min: "0" },
               startAdornment: (
                 <InputAdornment position="start">R$</InputAdornment>
               ),
@@ -315,37 +402,54 @@ export const NewTransaction = () => {
           />
 
           {/* Transaction Type */}
-          <FormLabel id="transaction-type">Tipo: </FormLabel>
-          <RadioGroup
+          <FormLabel id="seleção tipo de transação">
+            Tipo de Transação:
+          </FormLabel>
+          <Controller
+            control={control}
             name="transactionType"
-            defaultValue="outcome"
-            onChange={handleInputChange}
-            aria-labelledby="transaction-type-radio-buttons-group-label"
-          >
-            <Stack direction="row" justifyContent="center">
-              <FormControlLabel
-                value="income"
-                control={<Radio />}
-                label="Entrada"
-              />
-              <FormControlLabel
-                value="outcome"
-                control={<Radio />}
-                label="Saída"
-              />
-            </Stack>
-          </RadioGroup>
+            render={({ field }) => (
+              <FormControl
+                component="fieldset"
+                error={!!errors.transactionType}
+              >
+                <RadioGroup
+                  sx={{ justifyContent: "center" }}
+                  {...field}
+                  value={field.value || ""}
+                  row
+                >
+                  <FormControlLabel
+                    value="income"
+                    control={<Radio />}
+                    label="Entrada"
+                  />
+                  <FormControlLabel
+                    value="outcome"
+                    control={<Radio />}
+                    label="Saída"
+                  />
+                </RadioGroup>
+                {errors.transactionType && (
+                  <FormHelperText>
+                    {errors.transactionType.message}
+                  </FormHelperText>
+                )}
+              </FormControl>
+            )}
+          />
 
           {/* Recurrent checkbox */}
           <Stack
             spacing={1}
             direction="row"
             alignItems="center"
+            {...register("recurrent")}
             justifyContent="center"
           >
             <FormControlLabel
               control={
-                <Checkbox name="recurrent" onChange={handleInputChange} />
+                <Checkbox name="recurrent" /*onChange={console.log()} */ />
               }
               label="Transação recorrente"
             />
@@ -362,7 +466,7 @@ export const NewTransaction = () => {
             <Button
               color="secondary"
               variant={Environment.BUTTON_VARIANT}
-              onClick={() => Transaction.setOpenNewTransaction(false)}
+              onClick={closeThisModal}
             >
               Cancelar
             </Button>
