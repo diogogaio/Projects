@@ -1,4 +1,10 @@
-import { useState, useContext, ReactElement, createContext } from "react";
+import {
+  useState,
+  useContext,
+  ReactElement,
+  createContext,
+  useMemo,
+} from "react";
 
 import { IAppAlert } from "../components";
 
@@ -32,13 +38,16 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
     setAppAlert(null);
   };
 
-  const App = {
-    loading,
-    appAlert,
-    setLoading,
-    setAppAlert,
-    closeAppAlert,
-  };
+  const App = useMemo(
+    () => ({
+      loading,
+      appAlert,
+      setLoading,
+      setAppAlert,
+      closeAppAlert,
+    }),
+    [loading, appAlert, setLoading, setAppAlert, closeAppAlert]
+  );
 
   return <AppContext.Provider value={{ App }}>{children}</AppContext.Provider>;
 };

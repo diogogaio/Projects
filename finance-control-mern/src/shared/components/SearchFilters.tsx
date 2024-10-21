@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { z } from "zod";
 import dayjs from "dayjs";
+import "dayjs/locale/pt-br";
 import isequal from "lodash.isequal";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useTheme } from "@mui/material/styles";
@@ -57,13 +58,17 @@ export const SearchFilters = () => {
   const schema = z.object({
     tag: z
       .string()
+      .min(3, { message: "Mínimo de 3 caracteres" })
+      .max(20, { message: "Máximo de 20 caracteres" })
       .regex(/^[^\[\]]*$/, "Colchetes não são permitidos.")
+      .transform((value) => value.toLocaleLowerCase())
       .nullable()
       .optional(),
     description: z
       .string()
+      .min(3, { message: "Mínimo de 3 caracteres." })
       .max(20, { message: "Limite de caracteres excedidos." })
-      .regex(/^[^\[\]]*$/, "Colchetes não são permitidos.") // Regex to disallow square brackets
+      .regex(/^[^\[\]]*$/, "Colchetes não são permitidos.")
       .nullable()
       .optional(),
     amount_gte: z
@@ -124,7 +129,7 @@ export const SearchFilters = () => {
 
     if (isequal(data, lastSubmittedData.current)) {
       alert("Busca repetida, altere os parâmetros e tente novamente.");
-      return; // Prevent duplicate submission
+      return;
     }
 
     lastSubmittedData.current = data;
@@ -148,11 +153,6 @@ export const SearchFilters = () => {
 
   const invalidFieldsError = (error: any) => {
     console.log("Invalid search fields:", error);
-    let invalidMessages: string = "";
-    Object.keys(error).forEach((field) => {
-      invalidMessages += `${error[field].message ?? error[field].type} `;
-    });
-    alert(`Favor conferir os dados enviados: ${invalidMessages}`);
   };
 
   const cleanSearchFields = () => {
@@ -199,7 +199,6 @@ export const SearchFilters = () => {
               label="Filtrar por descrição:"
               id="Filtro descrição da transação"
               disabled={App.loading || isSubmitting}
-              // defaultValue={searchParams.get("description")}
               helperText={errors.description?.message}
               inputProps={{
                 maxLength: 21,
@@ -325,8 +324,8 @@ export const SearchFilters = () => {
               control={control}
               render={({ field: { onChange, value, ref } }) => (
                 <LocalizationProvider
-                  dateAdapter={AdapterDayjs}
                   adapterLocale="pt-br"
+                  dateAdapter={AdapterDayjs}
                 >
                   <DatePicker
                     label="De:"
@@ -366,8 +365,8 @@ export const SearchFilters = () => {
               control={control}
               render={({ field: { onChange, value, ref } }) => (
                 <LocalizationProvider
-                  dateAdapter={AdapterDayjs}
                   adapterLocale="pt-br"
+                  dateAdapter={AdapterDayjs}
                 >
                   <DatePicker
                     label="Até:"

@@ -13,18 +13,19 @@ import {
   RadioGroup,
   IconButton,
   Typography,
+  FormControl,
   Autocomplete,
   InputAdornment,
+  FormHelperText,
   FormControlLabel,
   CircularProgress,
-  FormControl,
-  FormHelperText,
 } from "@mui/material";
-import { z } from "zod";
 import dayjs from "dayjs";
+import "dayjs/locale/pt-br";
 import { nanoid } from "nanoid";
-import { Message, Save } from "@mui/icons-material";
-import { FormEvent, useState } from "react";
+import { useState } from "react";
+import { z, ZodError } from "zod";
+import { Save } from "@mui/icons-material";
 import AddIcon from "@mui/icons-material/Add";
 import { DatePicker } from "@mui/x-date-pickers";
 import CheckIcon from "@mui/icons-material/Check";
@@ -43,22 +44,13 @@ import {
 } from "../../contexts";
 import { Environment } from "../../environment";
 import { ITransaction } from "../../services/transaction/TransactionService";
+import { capitalizeFirstLetter } from "../../utils/formatText";
 
 export const NewTransaction = () => {
   //Hooks
-  const [error, setError] = useState("");
+  const [tag, setTag] = useState<string>("");
   const [loading, setLoading] = useState(false);
-  const [tag, setTag] = useState<string | null>(null);
   const [createNewTag, setCreateNewTag] = useState(false);
-  // const [form, setForm] = useState<ITransaction>({
-  //   amount: 0,
-  //   tag: "geral",
-  //   description: "",
-  //   recurrent: false,
-  //   transactionId: "",
-  //   transactionType: "outcome",
-  //   createdAt: dayjs(new Date()).format("YYYY-MM-DD"),
-  // });
 
   const { App } = useAppContext();
   const { Auth } = useAuthContext();
@@ -67,32 +59,31 @@ export const NewTransaction = () => {
   type TNewTransaction = z.infer<typeof schema>;
 
   const formatValue = (value: string) => {
-    // Replace comma with dot, parse float, and format to two decimal places
     let formattedValue = value.replace(",", ".");
     const numberValue = parseFloat(formattedValue);
-    return parseFloat(numberValue.toFixed(2)); // Return value formatted to two decimal places
+    return parseFloat(numberValue.toFixed(2));
   };
 
   const schema = z.object({
-    description: z
-      .string()
-      .min(3, { message: "Mínimo de 3 caracteres." })
-      .max(20, { message: "Limite de caracteres excedidos." })
-      .regex(/^[^\[\]]*$/, "Colchetes não são permitidos."), // Regex to disallow square brackets
     tag: z
       .string()
       .min(3, { message: "Mínimo de 3 caracteres" })
       .max(20, { message: "Máximo de 20 caracteres" })
       .regex(/^[^\[\]]*$/, "Colchetes não são permitidos.")
-      .transform((value) => value.toLocaleLowerCase()),
+      .transform((value) => value.trim().toLowerCase()),
+    description: z
+      .string()
+      .min(3, { message: "Mínimo de 3 caracteres." })
+      .max(20, { message: "Limite de caracteres excedidos." })
+      .regex(/^[^\[\]]*$/, "Colchetes não são permitidos."),
     amount: z
       .string()
       .min(1, { message: "Valor obrigatório." })
       .max(10, { message: "Limite de caracteres excedidos." })
-      .regex(/^(?!0$)(\d+([.,]?\d{1,2})?)$/, "Valor é inválido.") // Regex to validate format
+      .regex(/^(?!0$)(\d+([.,]?\d{1,2})?)$/, "Valor é inválido.")
       .refine((value) => !isNaN(parseFloat(value)) || parseFloat(value) === 0, {
         message: "Número inválido.",
-      }) // Ensure the value is a valid number
+      })
       .transform((value) => formatValue(value)),
     createdAt: z.string().default(dayjs(new Date()).format("YYYY-MM-DD")),
     recurrent: z.boolean().default(false),
@@ -101,10 +92,19 @@ export const NewTransaction = () => {
     }),
   });
 
+  const newTagSchema = z
+    .string()
+    .min(3, { message: "Mínimo de 3 caracteres." })
+    .max(20, { message: "Máximo de 20 caracteres." })
+    .regex(/^[^\[\]]*$/, "Colchetes não são permitidos.")
+    .transform((value) => value.toLocaleLowerCase());
+
   const {
     reset,
     control,
     register,
+    setError,
+    setValue,
     clearErrors,
     handleSubmit,
     formState: { errors, isSubmitting },
@@ -112,21 +112,30 @@ export const NewTransaction = () => {
     resolver: zodResolver(schema),
   });
 
-  const handleNewTag = async () => {
-    console.log("not available yet");
-    // const newTag = form.tag.trim();
-
-    // if (!newTag || newTag === "") return alert("Favor inserir novo setor.");
-
-    // setLoading(true);
-    // await Auth.createTag(newTag);
-    // setLoading(false);
-    // App.setAppAlert({ message: "Setor Adicionado.", severity: "success" });
+  const handleNewTag = async (tag: string) => {
+    try {
+      clearErrors();
+      setLoading(true);
+      if (!tag) return;
+      newTagSchema.parse(tag);
+      await Auth.createTag(tag.trim());
+      setTag("");
+      setLoading(false);
+      setCreateNewTag(false);
+      setValue("tag", (capitalizeFirstLetter(tag) as string).trim());
+      App.setAppAlert({ message: "Setor Adicionado.", severity: "success" });
+    } catch (error) {
+      setLoading(false);
+      const errors = error as ZodError;
+      let errorMessages: string = "";
+      errors.errors.forEach((err) => (errorMessages += ` ${err.message} `));
+      setError("tag", { message: `${errorMessages}` || "Setor inválido" });
+    }
   };
 
   const handleDeleteTag = async () => {
     if (!tag) return alert("Setor não encontrado.");
-    if (tag === "geral") {
+    if (tag.toLowerCase() === "geral") {
       return alert('Setor padrão "geral" não pode ser deletado.');
     }
     if (
@@ -137,6 +146,7 @@ export const NewTransaction = () => {
       setLoading(true);
       await Auth.deleteTag(tag);
       setLoading(false);
+      setValue("tag", "Geral");
       App.setAppAlert({ message: "Setor removido.", severity: "success" });
     }
   };
@@ -144,9 +154,8 @@ export const NewTransaction = () => {
   const onSubmit: SubmitHandler<TNewTransaction> = async (data) => {
     clearErrors();
 
-    console.log("@ DATA @ ", data);
-    // if (createNewTag)
-    //   return alert("Por favor finalize a criação do novo setor.");
+    if (createNewTag)
+      return alert("Por favor finalize a criação do novo setor.");
 
     const newTransaction: ITransaction = { ...data, transactionId: nanoid() };
 
@@ -158,16 +167,15 @@ export const NewTransaction = () => {
 
   const invalidFieldsError = (error: any) => {
     console.log("Invalid fields:", error);
-    let invalidMessages: string = "";
-    Object.keys(error).forEach((field) => {
-      invalidMessages += `${error[field].message ?? error[field].type} `;
-    });
   };
 
   const closeThisModal = (_: React.SyntheticEvent, reason?: string) => {
     if (reason && reason === "backdropClick") return;
     else {
       Transaction.setOpenNewTransaction(false);
+      setLoading(false);
+      setCreateNewTag(false);
+      setTag("");
       clearErrors();
       reset();
     }
@@ -175,7 +183,6 @@ export const NewTransaction = () => {
 
   return (
     <Modal
-      disableEscapeKeyDown
       onClose={closeThisModal}
       open={Transaction.openNewTransaction}
       aria-labelledby="modal-nova-transação"
@@ -212,20 +219,84 @@ export const NewTransaction = () => {
           onSubmit={handleSubmit(onSubmit, invalidFieldsError)}
           sx={{ display: "flex", flexDirection: "column", gap: 2 }}
         >
+          {/* Transaction Type */}
+          <FormLabel id="seleção tipo de transação">
+            Tipo de Transação:
+          </FormLabel>
+          <Controller
+            control={control}
+            name="transactionType"
+            render={({ field }) => (
+              <FormControl
+                component="fieldset"
+                error={!!errors.transactionType}
+              >
+                <RadioGroup
+                  sx={{ justifyContent: "center" }}
+                  {...field}
+                  value={field.value || ""}
+                  row
+                >
+                  <FormControlLabel
+                    value="income"
+                    control={<Radio />}
+                    label="Entrada"
+                  />
+                  <FormControlLabel
+                    value="outcome"
+                    control={<Radio />}
+                    label="Saída"
+                  />
+                </RadioGroup>
+                {errors.transactionType && (
+                  <FormHelperText>
+                    {errors.transactionType.message}
+                  </FormHelperText>
+                )}
+              </FormControl>
+            )}
+          />
+
+          {/* Recurrent checkbox */}
+          <Stack
+            spacing={1}
+            direction="row"
+            alignItems="center"
+            {...register("recurrent")}
+            justifyContent="center"
+          >
+            <FormControlLabel
+              control={<Checkbox name="recurrent" />}
+              label="Transação recorrente"
+            />
+            <Tooltip title="Transações recorrentes serão lançadas à meia noite do primeiro dia de cada mês.">
+              <Icon fontSize="small" color="secondary">
+                info
+              </Icon>
+            </Tooltip>
+          </Stack>
+
           {/* Transaction Tag */}
           <Stack id="tag-selector" direction="row">
             <Controller
               name="tag"
               control={control}
-              render={({ field: { onChange, ref } }) => (
+              render={({ field: { onChange, value, ref } }) => (
                 <Autocomplete
                   fullWidth
                   autoComplete
                   disablePortal
                   openText="Abrir"
                   closeText="Fechar"
+                  value={value || null}
                   onChange={(_, newValue) => {
-                    if (newValue) onChange(newValue);
+                    if (newValue) {
+                      setTag(newValue);
+                      onChange(newValue);
+                      return;
+                    }
+                    setTag("");
+                    onChange(null);
                   }}
                   options={
                     Transaction.transactionTags &&
@@ -240,19 +311,19 @@ export const NewTransaction = () => {
                   }
                   renderInput={(params) => (
                     <TextField
+                      name="tag"
                       {...params}
                       inputRef={ref}
-                      error={!!errors.tag}
-                      helperText={errors.tag?.message}
-                      name="tag"
                       label="Setor: "
+                      error={!!errors.tag && !createNewTag}
+                      helperText={!createNewTag ? errors?.tag?.message : ""}
                     />
                   )}
                 />
               )}
             />
             <Stack direction="row">
-              {!tag && (
+              {!createNewTag && !tag && (
                 <IconButton
                   sx={{ px: 2 }}
                   color="success"
@@ -292,41 +363,47 @@ export const NewTransaction = () => {
                 autoFocus
                 fullWidth
                 name="tag"
+                value={tag}
                 disabled={loading}
                 label="Adicionar setor: "
-                // onChange={handleInputChange}
-                placeholder="Ex: gastos escolares"
                 inputProps={{ maxLength: 20 }}
+                helperText={errors.tag?.message}
+                placeholder="Ex: gastos escolares"
+                error={!!errors.tag && createNewTag}
+                onChange={(event) => setTag(event.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") handleNewTag(tag);
+                }}
                 FormHelperTextProps={{
                   style: { color: "warning" },
                 }}
               />
 
               <Stack direction="row">
-                {
-                  /* form.tag && form.tag.toLowerCase() !== "geral" && */ !loading && (
-                    <IconButton
-                      color="success"
-                      disabled={loading}
-                      aria-label="adicionar-setor-inserido"
-                      onClick={() => {
-                        handleNewTag();
-                      }}
-                    >
-                      <CheckIcon />
-                    </IconButton>
-                  )
-                }
+                {!loading && (
+                  <IconButton
+                    color="success"
+                    disabled={loading || !tag}
+                    aria-label="adicionar-setor-inserido"
+                    onClick={() => {
+                      if (!tag) {
+                        alert("Por favor, adicione um setor válido.");
+                        return;
+                      }
+                      handleNewTag(tag);
+                    }}
+                  >
+                    <CheckIcon />
+                  </IconButton>
+                )}
                 {!loading && (
                   <IconButton
                     color="error"
                     disabled={loading}
                     aria-label="cancelar-criação-setor'"
                     onClick={() => {
-                      console.log("not set yet");
-                      // setForm({ ...form, tag: "geral" });
-                      // setTag(null);
-                      // setCreateNewTag(false);
+                      setTag("");
+                      setCreateNewTag(false);
                     }}
                   >
                     <CloseIcon />
@@ -334,8 +411,8 @@ export const NewTransaction = () => {
                 )}
                 {loading && (
                   <CircularProgress
-                    color="secondary"
                     size="1rem"
+                    color="secondary"
                     sx={{ ml: 1, alignSelf: "center" }}
                   />
                 )}
@@ -401,66 +478,8 @@ export const NewTransaction = () => {
             }}
           />
 
-          {/* Transaction Type */}
-          <FormLabel id="seleção tipo de transação">
-            Tipo de Transação:
-          </FormLabel>
-          <Controller
-            control={control}
-            name="transactionType"
-            render={({ field }) => (
-              <FormControl
-                component="fieldset"
-                error={!!errors.transactionType}
-              >
-                <RadioGroup
-                  sx={{ justifyContent: "center" }}
-                  {...field}
-                  value={field.value || ""}
-                  row
-                >
-                  <FormControlLabel
-                    value="income"
-                    control={<Radio />}
-                    label="Entrada"
-                  />
-                  <FormControlLabel
-                    value="outcome"
-                    control={<Radio />}
-                    label="Saída"
-                  />
-                </RadioGroup>
-                {errors.transactionType && (
-                  <FormHelperText>
-                    {errors.transactionType.message}
-                  </FormHelperText>
-                )}
-              </FormControl>
-            )}
-          />
-
-          {/* Recurrent checkbox */}
-          <Stack
-            spacing={1}
-            direction="row"
-            alignItems="center"
-            {...register("recurrent")}
-            justifyContent="center"
-          >
-            <FormControlLabel
-              control={
-                <Checkbox name="recurrent" /*onChange={console.log()} */ />
-              }
-              label="Transação recorrente"
-            />
-            <Tooltip title="Transações recorrentes serão lançadas à meia noite do primeiro dia de cada mês.">
-              <Icon fontSize="small" color="secondary">
-                info
-              </Icon>
-            </Tooltip>
-          </Stack>
-
           <Divider />
+
           {/* Buttons */}
           <Stack mt={1} direction="row" spacing={1} alignSelf="end">
             <Button
@@ -477,7 +496,7 @@ export const NewTransaction = () => {
               variant="contained"
               loading={App.loading || loading}
               loadingPosition="end"
-              disabled={App.loading || loading || !!error}
+              disabled={App.loading || loading}
             >
               <span>Salvar</span>
             </LoadingButton>

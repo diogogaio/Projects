@@ -1,5 +1,5 @@
 import { lastDayOfMonth } from "date-fns";
-import { createContext, useCallback, useContext, useEffect } from "react";
+import { createContext, useCallback, useContext } from "react";
 import { useState, ReactElement, useMemo } from "react";
 
 import {
@@ -86,7 +86,6 @@ export const TransactionProvider = ({
     async (newTransaction: ITransaction) => {
       App.setLoading(true);
 
-      // await new Promise((resolve) => setTimeout(resolve, 2000));
       const result = await TransactionServices.createNewTransaction(
         newTransaction
       );
@@ -331,7 +330,6 @@ export const TransactionProvider = ({
       setList,
       setCount,
       deleteById,
-
       stopRecurrence,
       filterTransactions,
       createNewTransaction,

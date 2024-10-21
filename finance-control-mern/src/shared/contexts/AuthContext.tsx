@@ -1,7 +1,7 @@
 // import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
-import { ReactElement, useState } from "react";
 import { createContext, useContext } from "react";
+import { ReactElement, useCallback, useMemo, useState } from "react";
 
 import { TSignUp } from "../../pages";
 import { timer } from "../utils/timer";
@@ -99,7 +99,7 @@ export const AuthProvider = ({
     getUser();
   };
 
-  const createNewUser = async (form: TSignUp) => {
+  const createNewUser = useCallback(async (form: TSignUp) => {
     timer.startRequestTimer();
     const response = await AuthService.signup(form);
 
@@ -119,9 +119,9 @@ export const AuthProvider = ({
     setOpenWelcomeDialog(true);
 
     return user;
-  };
+  }, []);
 
-  const login = async (form: ILoginForm) => {
+  const login = useCallback(async (form: ILoginForm) => {
     timer.startRequestTimer();
     const response = await AuthService.login(form);
     if (response instanceof Error) {
@@ -140,11 +140,12 @@ export const AuthProvider = ({
 
       await LocalBase.setData(appName, "credentials", { token: token });
     }
-  };
+  }, []);
 
-  const handleSignInWithGoogle = async (GoogleToken: string) => {
+  const handleSignInWithGoogle = useCallback(async (GoogleToken: string) => {
     //Server will login user or create a new one with a random password, no token is stored in client' browser in THIS case.
     timer.startRequestTimer();
+
     const response = await AuthService.handleSignInWithGoogle(GoogleToken);
 
     if (response instanceof Error) {
@@ -168,9 +169,9 @@ export const AuthProvider = ({
       navigate("/transactions");
       if (response.newUser) setOpenWelcomeDialog(true);
     } else App.setLoading(false);
-  };
+  }, []);
 
-  const getUser = async () => {
+  const getUser = useCallback(async () => {
     timer.startRequestTimer();
     if (!App.loading) App.setLoading(true);
 
@@ -193,9 +194,9 @@ export const AuthProvider = ({
       alert("Falha ao buscar usuário.");
       App.setLoading(false);
     }
-  };
+  }, [App.loading]);
 
-  const changePassword = async (data: TChangePwdForm) => {
+  const changePassword = useCallback(async (data: TChangePwdForm) => {
     const response = await AuthService.changePassword(data);
 
     if (response instanceof Error) {
@@ -210,9 +211,9 @@ export const AuthProvider = ({
         severity: "success",
       });
     }
-  };
+  }, []);
 
-  const resetPassword = async (data: TResetPwdData) => {
+  const resetPassword = useCallback(async (data: TResetPwdData) => {
     const response = await AuthService.resetPassword(data);
 
     if (response instanceof Error) {
@@ -229,22 +230,62 @@ export const AuthProvider = ({
 
       await LocalBase.setData(appName, "credentials", { token: token });
     }
-  };
+  }, []);
 
-  const createTag = async (tag: string): Promise<void> => {
-    const newTag = tag.toLowerCase();
+  const createTag = useCallback(
+    async (tag: string): Promise<void> => {
+      const newTag = tag.toLowerCase();
 
-    if (user?.transactionTags) {
-      const updatedTransactionTags = [...(user.transactionTags || []), newTag];
+      if (user?.transactionTags) {
+        const updatedTransactionTags = [
+          ...(user.transactionTags || []),
+          newTag,
+        ];
 
-      if (user?.transactionTags.find((tgs) => tgs === newTag)) {
-        alert("Setor já existe.");
-        return;
+        if (user?.transactionTags.find((tgs) => tgs === newTag)) {
+          alert("Setor já existe.");
+          return;
+        }
+
+        const response = await AuthService.updateUser(
+          "transactionTags",
+          updatedTransactionTags
+        );
+
+        if (response instanceof Error) {
+          alert(`Erro ao atualizar informações: ${response.message}.`);
+          return;
+        }
+
+        if (response.status === "success") {
+          setUser({
+            ...user,
+            transactionTags: [...user.transactionTags, newTag],
+          });
+          return;
+        }
       }
+    },
+    [user]
+  );
+
+  const deleteTag = useCallback(
+    async (tag: string): Promise<void> => {
+      const deletedTag = tag.toLowerCase();
+
+      if (!user?.transactionTags)
+        return alert("Lista de setores deste usuário não encontrada.");
+
+      let remainingTags = [...user?.transactionTags];
+
+      if (!remainingTags.find((tgs) => tgs === deletedTag))
+        return alert("Setor não encontrado.");
+
+      remainingTags = remainingTags.filter((tgs) => tgs !== deletedTag);
 
       const response = await AuthService.updateUser(
         "transactionTags",
-        updatedTransactionTags
+        remainingTags
       );
 
       if (response instanceof Error) {
@@ -252,49 +293,18 @@ export const AuthProvider = ({
         return;
       }
 
-      if (response.status === "success") {
+      if (response.status === "success")
         setUser({
           ...user,
-          transactionTags: [...user.transactionTags, newTag],
+          transactionTags: remainingTags,
         });
-        return;
-      }
-    }
-  };
 
-  const deleteTag = async (tag: string): Promise<void> => {
-    const deletedTag = tag.toLowerCase();
-
-    if (!user?.transactionTags)
-      return alert("Lista de setores deste usuário não encontrada.");
-
-    let remainingTags = [...user?.transactionTags];
-
-    if (!remainingTags.find((tgs) => tgs === deletedTag))
-      return alert("Setor não encontrado.");
-
-    remainingTags = remainingTags.filter((tgs) => tgs !== deletedTag);
-
-    const response = await AuthService.updateUser(
-      "transactionTags",
-      remainingTags
-    );
-
-    if (response instanceof Error) {
-      alert(`Erro ao atualizar informações: ${response.message}.`);
       return;
-    }
+    },
+    [user]
+  );
 
-    if (response.status === "success")
-      setUser({
-        ...user,
-        transactionTags: remainingTags,
-      });
-
-    return;
-  };
-
-  const deleteUser = async () => {
+  const deleteUser = useCallback(async () => {
     if (
       window.confirm(
         "Deseja realmente deletar este usuário e todos os seus dados no servidor?"
@@ -314,38 +324,59 @@ export const AuthProvider = ({
       App.setAppAlert({ message: "Usuário deletado!", severity: "success" });
       window.location.reload();
     }
-  };
+  }, []);
 
-  const logout = async () => {
+  const logout = useCallback(async () => {
     if (window.confirm("Deseja realmente sair?")) {
       //Delete user credentials:
       await LocalBase.deleteDocument(appName, "credentials");
 
-      navigate("/");
       window.location.reload();
     }
-  };
+  }, []);
 
-  const Auth = {
-    user,
-    userEmail,
-    openWelcomeDialog,
-    openForgotPwdModal,
-    openChangePasswordModal,
-    login,
-    logout,
-    appInit,
-    deleteTag,
-    createTag,
-    deleteUser,
-    createNewUser,
-    resetPassword,
-    changePassword,
-    setOpenWelcomeDialog,
-    setOpenForgotPwdModal,
-    handleSignInWithGoogle,
-    setOpenChangePasswordModal,
-  };
+  const Auth = useMemo(
+    () => ({
+      user,
+      userEmail,
+      openWelcomeDialog,
+      openForgotPwdModal,
+      openChangePasswordModal,
+      login,
+      logout,
+      appInit,
+      deleteTag,
+      createTag,
+      deleteUser,
+      createNewUser,
+      resetPassword,
+      changePassword,
+      setOpenWelcomeDialog,
+      setOpenForgotPwdModal,
+      handleSignInWithGoogle,
+      setOpenChangePasswordModal,
+    }),
+    [
+      user,
+      userEmail,
+      openWelcomeDialog,
+      openForgotPwdModal,
+      openChangePasswordModal,
+      login,
+      logout,
+      appInit,
+      deleteTag,
+      createTag,
+      deleteUser,
+      createNewUser,
+      resetPassword,
+      changePassword,
+      setOpenWelcomeDialog,
+      setOpenForgotPwdModal,
+      handleSignInWithGoogle,
+      setOpenChangePasswordModal,
+    ]
+  );
 
   return (
     <AuthContext.Provider value={{ Auth }}>{children}</AuthContext.Provider>
