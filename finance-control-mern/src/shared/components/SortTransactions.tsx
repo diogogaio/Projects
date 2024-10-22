@@ -1,13 +1,30 @@
 import Menu from "@mui/material/Menu";
 import { useMemo, useState } from "react";
 import MenuItem from "@mui/material/MenuItem";
+import { useSearchParams } from "react-router-dom";
 import { Icon, Divider, MenuList, IconButton } from "@mui/material";
 
 import { Environment } from "../environment";
-import { useSearchParams } from "react-router-dom";
-import { useTransactionContext } from "../contexts";
 
-export function SortTransaction() {
+interface ISortTransactionProps {
+  sortByTag: () => void;
+  sortByDate: () => void;
+  sortByType: () => void;
+  sortByAmount: () => void;
+  sortByDescription: () => void;
+  dateSortBy: "ascendente" | "descendente";
+  amountSortBy: "descendente" | "ascendente";
+}
+
+export function SortTransaction({
+  sortByTag,
+  sortByType,
+  sortByDate,
+  sortByAmount,
+  sortByDescription,
+  dateSortBy,
+  amountSortBy,
+}: ISortTransactionProps) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -18,8 +35,6 @@ export function SortTransaction() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  const { Transaction } = useTransactionContext();
 
   const handleRowsPerPage = (value: string) => {
     setSearchParams((prev) => {
@@ -57,14 +72,25 @@ export function SortTransaction() {
           "aria-labelledby": "ícone-agrupar",
         }}
       >
-        <MenuList sx={{ textAlign: "center" }}>
-          <MenuItem>Agrupar por:</MenuItem>
-          <MenuItem onClick={Transaction.sortByAmount}>Valor</MenuItem>
-          <MenuItem onClick={Transaction.sortByTag}>Setor</MenuItem>
-          <MenuItem onClick={Transaction.sortByDate}>Data</MenuItem>
-          {/* <MenuItem onClick={Transaction.sortByDate}>Tipo</MenuItem> */}
+        <MenuList sx={{ textAlign: "center" }} onClick={handleClose}>
+          <MenuItem sx={{ fontStyle: "italic", fontWeight: "600" }}>
+            Agrupar por:
+          </MenuItem>
+
+          <MenuItem onClick={sortByType}>Tipo</MenuItem>
+
+          <MenuItem onClick={sortByTag}>Setor</MenuItem>
+
+          <MenuItem onClick={sortByDate}>{`Data ${dateSortBy}`} </MenuItem>
+
+          <MenuItem onClick={sortByAmount}>{`Valor ${amountSortBy}`}</MenuItem>
+
+          <MenuItem onClick={sortByDescription}>Ordem alfabética</MenuItem>
+
           <Divider />
-          <MenuItem>Linhas por página:</MenuItem>
+          <MenuItem sx={{ fontStyle: "italic", fontWeight: "600" }}>
+            Linhas por página:
+          </MenuItem>
           {rowsPerPageMenu.map((value) => (
             <MenuItem
               key={value}

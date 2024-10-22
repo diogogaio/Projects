@@ -2,7 +2,9 @@ import {
   Icon,
   Paper,
   Table,
+  Stack,
   Tooltip,
+  Divider,
   TableRow,
   TableBody,
   TableCell,
@@ -11,18 +13,65 @@ import {
   IconButton,
   TableContainer,
   LinearProgress,
-  Stack,
 } from "@mui/material";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
+import { Environment } from "../environment";
 import { SortTransaction } from "./SortTransactions";
 import { capitalizeFirstLetter } from "../utils/formatText";
 import { useAppContext, useTransactionContext } from "../contexts";
 import { ITransaction } from "../services/transaction/TransactionService";
 
+let dateSortBy: "ascendente" | "descendente" = "ascendente";
+let amountSortBy: "descendente" | "ascendente" = "descendente";
+
 export const TransactionsTable = () => {
+  const [sortingBy, setSortingBy] = useState("date");
+
   const { App } = useAppContext();
   const { Transaction } = useTransactionContext();
+  const [_, setSearchParams] = useSearchParams();
+
+  const sortBy = (value: string, order: "ascendente" | "descendente") => {
+    // handleClose();
+    const formattedValue = order === "descendente" ? `-${value}` : value;
+    setSearchParams((prev) => {
+      prev.delete("sort");
+      prev.set("sort", formattedValue);
+      return prev;
+    });
+  };
+  const sortByDate = () => {
+    sortBy("createdAt", dateSortBy);
+    setSortingBy("date");
+    dateSortBy = dateSortBy === "descendente" ? "ascendente" : "descendente";
+  };
+
+  const sortByAmount = () => {
+    sortBy("amount", amountSortBy);
+    setSortingBy("amount");
+    amountSortBy =
+      amountSortBy === "descendente" ? "ascendente" : "descendente";
+  };
+
+  const sortByType = () => {
+    sortBy("transactionType", "ascendente");
+    setSortingBy("transactionType");
+  };
+
+  const sortByTag = () => {
+    sortBy("tag", "ascendente");
+    setSortingBy("tag");
+  };
+
+  const sortByDescription = () => {
+    sortBy("description", "ascendente");
+    setSortingBy("description");
+  };
+
+  const isSortingByColor = (value: string) =>
+    value === sortingBy ? "inherit" : "lightGray";
 
   const transactionRows = useCallback(() => {
     return Transaction.list.map((trans: ITransaction) => (
@@ -101,7 +150,9 @@ export const TransactionsTable = () => {
 
   if (!!!Transaction.list.length)
     return (
-      <Typography align="center">Nenhuma transação encontrada.</Typography>
+      <Typography variant="h6" align="center">
+        Nenhuma transação encontrada.
+      </Typography>
     );
 
   const effect = {
@@ -122,15 +173,49 @@ export const TransactionsTable = () => {
 
       <TableContainer
         component={Paper}
-        sx={{ maxWidth: "1100px", boxShadow: 20, borderRadius: 2 }}
+        sx={{
+          boxShadow: 20,
+          borderRadius: 2,
+          maxWidth: "1100px",
+        }}
       >
+        <Stack
+          textAlign="center"
+          direction="column"
+          sx={{
+            py: 1,
+            width: "100%",
+            fontStyle: "italic",
+          }}
+        >
+          <Typography color={Environment.APP_MAIN_TEXT_COLOR} variant="h6">
+            {Transaction.listInfo}
+          </Typography>
+
+          <Typography color="GrayText" variant="caption">
+            {Transaction.tag}
+          </Typography>
+          <Divider variant="middle" />
+        </Stack>
+
         <Table size="small" aria-label="tabela-transações">
           <TableHead>
             <TableRow>
               <TableCell>
-                <Typography color="secondary" fontWeight="bold" variant="body1">
-                  Descrição
-                </Typography>
+                <Tooltip title="Organizar em Ordem Alfabética">
+                  <Typography
+                    sx={effect}
+                    variant="body1"
+                    fontWeight="bold"
+                    onClick={sortByDescription}
+                    color={Environment.APP_MAIN_TEXT_COLOR}
+                  >
+                    Descrição
+                    <Icon sx={{ color: isSortingByColor("description") }}>
+                      arrow_drop_down
+                    </Icon>
+                  </Typography>
+                </Tooltip>
               </TableCell>
               <TableCell align="right">
                 <Tooltip title="Organizar por valor">
@@ -139,44 +224,66 @@ export const TransactionsTable = () => {
                     role="button"
                     variant="body1"
                     fontWeight="bold"
-                    color="secondary"
-                    onClick={Transaction.sortByAmount}
+                    onClick={sortByAmount}
+                    color={Environment.APP_MAIN_TEXT_COLOR}
                   >
                     Valor
+                    <Icon sx={{ color: isSortingByColor("amount") }}>
+                      {amountSortBy === "descendente"
+                        ? "arrow_drop_down"
+                        : "arrow_drop_up"}
+                    </Icon>
                   </Typography>
                 </Tooltip>
               </TableCell>
-              <TableCell align="left">
+              <TableCell align="left" color="inherit">
                 <Tooltip title="Organizar por setor">
                   <Typography
                     sx={effect}
                     role="button"
                     variant="body1"
-                    color="secondary"
                     fontWeight="bold"
-                    onClick={Transaction.sortByTag}
+                    onClick={sortByTag}
+                    color={Environment.APP_MAIN_TEXT_COLOR}
                   >
                     Setor
+                    <Icon sx={{ color: isSortingByColor("tag") }}>
+                      arrow_drop_down
+                    </Icon>
                   </Typography>
                 </Tooltip>
               </TableCell>
+
               <TableCell align="right">
                 <Tooltip title="Organizar por data">
                   <Typography
                     sx={effect}
                     role="button"
                     variant="body1"
-                    color="secondary"
                     fontWeight="bold"
-                    onClick={Transaction.sortByDate}
+                    onClick={sortByDate}
+                    color={Environment.APP_MAIN_TEXT_COLOR}
                   >
                     Data
+                    <Icon sx={{ color: isSortingByColor("date") }}>
+                      {dateSortBy === "descendente"
+                        ? "arrow_drop_up"
+                        : "arrow_drop_down"}
+                    </Icon>
                   </Typography>
                 </Tooltip>
               </TableCell>
 
               <TableCell align="right">
-                <SortTransaction />
+                <SortTransaction
+                  sortByTag={sortByTag}
+                  sortByDate={sortByDate}
+                  sortByType={sortByType}
+                  sortByAmount={sortByAmount}
+                  sortByDescription={sortByDescription}
+                  dateSortBy={dateSortBy}
+                  amountSortBy={amountSortBy}
+                />
               </TableCell>
             </TableRow>
           </TableHead>

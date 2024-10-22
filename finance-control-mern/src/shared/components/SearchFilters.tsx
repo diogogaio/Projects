@@ -58,7 +58,6 @@ export const SearchFilters = () => {
   const schema = z.object({
     tag: z
       .string()
-      .min(3, { message: "Mínimo de 3 caracteres" })
       .max(20, { message: "Máximo de 20 caracteres" })
       .regex(/^[^\[\]]*$/, "Colchetes não são permitidos.")
       .transform((value) => value.toLocaleLowerCase())
@@ -66,7 +65,6 @@ export const SearchFilters = () => {
       .optional(),
     description: z
       .string()
-      .min(3, { message: "Mínimo de 3 caracteres." })
       .max(20, { message: "Limite de caracteres excedidos." })
       .regex(/^[^\[\]]*$/, "Colchetes não são permitidos.")
       .nullable()
@@ -125,8 +123,6 @@ export const SearchFilters = () => {
       return alert("Busca vazia.");
     }
 
-    console.log("DATA: ", data);
-
     if (isequal(data, lastSubmittedData.current)) {
       alert("Busca repetida, altere os parâmetros e tente novamente.");
       return;
@@ -138,6 +134,7 @@ export const SearchFilters = () => {
       new URLSearchParams(filteredData as Record<string, string>),
       { replace: true }
     );
+    Transaction.setListInfo("Busca personalizada");
   };
 
   const [hasFormValues, setHasFormValues] = useState(false);
@@ -159,6 +156,7 @@ export const SearchFilters = () => {
     reset();
     setStartDate(undefined);
     setEndDate(undefined);
+    Transaction.fetchMonthTransactions();
   };
 
   return (

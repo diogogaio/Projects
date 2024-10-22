@@ -3,7 +3,6 @@ import {
   Button,
   Divider,
   Pagination,
-  Typography,
   useMediaQuery,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
@@ -58,8 +57,6 @@ export function Transactions() {
   );
 
   useEffect(() => {
-    console.log("transaction page effect");
-
     if (searchUrl) {
       Transaction.filterTransactions(searchUrl);
       return;
@@ -113,20 +110,15 @@ export function Transactions() {
 
         <SearchFilters />
       </Stack>
-      <Stack
-        spacing={2}
-        direction="column"
-        sx={{ alignItems: "center", width: "100%" }}
-      >
-        <Stack
-          textAlign="center"
-          spacing={{ xs: 1, md: 2 }}
-          direction={{ xs: "column", sm: "row" }}
-        >
-          <Typography>{`Listando: ${Transaction.listInfo}`}</Typography>
-          <Typography>{`Setor: ${Transaction.tag}`}</Typography>
-        </Stack>
 
+      <Stack
+        direction="column"
+        sx={{
+          alignItems: "center",
+          justifyContent: "center",
+          width: "100%",
+        }}
+      >
         <TransactionsTable />
 
         {Transaction.count > perPage && (

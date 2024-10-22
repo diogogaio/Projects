@@ -162,7 +162,6 @@ export const AuthProvider = ({
 
     timer.cancelRequestTimer();
     if (response.status === "success") {
-      console.log("login google ok");
       setUserEmail(user.email);
       setUser(user);
       setAuthToken(token);

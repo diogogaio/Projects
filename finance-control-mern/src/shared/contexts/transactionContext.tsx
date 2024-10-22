@@ -13,37 +13,24 @@ import { useLocation, useSearchParams } from "react-router-dom";
 import { capitalizeFirstLetter } from "../utils/formatText";
 
 let tag = "Todos Setores";
-let listInfo = "Mês atual";
-let isCustomSearch = false;
-// let amountSortBy: "asc" | "desc";
-// let dateSortBy: "asc" | "desc" = "asc";
-const date = new Date();
-const year = date.getFullYear();
-const month = String(date.getMonth() + 1).padStart(2, "0"); // getMonth() returns month index (0-11), so add 1 for 1-12
-const firstDayOfMonth_YYYYMMDD = `${year}-${month}-01`;
-const lastDayOfMonth_DD = lastDayOfMonth(new Date()).getDate();
-const lastDayOfMonth_YYYYMMDD = `${year}-${month}-${lastDayOfMonth_DD}`;
 
 interface ITransactionMethods {
   tag: string;
   count: number;
-  listInfo: string;
   list: ITransaction[];
-  isCustomSearch: boolean;
   openNewTransaction: boolean;
-  // sortByTypeIsChecked: boolean;
   totals: ITransactionTotals | null;
   transactionTags: (string | null)[];
+  listInfo: "Mês atual" | "Busca personalizada";
   setCount: React.Dispatch<React.SetStateAction<number>>;
-  // sortByTag: () => void;
-  // sortByDate: () => void;
-  // sortByType: () => void;
-  // sortByAmount: () => void;
   fetchMonthTransactions: () => void;
   deleteById: (id: string) => Promise<void>;
   stopRecurrence: (id: string) => Promise<void>;
   filterTransactions: (query: string) => Promise<void>;
   setList: React.Dispatch<React.SetStateAction<ITransaction[]>>;
+  setListInfo: React.Dispatch<
+    React.SetStateAction<"Mês atual" | "Busca personalizada">
+  >;
   setOpenNewTransaction: React.Dispatch<React.SetStateAction<boolean>>;
   createNewTransaction: (NewTransaction: ITransaction) => Promise<void>;
 }
@@ -63,9 +50,11 @@ export const TransactionProvider = ({
   //States:
   const [count, setCount] = useState(0);
   const [list, setList] = useState<ITransaction[]>([]);
+  const [listInfo, setListInfo] = useState<"Mês atual" | "Busca personalizada">(
+    "Mês atual"
+  );
   const [totals, setTotals] = useState<ITransactionTotals | null>(null);
   const [openNewTransaction, setOpenNewTransaction] = useState(false);
-  // const [sortByTypeIsChecked, setSortByTypeIsChecked] = useState(false);
 
   const location = useLocation();
   const searchUrl = location.search;
@@ -112,9 +101,18 @@ export const TransactionProvider = ({
   );
 
   const fetchMonthTransactions = useCallback(() => {
-    console.log("fetching month transactions...");
-    listInfo = "Mês atual";
-    isCustomSearch = false;
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // getMonth() returns month index (0-11), so add 1 for 1-12
+    const firstDayOfMonth_YYYYMMDD = `${year}-${month}-01`;
+    const lastDayOfMonth_DD = lastDayOfMonth(new Date()).getDate();
+    const lastDayOfMonth_YYYYMMDD = `${year}-${month}-${lastDayOfMonth_DD}`;
+
+    listInfo === "Busca personalizada"
+      ? setListInfo("Mês atual")
+      : console.log();
+
+    tag = "Todos Setores";
 
     setSearchParams({
       "createdAt[gte]": firstDayOfMonth_YYYYMMDD,
@@ -125,25 +123,9 @@ export const TransactionProvider = ({
   const filterTransactions = useCallback(
     async (query: string) => {
       if (!App.loading) App.setLoading(true);
-      listInfo = "Busca personalizada";
-      isCustomSearch = true;
-      console.log("FILTER TRANSACTIONS");
 
       const filteredTag = searchParams.get("tag");
-      if (filteredTag) tag = filteredTag;
-
-      const createdAt_gte = searchParams.get("createdAt[gte]");
-      const createdAt_lte = searchParams.get("createdAt[lte]");
-
-      if (searchParams.size === 2 && createdAt_gte && createdAt_lte) {
-        if (
-          createdAt_gte === firstDayOfMonth_YYYYMMDD &&
-          createdAt_lte === lastDayOfMonth_YYYYMMDD
-        ) {
-          listInfo = " Mês Atual";
-          isCustomSearch = false;
-        }
-      }
+      if (filteredTag) tag = capitalizeFirstLetter(filteredTag) as string;
 
       const response = await TransactionServices.getTransactions(query);
 
@@ -162,74 +144,8 @@ export const TransactionProvider = ({
       setCount(response.count);
       setTotals(response.totals);
     },
-    [
-      App.loading,
-      searchParams,
-      firstDayOfMonth_YYYYMMDD,
-      lastDayOfMonth_YYYYMMDD,
-    ]
+    [App.loading, searchParams]
   );
-
-  // const sortByDate = () => {
-  //   if (sortByTypeIsChecked) setSortByTypeIsChecked(false);
-
-  //   const sortedList = [...Transaction.list].sort((a, b) => {
-  //     const dateA = new Date(a.createdAt).getTime();
-  //     const dateB = new Date(b.createdAt).getTime();
-
-  //     if (dateSortBy === "asc") {
-  //       return dateA - dateB; // Sort ascending
-  //     } else {
-  //       return dateB - dateA; // Sort descending
-  //     }
-  //   });
-
-  //   dateSortBy = dateSortBy === "asc" ? "desc" : "asc"; // Toggle the sort order
-  //   setList(sortedList);
-  // };
-
-  // const sortByAmount = () => {
-  //   if (sortByTypeIsChecked) setSortByTypeIsChecked(false);
-
-  //   const transactionsList = [...Transaction.list];
-  //   const sortDesc = () => {
-  //     amountSortBy = "desc";
-  //     return transactionsList.sort((a, b) => b.amount - a.amount);
-  //   };
-  //   const sortAsc = () => {
-  //     amountSortBy = "asc";
-  //     return transactionsList.sort((a, b) => a.amount - b.amount);
-  //   };
-
-  //   const sortedList =
-  //     !amountSortBy || amountSortBy === "asc" ? sortDesc() : sortAsc();
-
-  //   setList(sortedList);
-  // };
-
-  // const sortByType = () => {
-  //   if (sortByTypeIsChecked) {
-  //     dateSortBy = "desc";
-  //     return sortByDate();
-  //   }
-
-  //   const sortedTransactions = [...Transaction.list].sort((a, b) => {
-  //     if (a.transactionType < b.transactionType) return -1;
-  //     if (a.transactionType > b.transactionType) return 1;
-  //     return 0;
-  //   });
-  //   setList(sortedTransactions);
-  //   setSortByTypeIsChecked(true);
-  // };
-
-  // const sortByTag = () => {
-  //   const sortedTransactions = [...Transaction.list].sort((a, b) => {
-  //     if (a.tag.toLowerCase() < b.tag.toLowerCase()) return -1;
-  //     if (a.tag.toLowerCase() > b.tag.toLowerCase()) return 1;
-  //     return 0;
-  //   });
-  //   setList(sortedTransactions);
-  // };
 
   const stopRecurrence = useCallback(
     async (id: string) => {
@@ -306,12 +222,12 @@ export const TransactionProvider = ({
       count,
       totals,
       listInfo,
-      isCustomSearch,
       transactionTags,
       openNewTransaction,
       setList,
       setCount,
       deleteById,
+      setListInfo,
       stopRecurrence,
       filterTransactions,
       createNewTransaction,
@@ -324,12 +240,12 @@ export const TransactionProvider = ({
       count,
       totals,
       listInfo,
-      isCustomSearch,
       transactionTags,
       openNewTransaction,
       setList,
       setCount,
       deleteById,
+      setListInfo,
       stopRecurrence,
       filterTransactions,
       createNewTransaction,
