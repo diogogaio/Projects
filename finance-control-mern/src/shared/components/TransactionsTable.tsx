@@ -176,6 +176,7 @@ export const TransactionsTable = () => {
         sx={{
           boxShadow: 20,
           borderRadius: 2,
+          width: { xs: "100%", lg: "90%" },
           maxWidth: "1100px",
         }}
       >

@@ -78,10 +78,11 @@ export function Transactions() {
       {smDown && <Divider sx={{ width: "100%" }} />}
 
       <Stack
-        width={{ xs: "95%", md: "95%", lg: "85%", xl: "80%", xxl: "70%" }}
-        alignItems="center"
-        direction="column"
         spacing={3}
+        maxWidth="1646px"
+        direction="column"
+        alignItems="center"
+        width={{ xs: "100%", md: "100%", lg: "95%", xl: "85%", xxl: "40%" }}
       >
         <Charts
           animateCharts={animateCharts}
