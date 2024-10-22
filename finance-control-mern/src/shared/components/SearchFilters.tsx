@@ -402,8 +402,17 @@ export const SearchFilters = () => {
             <Controller
               name="transactionType"
               control={control}
-              render={({ field }) => (
-                <RadioGroup sx={{ justifyContent: "center" }} {...field} row>
+              render={({ field: { onChange, value } }) => (
+                <RadioGroup
+                  value={value || null}
+                  row
+                  sx={{ justifyContent: "center" }}
+                  onChange={(event) => {
+                    const value = event.target.value;
+                    console.log("value: " + value);
+                    onChange(value);
+                  }}
+                >
                   <FormControlLabel
                     value="income"
                     control={<Radio />}

@@ -55,7 +55,7 @@ export const Login = () => {
   });
 
   const onSubmit: SubmitHandler<TFormField> = async (data) => {
-    if (errors.root) clearErrors();
+    clearErrors();
 
     const response = await Auth.login(data);
 
@@ -73,16 +73,12 @@ export const Login = () => {
         sx={{
           p: 4,
           gap: 2,
-          top: "50%",
-          left: "50%",
           boxShadow: 20,
           display: "flex",
           overflow: "auto",
           maxHeight: "90vh",
           flexDirection: "column",
           bgcolor: "background.paper",
-          position: "absolute" as "absolute",
-          transform: "translate(-50%, -50%)",
           width: { xs: "95vw", sm: "350px" },
         }}
       >

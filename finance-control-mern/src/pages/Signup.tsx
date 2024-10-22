@@ -62,6 +62,7 @@ export const SignUp = () => {
     if (response instanceof Error) {
       const errorMessage = response.message;
       setError("root", { message: errorMessage });
+      return;
     }
     reset();
   };
@@ -78,16 +79,11 @@ export const SignUp = () => {
         sx={{
           p: 4,
           gap: 1,
-          top: "50%",
-          left: "50%",
           boxShadow: 20,
           display: "flex",
-          overflow: "auto",
           maxHeight: "90vh",
           flexDirection: "column",
           bgcolor: "background.paper",
-          position: "absolute" as "absolute",
-          transform: "translate(-50%, -50%)",
           width: { xs: "95vw", sm: "350px" },
         }}
       >
@@ -104,7 +100,7 @@ export const SignUp = () => {
 
         {errors.root && (
           <Box mt={1} mb={1}>
-            <Alert severity="error">{errors.root.message}</Alert>
+            <Alert severity="error">{errors?.root?.message}</Alert>
           </Box>
         )}
         {isSubmitting && (
