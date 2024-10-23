@@ -57,12 +57,12 @@ export function Transactions() {
   );
 
   useEffect(() => {
-    if (searchUrl) {
-      Transaction.filterTransactions(searchUrl);
-      return;
-    }
-    Transaction.fetchMonthTransactions();
-  }, [searchUrl]);
+    if (userEmail && !searchUrl) Transaction.fetchMonthTransactions();
+
+    if (searchUrl && userEmail) Transaction.filterTransactions(searchUrl);
+  }, [userEmail, searchUrl]);
+
+  useEffect(() => {}, [searchUrl, userEmail]);
 
   const handlePageChange = (value: number) => {
     setSearchParams((prev) => {

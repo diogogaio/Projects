@@ -111,12 +111,15 @@ export const AuthProvider = ({
     timer.cancelRequestTimer();
     const userData = response;
     const { user, token } = userData;
-    await LocalBase.setData(appName, "credentials", { token: token });
-    setUser(user);
-    setAuthToken(token);
-    setUserEmail(user.email);
-    navigate("/transactions");
-    setOpenWelcomeDialog(true);
+
+    if (response.status === "success" && user && token) {
+      setUser(user);
+      setAuthToken(token);
+      setUserEmail(user.email);
+      navigate("/transactions");
+      setOpenWelcomeDialog(true);
+      await LocalBase.setData(appName, "credentials", { token: token });
+    } else App.setLoading(false);
 
     return user;
   }, []);
@@ -132,14 +135,14 @@ export const AuthProvider = ({
     const { user, token } = response;
 
     timer.cancelRequestTimer();
-    if (response.status === "success") {
+    if (response.status === "success" && user && token) {
       setUser(user);
       setAuthToken(token);
       setUserEmail(user.email);
       navigate("/transactions");
 
       await LocalBase.setData(appName, "credentials", { token: token });
-    }
+    } else App.setLoading(false);
   }, []);
 
   const handleSignInWithGoogle = useCallback(async (GoogleToken: string) => {
@@ -161,7 +164,7 @@ export const AuthProvider = ({
     const { user, token } = response;
 
     timer.cancelRequestTimer();
-    if (response.status === "success") {
+    if (response.status === "success" && user && token) {
       setUserEmail(user.email);
       setUser(user);
       setAuthToken(token);

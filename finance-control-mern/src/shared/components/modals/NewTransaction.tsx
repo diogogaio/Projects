@@ -153,7 +153,6 @@ export const NewTransaction = () => {
 
   const onSubmit: SubmitHandler<TNewTransaction> = async (data) => {
     clearErrors();
-
     if (createNewTag)
       return alert("Por favor finalize a criação do novo setor.");
 

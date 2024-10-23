@@ -1,5 +1,5 @@
 import { lastDayOfMonth } from "date-fns";
-import { createContext, useCallback, useContext } from "react";
+import { createContext, useCallback, useContext, useEffect } from "react";
 import { useState, ReactElement, useMemo } from "react";
 
 import {
@@ -58,10 +58,14 @@ export const TransactionProvider = ({
 
   const location = useLocation();
   const searchUrl = location.search;
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, _] = useSearchParams();
 
   const { Auth } = useAuthContext();
   const { App } = useAppContext();
+
+  useEffect(() => {
+    console.log("TRANSACTIONS COUNT AND LIST EFFECT: :", count, list);
+  }, [list, count]);
 
   const transactionTags = useMemo(
     () =>
@@ -89,7 +93,7 @@ export const TransactionProvider = ({
 
       listInfo === "Mês atual"
         ? Transaction.fetchMonthTransactions()
-        : await Transaction.filterTransactions(searchUrl);
+        : Transaction.filterTransactions(searchUrl);
 
       setOpenNewTransaction(false);
       App.setAppAlert({
@@ -114,11 +118,10 @@ export const TransactionProvider = ({
 
     tag = "Todos Setores";
 
-    setSearchParams({
-      "createdAt[gte]": firstDayOfMonth_YYYYMMDD,
-      "createdAt[lte]": lastDayOfMonth_YYYYMMDD,
-    });
-  }, [setSearchParams]);
+    filterTransactions(
+      `?createdAt%5Bgte%5D=${firstDayOfMonth_YYYYMMDD}&createdAt%5Blte%5D=${lastDayOfMonth_YYYYMMDD}`
+    );
+  }, []);
 
   const filterTransactions = useCallback(
     async (query: string) => {
@@ -196,6 +199,7 @@ export const TransactionProvider = ({
         )
       ) {
         App.setLoading(true);
+
         const result = await TransactionServices.deleteTransaction(id);
 
         if (result instanceof Error) {
@@ -204,8 +208,11 @@ export const TransactionProvider = ({
           return;
         }
 
-        App.setLoading(false);
-        setList((prev) => prev.filter((trans) => trans._id !== id));
+        listInfo === "Mês atual"
+          ? await Transaction.fetchMonthTransactions()
+          : await Transaction.filterTransactions(searchUrl);
+
+        // setList((prev) => prev.filter((trans) => trans._id !== id));
         App.setAppAlert({
           message: "Transação excluída.",
           severity: "success",
