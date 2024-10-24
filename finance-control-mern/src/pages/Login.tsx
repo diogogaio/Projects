@@ -27,11 +27,10 @@ export const Login = () => {
   useEffect(() => {
     const initialize = async () => {
       console.log("Initializing App...");
-      console.log("Environment mode: " + Environment.ENV);
       await Auth.appInit();
     };
     initialize();
-  }, [Environment.ENV]);
+  }, []);
 
   type TFormField = z.infer<typeof schema>;
 

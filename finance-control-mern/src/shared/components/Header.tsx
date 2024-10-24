@@ -24,7 +24,7 @@ export const Header = () => {
     >
       <Typography
         onClick={() => {
-          if (Auth.userEmail) navigate("/");
+          if (Auth.userEmail) navigate("/transactions");
         }}
         sx={{
           color: "white",

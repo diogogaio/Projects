@@ -13,7 +13,7 @@ import { useAuthContext } from "../contexts";
 export const AppRoutes = () => {
   const PrivateRoutes = () => {
     const { Auth } = useAuthContext();
-
+    // console.log("ROUTES USER EMAIL: ", Auth.userEmail);
     return Auth.userEmail ? <Outlet /> : <Navigate to="/" />;
   };
 

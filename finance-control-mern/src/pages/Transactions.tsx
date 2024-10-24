@@ -57,12 +57,34 @@ export function Transactions() {
   );
 
   useEffect(() => {
-    if (userEmail && !searchUrl) Transaction.fetchMonthTransactions();
+    // console.log("TRANSACTIONS EFFECT");
 
-    if (searchUrl && userEmail) Transaction.filterTransactions(searchUrl);
+    if (userEmail && !searchUrl) {
+      //Sets the initial url state
+      // console.log("TRANSACTIONS EFFECT fetchMonthTransactions()");
+      Transaction.fetchMonthTransactions();
+    }
+
+    if (searchUrl && userEmail) {
+      // console.log("TRANSACTIONS EFFECT filterTransactions");
+      Transaction.filterTransactions(searchUrl);
+    }
   }, [userEmail, searchUrl]);
+  // useEffect(() => {
+  //   console.log("TRANSACTIONS EFFECT");
 
-  useEffect(() => {}, [searchUrl, userEmail]);
+  //   if (userEmail && !searchUrl) {
+  //     console.log("TRANSACTIONS EFFECT fetchMonthTransactions()");
+  //     Transaction.fetchMonthTransactions();
+  //   }
+
+  //   if (searchUrl && userEmail) {
+  //     console.log("TRANSACTIONS EFFECT filterTransactions");
+  //     Transaction.filterTransactions(searchUrl);
+  //   }
+
+  //   return () => console.log("TRANSACTIONS EFFECT CLEANED UP");
+  // }, [userEmail, searchUrl]);
 
   const handlePageChange = (value: number) => {
     setSearchParams((prev) => {

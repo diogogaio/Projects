@@ -1,6 +1,6 @@
 // import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect } from "react";
 import { ReactElement, useCallback, useMemo, useState } from "react";
 
 import { TSignUp } from "../../pages";
@@ -72,6 +72,10 @@ export const AuthProvider = ({
 
   const { App } = useAppContext();
 
+  useEffect(() => {
+    console.log("GOT USER EMAIL EFFECT: ", userEmail);
+  }, [userEmail]);
+
   const setAuthToken = (token: string) => {
     if (token) {
       Api.defaults.headers.common["Authorization"] = `bearer ${token}`;
@@ -139,7 +143,7 @@ export const AuthProvider = ({
       setUser(user);
       setAuthToken(token);
       setUserEmail(user.email);
-      navigate("/transactions");
+      // navigate("/transactions");
 
       await LocalBase.setData(appName, "credentials", { token: token });
     } else App.setLoading(false);
@@ -187,11 +191,12 @@ export const AuthProvider = ({
 
     const { user, status } = response;
     timer.cancelRequestTimer();
-    if (status === "success") {
+    if (status === "success" && user) {
       setUser(user);
       setUserEmail(user.email);
       App.setLoading(false);
       navigate("/transactions");
+      console.log("GOT USER !!!");
     } else {
       alert("Falha ao buscar usuário.");
       App.setLoading(false);
@@ -228,7 +233,7 @@ export const AuthProvider = ({
       setUser(user);
       setAuthToken(token);
       setUserEmail(user.email);
-      navigate("/");
+      navigate("/transactions");
 
       await LocalBase.setData(appName, "credentials", { token: token });
     }

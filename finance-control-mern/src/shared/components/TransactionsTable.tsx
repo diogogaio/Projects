@@ -31,10 +31,11 @@ export const TransactionsTable = () => {
 
   const { App } = useAppContext();
   const { Transaction } = useTransactionContext();
-  const [_, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const sort = searchParams.get("sort");
 
   const sortBy = (value: string, order: "ascendente" | "descendente") => {
-    // handleClose();
     const formattedValue = order === "descendente" ? `-${value}` : value;
     setSearchParams((prev) => {
       prev.delete("sort");
@@ -70,8 +71,13 @@ export const TransactionsTable = () => {
     setSortingBy("description");
   };
 
-  const isSortingByColor = (value: string) =>
-    value === sortingBy ? "inherit" : "lightGray";
+  const isSortingByColor = (value: string) => {
+    if (value === "date") {
+      return value === sortingBy ? "inherit" : "lightGray";
+    }
+
+    return sort && value === sortingBy ? "inherit" : "lightGray";
+  };
 
   const transactionRows = useCallback(() => {
     return Transaction.list.map((trans: ITransaction) => (
@@ -231,8 +237,8 @@ export const TransactionsTable = () => {
                     Valor
                     <Icon sx={{ color: isSortingByColor("amount") }}>
                       {amountSortBy === "descendente"
-                        ? "arrow_drop_down"
-                        : "arrow_drop_up"}
+                        ? "arrow_drop_up"
+                        : "arrow_drop_down"}
                     </Icon>
                   </Typography>
                 </Tooltip>

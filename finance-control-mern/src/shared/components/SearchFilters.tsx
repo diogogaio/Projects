@@ -99,6 +99,7 @@ export const SearchFilters = () => {
   const lastSubmittedData = useRef<TSearchForm | null>(null);
 
   const onSubmit: SubmitHandler<TSearchForm> = (data) => {
+    console.log("Submitted query: ", data);
     clearErrors();
 
     // Helper function to transform keys like"amount_gte" into "amount[gte]"
@@ -112,7 +113,7 @@ export const SearchFilters = () => {
     };
 
     // Remove empty values and add brackets to properly build search string
-    const filteredData = Object.fromEntries(
+    let filteredData = Object.fromEntries(
       Object.entries(data)
         .filter(([_, value]) => Boolean(value))
         .map(([key, value]) => [transformKey(key), value])
@@ -126,6 +127,14 @@ export const SearchFilters = () => {
     if (isequal(data, lastSubmittedData.current)) {
       alert("Busca repetida, altere os parâmetros e tente novamente.");
       return;
+    }
+
+    const sort = searchParams.get("sort");
+    const limit = searchParams.get("limit");
+
+    if (sort || limit) {
+      sort ? (filteredData.sort = sort) : console.log();
+      limit ? (filteredData.limit = limit) : console.log();
     }
 
     lastSubmittedData.current = data;
@@ -156,7 +165,8 @@ export const SearchFilters = () => {
     reset();
     setStartDate(undefined);
     setEndDate(undefined);
-    Transaction.fetchMonthTransactions();
+    if (lastSubmittedData.current) Transaction.fetchMonthTransactions();
+    lastSubmittedData.current = null;
   };
 
   return (
@@ -189,18 +199,25 @@ export const SearchFilters = () => {
             lg={2}
             sx={{ textAlign: "center", order: { md: 0, lg: 0 } }}
           >
-            <TextField
-              rows={1}
-              fullWidth
-              error={!!errors.description}
-              {...register("description")}
-              label="Filtrar por descrição:"
-              id="Filtro descrição da transação"
-              disabled={App.loading || isSubmitting}
-              helperText={errors.description?.message}
-              inputProps={{
-                maxLength: 21,
-              }}
+            <Controller
+              name="description"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <TextField
+                  rows={1}
+                  fullWidth
+                  value={value || ""}
+                  error={!!errors.description}
+                  label="Filtrar por descrição:"
+                  id="Filtro descrição da transação"
+                  disabled={App.loading || isSubmitting}
+                  helperText={errors.description?.message}
+                  onChange={(e) => onChange(e.target.value)}
+                  inputProps={{
+                    maxLength: 21,
+                  }}
+                />
+              )}
             />
           </Grid>
         )}
@@ -234,9 +251,9 @@ export const SearchFilters = () => {
                 onChange={(_, selectedValue) => onChange(selectedValue)}
                 renderInput={(params) => (
                   <TextField
+                    name="tag"
                     {...params}
                     inputRef={ref}
-                    name="tag"
                     label="Setor:"
                   />
                 )}
@@ -254,23 +271,29 @@ export const SearchFilters = () => {
             lg={2}
             sx={{ textAlign: "center", order: { md: 1, lg: 2 } }}
           >
-            <TextField
-              fullWidth
-              type="number"
-              variant="filled"
-              placeholder="1000,00"
-              {...register("amount_gte")}
-              label="Valores maiores que: "
-              error={!!errors.amount_gte}
-              helperText={errors.amount_gte?.message}
-              disabled={App.loading || isSubmitting}
-              defaultValue={searchParams.get("amount[gte]") || null}
-              InputProps={{
-                inputProps: { step: "0.01", min: "0", max: "10000000000" },
-                startAdornment: (
-                  <InputAdornment position="start">R$</InputAdornment>
-                ),
-              }}
+            <Controller
+              name="amount_gte"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <TextField
+                  fullWidth
+                  type="number"
+                  variant="filled"
+                  value={value || ""}
+                  placeholder="1000,00"
+                  error={!!errors.amount_gte}
+                  label="Valores maiores que: "
+                  helperText={errors.amount_gte?.message}
+                  disabled={App.loading || isSubmitting}
+                  onChange={(e) => onChange(e.target.value)}
+                  InputProps={{
+                    inputProps: { step: "0.01", min: "0", max: "10000000000" },
+                    startAdornment: (
+                      <InputAdornment position="start">R$</InputAdornment>
+                    ),
+                  }}
+                />
+              )}
             />
           </Grid>
         )}
@@ -284,23 +307,29 @@ export const SearchFilters = () => {
             lg={2}
             sx={{ textAlign: "center", order: { md: 4, lg: 3 } }}
           >
-            <TextField
-              fullWidth
-              type="number"
-              variant="filled"
-              placeholder="1000,00"
-              disabled={App.loading || isSubmitting}
-              {...register("amount_lte")}
-              label="Valores menores que: "
-              error={!!errors.amount_lte}
-              helperText={errors.amount_lte?.message}
-              defaultValue={searchParams.get("amount[lte]") || null}
-              InputProps={{
-                inputProps: { step: "0.01", min: "0", max: "10000000" },
-                startAdornment: (
-                  <InputAdornment position="start">R$</InputAdornment>
-                ),
-              }}
+            <Controller
+              name="amount_lte"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <TextField
+                  fullWidth
+                  type="number"
+                  variant="filled"
+                  value={value || ""}
+                  placeholder="1000,00"
+                  error={!!errors.amount_lte}
+                  label="Valores menores que: "
+                  disabled={App.loading || isSubmitting}
+                  onChange={(e) => onChange(e.target.value)}
+                  helperText={errors.amount_lte?.message}
+                  InputProps={{
+                    inputProps: { step: "0.01", min: "0", max: "10000000" },
+                    startAdornment: (
+                      <InputAdornment position="start">R$</InputAdornment>
+                    ),
+                  }}
+                />
+              )}
             />
           </Grid>
         )}
@@ -409,7 +438,6 @@ export const SearchFilters = () => {
                   sx={{ justifyContent: "center" }}
                   onChange={(event) => {
                     const value = event.target.value;
-                    console.log("value: " + value);
                     onChange(value);
                   }}
                 >

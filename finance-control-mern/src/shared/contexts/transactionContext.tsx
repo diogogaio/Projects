@@ -1,6 +1,7 @@
 import { lastDayOfMonth } from "date-fns";
-import { createContext, useCallback, useContext, useEffect } from "react";
 import { useState, ReactElement, useMemo } from "react";
+import { createContext, useCallback, useContext, useEffect } from "react";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
 import {
   ITransaction,
@@ -9,7 +10,6 @@ import {
 } from "../services/transaction/TransactionService";
 import { useAppContext } from "./AppContext";
 import { useAuthContext } from "./AuthContext";
-import { useLocation, useSearchParams } from "react-router-dom";
 import { capitalizeFirstLetter } from "../utils/formatText";
 
 let tag = "Todos Setores";
@@ -57,15 +57,16 @@ export const TransactionProvider = ({
   const [openNewTransaction, setOpenNewTransaction] = useState(false);
 
   const location = useLocation();
+  const navigate = useNavigate();
   const searchUrl = location.search;
-  const [searchParams, _] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const { Auth } = useAuthContext();
   const { App } = useAppContext();
 
-  useEffect(() => {
-    console.log("TRANSACTIONS COUNT AND LIST EFFECT: :", count, list);
-  }, [list, count]);
+  // useEffect(() => {
+  //   console.log("TRANSACTIONS COUNT AND LIST EFFECT: :", count, list);
+  // }, [list, count]);
 
   const transactionTags = useMemo(
     () =>
@@ -78,6 +79,7 @@ export const TransactionProvider = ({
   const createNewTransaction = useCallback(
     async (newTransaction: ITransaction) => {
       App.setLoading(true);
+      // console.log("CREATED NEW TRANSACTION NAME: ", newTransaction.description);
 
       const result = await TransactionServices.createNewTransaction(
         newTransaction
@@ -91,9 +93,7 @@ export const TransactionProvider = ({
         return;
       }
 
-      listInfo === "Mês atual"
-        ? Transaction.fetchMonthTransactions()
-        : Transaction.filterTransactions(searchUrl);
+      Transaction.filterTransactions(searchUrl);
 
       setOpenNewTransaction(false);
       App.setAppAlert({
@@ -112,22 +112,25 @@ export const TransactionProvider = ({
     const lastDayOfMonth_DD = lastDayOfMonth(new Date()).getDate();
     const lastDayOfMonth_YYYYMMDD = `${year}-${month}-${lastDayOfMonth_DD}`;
 
-    listInfo === "Busca personalizada"
-      ? setListInfo("Mês atual")
-      : console.log();
+    // console.log("fetchMonthTransactions(): SET SEARCH PARAMS");
 
+    setListInfo("Mês atual");
     tag = "Todos Setores";
 
-    filterTransactions(
-      `?createdAt%5Bgte%5D=${firstDayOfMonth_YYYYMMDD}&createdAt%5Blte%5D=${lastDayOfMonth_YYYYMMDD}`
-    );
-  }, []);
+    const params = new URLSearchParams({
+      "createdAt[gte]": firstDayOfMonth_YYYYMMDD,
+      "createdAt[lte]": lastDayOfMonth_YYYYMMDD,
+    });
+
+    navigate(`transactions?${params.toString()}`);
+  }, [listInfo]);
 
   const filterTransactions = useCallback(
     async (query: string) => {
       if (!App.loading) App.setLoading(true);
 
       const filteredTag = searchParams.get("tag");
+
       if (filteredTag) tag = capitalizeFirstLetter(filteredTag) as string;
 
       const response = await TransactionServices.getTransactions(query);
@@ -142,7 +145,7 @@ export const TransactionProvider = ({
       }
 
       App.setLoading(false);
-
+      // console.log("filteredTransactions RESPONSE: ", response);
       setList(response.transactions);
       setCount(response.count);
       setTotals(response.totals);
