@@ -14,8 +14,8 @@ import {
   TableContainer,
   LinearProgress,
 } from "@mui/material";
-import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useCallback, useMemo, useState } from "react";
 
 import { Environment } from "../environment";
 import { SortTransaction } from "./SortTransactions";
@@ -45,10 +45,6 @@ export const TransactionsTable = () => {
 
   if (sort && !sortingBy.includes(sort)) {
     // IF we are here, is because user has pressed browser's back or forward button breaking the normal flow and we need to match sort and sortingBy state to avoid arrow color issues
-    console.log(
-      "SORT AND SORT BY DOES NOT MATCH, SETTING SORTING BY EQUAL TO SORT PARAMS and exiting"
-    );
-
     setSortingBy(sort);
     return;
   }
@@ -191,10 +187,6 @@ export const TransactionsTable = () => {
 
   return (
     <>
-      {App.loading && (
-        <LinearProgress color="secondary" sx={{ width: "100%" }} />
-      )}
-
       <TableContainer
         component={Paper}
         sx={{
@@ -204,6 +196,9 @@ export const TransactionsTable = () => {
           maxWidth: "1100px",
         }}
       >
+        {App.loading && (
+          <LinearProgress color="secondary" sx={{ width: "100%" }} />
+        )}
         <Stack
           textAlign="center"
           direction="column"
@@ -315,6 +310,9 @@ export const TransactionsTable = () => {
           </TableHead>
           <TableBody>{tableRows}</TableBody>
         </Table>
+        {App.loading && (
+          <LinearProgress color="secondary" sx={{ width: "100%" }} />
+        )}
       </TableContainer>
       {App.loading && (
         <LinearProgress color="secondary" sx={{ width: "100%" }} />

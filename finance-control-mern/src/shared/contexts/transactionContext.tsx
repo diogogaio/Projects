@@ -1,4 +1,4 @@
-import { lastDayOfMonth } from "date-fns";
+import { isFirstDayOfMonth, isLastDayOfMonth, lastDayOfMonth } from "date-fns";
 import { useState, ReactElement, useMemo } from "react";
 import { createContext, useCallback, useContext, useEffect } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
@@ -11,6 +11,7 @@ import {
 import { useAppContext } from "./AppContext";
 import { useAuthContext } from "./AuthContext";
 import { capitalizeFirstLetter } from "../utils/formatText";
+import dayjs from "dayjs";
 
 let tag = "Todos Setores";
 
@@ -59,7 +60,7 @@ export const TransactionProvider = ({
   const location = useLocation();
   const navigate = useNavigate();
   const searchUrl = location.search;
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, _] = useSearchParams();
 
   const { Auth } = useAuthContext();
   const { App } = useAppContext();
@@ -114,7 +115,6 @@ export const TransactionProvider = ({
 
     // console.log("fetchMonthTransactions(): SET SEARCH PARAMS");
 
-    setListInfo("Mês atual");
     tag = "Todos Setores";
 
     const params = new URLSearchParams({
@@ -130,6 +130,22 @@ export const TransactionProvider = ({
       if (!App.loading) App.setLoading(true);
 
       const filteredTag = searchParams.get("tag");
+      const date_gte = searchParams.get("createdAt[gte]");
+      const date_lte = searchParams.get("createdAt[lte]");
+
+      //Distinguish between month transactions and custom search:
+      if (date_gte && date_lte && searchParams.size === 2) {
+        const date_gte_obj = dayjs(date_gte).toDate();
+        const date_lte_obj = dayjs(date_lte).toDate();
+        const is_first_day_of_month = isFirstDayOfMonth(date_gte_obj);
+        const is_last_day_of_month = isLastDayOfMonth(date_lte_obj);
+
+        is_first_day_of_month &&
+          is_last_day_of_month &&
+          setListInfo("Mês atual");
+      } else {
+        setListInfo("Busca personalizada");
+      }
 
       if (filteredTag) tag = capitalizeFirstLetter(filteredTag) as string;
 
@@ -145,7 +161,6 @@ export const TransactionProvider = ({
       }
 
       App.setLoading(false);
-      // console.log("filteredTransactions RESPONSE: ", response);
       setList(response.transactions);
       setCount(response.count);
       setTotals(response.totals);

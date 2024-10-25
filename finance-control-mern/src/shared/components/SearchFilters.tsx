@@ -88,7 +88,6 @@ export const SearchFilters = () => {
     reset,
     watch,
     control,
-    register,
     clearErrors,
     handleSubmit,
     formState: { errors, isSubmitting },
@@ -143,7 +142,6 @@ export const SearchFilters = () => {
       new URLSearchParams(filteredData as Record<string, string>),
       { replace: true }
     );
-    Transaction.setListInfo("Busca personalizada");
   };
 
   const [hasFormValues, setHasFormValues] = useState(false);
@@ -171,9 +169,6 @@ export const SearchFilters = () => {
 
   return (
     <>
-      {App.loading && (
-        <LinearProgress color="secondary" sx={{ width: "100%" }} />
-      )}
       <Grid
         sx={{
           p: 2,
@@ -190,6 +185,9 @@ export const SearchFilters = () => {
         id="search-container"
         onSubmit={handleSubmit(onSubmit, invalidFieldsError)}
       >
+        {App.loading && (
+          <LinearProgress color="secondary" sx={{ width: "100%" }} />
+        )}
         {/* Description */}
         {isExpanded && (
           <Grid
@@ -433,8 +431,8 @@ export const SearchFilters = () => {
               control={control}
               render={({ field: { onChange, value } }) => (
                 <RadioGroup
-                  value={value || null}
                   row
+                  value={value || null}
                   sx={{ justifyContent: "center" }}
                   onChange={(event) => {
                     const value = event.target.value;

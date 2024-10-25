@@ -1,5 +1,10 @@
-import { useEffect, useState } from "react";
+import {
+  ISessionStatus,
+  PaymentsService,
+} from "../shared/services/payments/paymentsService";
 import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+
 import {
   Box,
   Stack,
@@ -9,11 +14,6 @@ import {
   Typography,
   LinearProgress,
 } from "@mui/material";
-
-import {
-  ISessionStatus,
-  PaymentsService,
-} from "../shared/services/payments/paymentsService";
 import { AppLayout } from "../shared/components";
 import { useAppContext } from "../shared/contexts";
 import { Environment } from "../shared/environment";
@@ -32,7 +32,6 @@ export const PaymentReturn = () => {
     if (session_id && !status) {
       App.setLoading(true);
 
-      // await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulating network delay
       const response = await PaymentsService.sessionStatus(session_id);
 
       if (response instanceof Error) {
@@ -120,7 +119,7 @@ export const PaymentReturn = () => {
               color="secondary"
               variant={Environment.BUTTON_VARIANT}
               onClick={() => {
-                navigate("/");
+                navigate("/transactions");
               }}
             >
               Voltar para transações

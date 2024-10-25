@@ -14,7 +14,7 @@ export const Environment: TEnvironment = {
   ENV: import.meta.env.MODE === "production" ? "production" : "development",
 
   // Max quantity of lines at savedReadingList.tsx:
-  PER_PAGE_LISTING: "2",
+  PER_PAGE_LISTING: "10",
 
   PRODUCTION_BASE_URL: import.meta.env.PRODUCTION_BASE_URL,
 
