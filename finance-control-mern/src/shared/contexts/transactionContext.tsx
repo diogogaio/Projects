@@ -1,6 +1,6 @@
 import { isFirstDayOfMonth, isLastDayOfMonth, lastDayOfMonth } from "date-fns";
 import { useState, ReactElement, useMemo } from "react";
-import { createContext, useCallback, useContext, useEffect } from "react";
+import { createContext, useCallback, useContext } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
 import {
