@@ -314,9 +314,6 @@ export const TransactionsTable = () => {
           <LinearProgress color="secondary" sx={{ width: "100%" }} />
         )}
       </TableContainer>
-      {App.loading && (
-        <LinearProgress color="secondary" sx={{ width: "100%" }} />
-      )}
     </>
   );
 };
