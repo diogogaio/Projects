@@ -81,9 +81,13 @@ export function SortTransaction({
 
           <MenuItem onClick={sortByTag}>Setor</MenuItem>
 
-          <MenuItem onClick={sortByDate}>{`Data ${dateSortBy}`} </MenuItem>
+          <MenuItem onClick={sortByDate}>
+            Data {dateSortBy === "ascendente" ? "descendente" : "ascendente"}{" "}
+          </MenuItem>
 
-          <MenuItem onClick={sortByAmount}>{`Valor ${amountSortBy}`}</MenuItem>
+          <MenuItem onClick={sortByAmount}>
+            Valor {amountSortBy === "ascendente" ? "descendente" : "ascendente"}
+          </MenuItem>
 
           <MenuItem onClick={sortByDescription}>Ordem alfabética</MenuItem>
 

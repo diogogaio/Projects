@@ -14,7 +14,7 @@ import {
   TableContainer,
   LinearProgress,
 } from "@mui/material";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import { Environment } from "../environment";
@@ -23,17 +23,35 @@ import { capitalizeFirstLetter } from "../utils/formatText";
 import { useAppContext, useTransactionContext } from "../contexts";
 import { ITransaction } from "../services/transaction/TransactionService";
 
-let dateSortBy: "ascendente" | "descendente" = "ascendente";
+let dateSortBy: "ascendente" | "descendente" = "descendente";
 let amountSortBy: "descendente" | "ascendente" = "descendente";
 
 export const TransactionsTable = () => {
-  const [sortingBy, setSortingBy] = useState("date");
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  let sort = searchParams.get("sort");
+
+  // Using Short-Circuit Logical AND (for assignment and correction of values if browser's back and forward buttons are pressed by user breaking the normal flow) to avoiding arrows mismatching:
+  !sort && (dateSortBy = "descendente");
+  sort === "-createdAt" && (dateSortBy = "descendente");
+  sort === "createdAt" && (dateSortBy = "ascendente");
+  sort === "-amount" && (amountSortBy = "descendente");
+  sort === "amount" && (amountSortBy = "ascendente");
+  sort?.startsWith("-") && (sort = sort.substring(1));
 
   const { App } = useAppContext();
   const { Transaction } = useTransactionContext();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [sortingBy, setSortingBy] = useState(sort || "createdAt");
 
-  const sort = searchParams.get("sort");
+  if (sort && !sortingBy.includes(sort)) {
+    // IF we are here, is because user has pressed browser's back or forward button breaking the normal flow and we need to match sort and sortingBy state to avoid arrow color issues
+    console.log(
+      "SORT AND SORT BY DOES NOT MATCH, SETTING SORTING BY EQUAL TO SORT PARAMS and exiting"
+    );
+
+    setSortingBy(sort);
+    return;
+  }
 
   const sortBy = (value: string, order: "ascendente" | "descendente") => {
     const formattedValue = order === "descendente" ? `-${value}` : value;
@@ -44,16 +62,17 @@ export const TransactionsTable = () => {
     });
   };
   const sortByDate = () => {
-    sortBy("createdAt", dateSortBy);
-    setSortingBy("date");
-    dateSortBy = dateSortBy === "descendente" ? "ascendente" : "descendente";
+    const order = dateSortBy === "ascendente" ? "descendente" : "ascendente";
+    sortBy("createdAt", order);
+    setSortingBy("createdAt");
+    dateSortBy = order;
   };
 
   const sortByAmount = () => {
-    sortBy("amount", amountSortBy);
+    const order = amountSortBy === "descendente" ? "ascendente" : "descendente";
+    sortBy("amount", order);
     setSortingBy("amount");
-    amountSortBy =
-      amountSortBy === "descendente" ? "ascendente" : "descendente";
+    amountSortBy = order;
   };
 
   const sortByType = () => {
@@ -72,9 +91,8 @@ export const TransactionsTable = () => {
   };
 
   const isSortingByColor = (value: string) => {
-    if (value === "date") {
+    if (value === "createdAt")
       return value === sortingBy ? "inherit" : "lightGray";
-    }
 
     return sort && value === sortingBy ? "inherit" : "lightGray";
   };
@@ -237,8 +255,8 @@ export const TransactionsTable = () => {
                     Valor
                     <Icon sx={{ color: isSortingByColor("amount") }}>
                       {amountSortBy === "descendente"
-                        ? "arrow_drop_up"
-                        : "arrow_drop_down"}
+                        ? "arrow_drop_down"
+                        : "arrow_drop_up"}
                     </Icon>
                   </Typography>
                 </Tooltip>
@@ -272,10 +290,11 @@ export const TransactionsTable = () => {
                     color={Environment.APP_MAIN_TEXT_COLOR}
                   >
                     Data
-                    <Icon sx={{ color: isSortingByColor("date") }}>
-                      {dateSortBy === "descendente"
-                        ? "arrow_drop_up"
-                        : "arrow_drop_down"}
+                    <Icon sx={{ color: isSortingByColor("createdAt") }}>
+                      {dateSortBy ===
+                      "descendente" /* || sort !== "createdAt" */
+                        ? "arrow_drop_down"
+                        : "arrow_drop_up"}
                     </Icon>
                   </Typography>
                 </Tooltip>

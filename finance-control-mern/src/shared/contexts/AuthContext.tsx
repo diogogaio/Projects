@@ -143,7 +143,7 @@ export const AuthProvider = ({
       setUser(user);
       setAuthToken(token);
       setUserEmail(user.email);
-      // navigate("/transactions");
+      navigate("/transactions");
 
       await LocalBase.setData(appName, "credentials", { token: token });
     } else App.setLoading(false);
@@ -196,7 +196,6 @@ export const AuthProvider = ({
       setUserEmail(user.email);
       App.setLoading(false);
       navigate("/transactions");
-      console.log("GOT USER !!!");
     } else {
       alert("Falha ao buscar usuário.");
       App.setLoading(false);
