@@ -2,7 +2,7 @@ import {
   ISessionStatus,
   PaymentsService,
 } from "../shared/services/payments/paymentsService";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import {
@@ -15,18 +15,18 @@ import {
   LinearProgress,
 } from "@mui/material";
 import { AppLayout } from "../shared/components";
-import { useAppContext } from "../shared/contexts";
 import { Environment } from "../shared/environment";
 import developer3 from "../assets/img/developer 3.jpg";
+import { useAppContext, useTransactionContext } from "../shared/contexts";
 
 export const PaymentReturn = () => {
   const [status, setStatus] = useState<
     ISessionStatus["status"] | "error" | null
   >(null);
 
-  const navigate = useNavigate();
   const { App } = useAppContext();
   let { session_id } = useParams();
+  const { Transaction } = useTransactionContext();
 
   const getSessionStatus = async () => {
     if (session_id && !status) {
@@ -102,7 +102,7 @@ export const PaymentReturn = () => {
                 ? "Seu pagamento está pendente..."
                 : status === "error"
                 ? "Houve um erro ao processar seu pagamento..."
-                : "Sua sessão expirou..."}
+                : "Sua sessão expirou ou não foi encontrada..."}
             </Typography>
           )}
 
@@ -110,7 +110,6 @@ export const PaymentReturn = () => {
             direction={{ xs: "column", sm: "row" }}
             spacing={2}
             sx={{
-              //   mt: 4,
               width: "100%",
               justifyContent: "center",
             }}
@@ -119,7 +118,7 @@ export const PaymentReturn = () => {
               color="secondary"
               variant={Environment.BUTTON_VARIANT}
               onClick={() => {
-                navigate("/transactions");
+                Transaction.fetchMonthTransactions();
               }}
             >
               Voltar para transações
@@ -127,9 +126,6 @@ export const PaymentReturn = () => {
           </Stack>
         </Box>
       </Box>
-      {App.loading && (
-        <LinearProgress color="secondary" sx={{ width: "100%" }} />
-      )}
     </AppLayout>
   );
 };

@@ -8,29 +8,26 @@ import {
   Transactions,
   ResetPassword,
 } from "../../pages";
+import { AppInit } from "../components";
 import { useAuthContext } from "../contexts";
 
+const PrivateRoutes = () => {
+  const { Auth } = useAuthContext();
+  return Auth.userEmail ? <Outlet /> : <Navigate to="/login" />;
+};
 export const AppRoutes = () => {
-  const PrivateRoutes = () => {
-    const { Auth } = useAuthContext();
-    // console.log("ROUTES USER EMAIL: ", Auth.userEmail);
-    return Auth.userEmail ? <Outlet /> : <Navigate to="/" />;
-  };
-
   return (
     <Routes>
-      <Route path="/" element={<Login />} />
+      <Route path="/" element={<AppInit />} />
+      <Route path="/login" element={<Login />} />
       <Route element={<PrivateRoutes />}>
         <Route path="/transactions" element={<Transactions />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/paymentReturn/:session_id" element={<PaymentReturn />} />
       </Route>
       <Route path="/signup" element={<SignUp />} />
       <Route path="/resetPassword/:id/:token" element={<ResetPassword />} />
-      <Route path="/paymentReturn/:session_id" element={<PaymentReturn />} />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 };
-
-{
-}

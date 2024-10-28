@@ -98,7 +98,6 @@ export const SearchFilters = () => {
   const lastSubmittedData = useRef<TSearchForm | null>(null);
 
   const onSubmit: SubmitHandler<TSearchForm> = (data) => {
-    console.log("Submitted query: ", data);
     clearErrors();
 
     // Helper function to transform keys like"amount_gte" into "amount[gte]"

@@ -1,7 +1,8 @@
-import { isFirstDayOfMonth, isLastDayOfMonth, lastDayOfMonth } from "date-fns";
+import dayjs from "dayjs";
 import { useState, ReactElement, useMemo } from "react";
 import { createContext, useCallback, useContext } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { isFirstDayOfMonth, isLastDayOfMonth, lastDayOfMonth } from "date-fns";
 
 import {
   ITransaction,
@@ -11,7 +12,6 @@ import {
 import { useAppContext } from "./AppContext";
 import { useAuthContext } from "./AuthContext";
 import { capitalizeFirstLetter } from "../utils/formatText";
-import dayjs from "dayjs";
 
 let tag = "Todos Setores";
 
@@ -65,10 +65,6 @@ export const TransactionProvider = ({
   const { Auth } = useAuthContext();
   const { App } = useAppContext();
 
-  // useEffect(() => {
-  //   console.log("TRANSACTIONS COUNT AND LIST EFFECT: :", count, list);
-  // }, [list, count]);
-
   const transactionTags = useMemo(
     () =>
       [...(Auth.user?.transactionTags || [])].map((trans) =>
@@ -80,7 +76,6 @@ export const TransactionProvider = ({
   const createNewTransaction = useCallback(
     async (newTransaction: ITransaction) => {
       App.setLoading(true);
-      // console.log("CREATED NEW TRANSACTION NAME: ", newTransaction.description);
 
       const result = await TransactionServices.createNewTransaction(
         newTransaction
@@ -112,8 +107,6 @@ export const TransactionProvider = ({
     const firstDayOfMonth_YYYYMMDD = `${year}-${month}-01`;
     const lastDayOfMonth_DD = lastDayOfMonth(new Date()).getDate();
     const lastDayOfMonth_YYYYMMDD = `${year}-${month}-${lastDayOfMonth_DD}`;
-
-    // console.log("fetchMonthTransactions(): SET SEARCH PARAMS");
 
     tag = "Todos Setores";
 
@@ -230,7 +223,6 @@ export const TransactionProvider = ({
           ? await Transaction.fetchMonthTransactions()
           : await Transaction.filterTransactions(searchUrl);
 
-        // setList((prev) => prev.filter((trans) => trans._id !== id));
         App.setAppAlert({
           message: "Transação excluída.",
           severity: "success",

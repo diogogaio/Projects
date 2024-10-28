@@ -19,7 +19,6 @@ interface IChartsProps {
 
 export const Charts = ({ animateCharts, setAnimateCharts }: IChartsProps) => {
   const { Transaction } = useTransactionContext();
-  // const totals = useMemo(() => Transaction.totals, [Transaction.totals]);
   const totals = Transaction.totals;
 
   const incomes = totals?.income || 0;

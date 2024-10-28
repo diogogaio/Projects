@@ -85,6 +85,7 @@ export const AuthProvider = ({
     const token = await LocalBase.getData(appName, "credentials");
 
     if (!token) {
+      navigate("/login");
       return;
     }
 
@@ -182,6 +183,7 @@ export const AuthProvider = ({
     if (response instanceof Error) {
       timer.cancelRequestTimer();
       App.setLoading(false);
+      navigate("/login");
       return;
     }
 

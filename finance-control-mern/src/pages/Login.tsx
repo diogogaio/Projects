@@ -9,7 +9,6 @@ import {
   LinearProgress,
 } from "@mui/material";
 import { z } from "zod";
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -23,14 +22,6 @@ export const Login = () => {
   const { Auth } = useAuthContext();
   const { App } = useAppContext();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const initialize = async () => {
-      console.log("Initializing App...");
-      await Auth.appInit();
-    };
-    initialize();
-  }, []);
 
   type TFormField = z.infer<typeof schema>;
 
