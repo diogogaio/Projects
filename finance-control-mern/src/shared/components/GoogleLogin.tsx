@@ -2,12 +2,14 @@ import { useEffect } from "react";
 import { Box } from "@mui/material";
 
 import { useAppContext, useAuthContext } from "../contexts";
+import { useRequestTimer } from "../utils/useRequestTimer";
 
 let tokenHandled = false;
 
 export const GoogleLogin = () => {
   const { App } = useAppContext();
   const { Auth } = useAuthContext();
+  const { startRequestTimer, cancelRequestTimer } = useRequestTimer();
 
   useEffect(() => {
     if (!Auth.userEmail) {
@@ -21,7 +23,9 @@ export const GoogleLogin = () => {
         (window as any).handleToken = async (response: any) => {
           App.setLoading(true);
           tokenHandled = true;
+          startRequestTimer();
           await Auth.handleSignInWithGoogle(response);
+          cancelRequestTimer();
         };
       }
       return () => {

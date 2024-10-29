@@ -5,6 +5,7 @@ export * from "./Footer";
 export * from "./AppMenu";
 export * from "./Charts";
 export * from "./AppInit";
+export * from "./Patience";
 export * from "./AppAlert";
 export * from "./AppLayout";
 export * from "./AppLoading";

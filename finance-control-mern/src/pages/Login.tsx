@@ -6,6 +6,7 @@ import {
   Divider,
   TextField,
   Typography,
+  useMediaQuery,
   LinearProgress,
 } from "@mui/material";
 import { z } from "zod";
@@ -16,12 +17,16 @@ import { AppLayout, GoogleLogin } from "../shared/components";
 import { useAppContext, useAuthContext } from "../shared/contexts";
 
 import { Environment } from "../shared/environment";
-import { ForgotPassword } from "../shared/components/modals";
+import { useRequestTimer } from "../shared/utils/useRequestTimer";
+import { ForgotPassword, PatienceDialog } from "../shared/components/modals";
 
 export const Login = () => {
-  const { Auth } = useAuthContext();
-  const { App } = useAppContext();
   const navigate = useNavigate();
+  const { App } = useAppContext();
+  const { Auth } = useAuthContext();
+  const { startRequestTimer, cancelRequestTimer } = useRequestTimer();
+
+  const isLargeScreen = useMediaQuery("(min-width: 1600px)");
 
   type TFormField = z.infer<typeof schema>;
 
@@ -46,15 +51,18 @@ export const Login = () => {
 
   const onSubmit: SubmitHandler<TFormField> = async (data) => {
     clearErrors();
+    startRequestTimer();
 
     const response = await Auth.login(data);
 
     if (response instanceof Error) {
+      cancelRequestTimer();
       const errorMessage = response.message;
       setError("root", { message: errorMessage });
       return;
     }
     reset();
+    cancelRequestTimer();
   };
 
   return (
@@ -63,6 +71,8 @@ export const Login = () => {
         sx={{
           p: 4,
           gap: 2,
+          top: "50%",
+          left: "50%",
           boxShadow: 20,
           display: "flex",
           overflow: "auto",
@@ -70,6 +80,8 @@ export const Login = () => {
           flexDirection: "column",
           bgcolor: "background.paper",
           width: { xs: "95vw", sm: "350px" },
+          position: isLargeScreen ? "absolute" : "unset",
+          transform: isLargeScreen ? "translate(-50%, -50%)" : "",
         }}
       >
         <Typography
@@ -173,6 +185,7 @@ export const Login = () => {
         {/* Modals: */}
       </Box>
       <ForgotPassword />
+      <PatienceDialog />
     </AppLayout>
   );
 };

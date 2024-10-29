@@ -6,7 +6,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
 
 import {
@@ -18,6 +18,7 @@ import {
   WelcomeDialog,
   ChangePassword,
   NewTransaction,
+  PatienceDialog,
 } from "../shared/components/modals";
 import {
   Charts,
@@ -29,6 +30,7 @@ import {
   TransactionsTable,
 } from "../shared/components";
 import { Environment } from "../shared/environment";
+import { useRequestTimer } from "../shared/utils/useRequestTimer";
 
 export function Transactions() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -45,6 +47,7 @@ export function Transactions() {
   const userEmail = Auth?.userEmail;
 
   const smDown = useMediaQuery(theme.breakpoints.down("sm"));
+  const { startRequestTimer, cancelRequestTimer } = useRequestTimer();
 
   const page = useMemo(
     () => Number(searchParams.get("page") || 1),
@@ -56,6 +59,12 @@ export function Transactions() {
     [searchParams]
   );
 
+  const filterTransactions = useCallback(async (url: string) => {
+    startRequestTimer();
+    await Transaction.filterTransactions(url);
+    cancelRequestTimer();
+  }, []);
+
   useEffect(() => {
     if (userEmail && !searchUrl) {
       //Sets the initial url state
@@ -63,7 +72,7 @@ export function Transactions() {
     }
 
     if (searchUrl && userEmail) {
-      Transaction.filterTransactions(searchUrl);
+      filterTransactions(searchUrl);
     }
   }, [userEmail, searchUrl]);
 
@@ -143,6 +152,7 @@ export function Transactions() {
       <WelcomeDialog />
       {userEmail && <NewTransaction />}
       <ChangePassword />
+      <PatienceDialog />
     </AppLayout>
   );
 }

@@ -17,12 +17,14 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Environment } from "../../environment";
 import { AuthService } from "../../services/auth/AuthService";
-import { timer } from "../../utils/timer";
+import { useRequestTimer } from "../../utils/useRequestTimer";
 
 export const ForgotPassword = () => {
   const [successAlert, setSuccessAlert] = useState("");
   const [blockSubmit, setBlockSubmit] = useState(false);
+
   const { Auth } = useAuthContext();
+  const { startRequestTimer, cancelRequestTimer } = useRequestTimer();
 
   type TForgotPassword = z.infer<typeof schema>;
 
@@ -42,15 +44,17 @@ export const ForgotPassword = () => {
   });
 
   const onSubmit: SubmitHandler<TForgotPassword> = async (data) => {
+    startRequestTimer();
     if (errors) clearErrors();
-    timer.startRequestTimer();
+
     const response = await AuthService.forgotPassword(data.email);
 
     if (response instanceof Error) {
-      timer.cancelRequestTimer();
+      cancelRequestTimer();
       const errorMessage = response.message;
 
       setError("root", { message: errorMessage });
+
       if (errorMessage === "Solicitação enviada recentemente.") {
         setBlockSubmit(true);
         setTimeout(() => {
@@ -61,7 +65,7 @@ export const ForgotPassword = () => {
     }
 
     reset();
-    timer.cancelRequestTimer();
+    cancelRequestTimer();
     setSuccessAlert("Sucesso: Agora confira seu email.");
   };
 
@@ -136,11 +140,11 @@ export const ForgotPassword = () => {
             fullWidth
             type="text"
             name="email"
-            label="Usuário"
             variant="standard"
-            disabled={!!successAlert}
             error={!!errors.email}
+            disabled={!!successAlert}
             helperText={errors.email?.message}
+            label="Digite seu email: "
           />
 
           <Typography variant="body2" textAlign="center">

@@ -1,10 +1,9 @@
 // import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect } from "react";
 import { ReactElement, useCallback, useMemo, useState } from "react";
 
 import { TSignUp } from "../../pages";
-import { timer } from "../utils/timer";
 import { useAppContext } from "./AppContext";
 import { Api } from "../services/api/axios-config";
 import { TChangePwdForm } from "../components/modals";
@@ -16,6 +15,7 @@ interface IAuthMethods {
   userEmail: string;
   user: IUser | undefined;
   openWelcomeDialog: boolean;
+  openPatienceDialog: boolean;
   openForgotPwdModal: boolean;
   openChangePasswordModal: boolean;
   logout: () => Promise<void>;
@@ -29,6 +29,7 @@ interface IAuthMethods {
   handleSignInWithGoogle: (GoogleToken: string) => Promise<void>;
   changePassword: (data: TChangePwdForm) => Promise<void | Error>;
   setOpenWelcomeDialog: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenPatienceDialog: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenForgotPwdModal: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenChangePasswordModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -62,13 +63,19 @@ export const AuthProvider = ({
   const [userEmail, setUserEmail] = useState<string>("");
   const [user, setUser] = useState<IUser | undefined>(undefined);
 
-  const [openForgotPwdModal, setOpenForgotPwdModal] = useState(false);
   const [openWelcomeDialog, setOpenWelcomeDialog] = useState(false);
+  const [openPatienceDialog, setOpenPatienceDialog] = useState(false);
+  const [openForgotPwdModal, setOpenForgotPwdModal] = useState(false);
   const [openChangePasswordModal, setOpenChangePasswordModal] = useState(false);
 
   const appName = "Finance App";
 
   const navigate = useNavigate();
+
+  useEffect(
+    () => console.log("OPEN PATIENCE DIALOG?: ", openPatienceDialog),
+    [openPatienceDialog]
+  );
 
   const { App } = useAppContext();
 
@@ -97,19 +104,16 @@ export const AuthProvider = ({
     //   console.error("Error decoding token: ", error);
     // }
     setAuthToken(token.token);
-    getUser();
+    await getUser();
   };
 
   const createNewUser = useCallback(async (form: TSignUp) => {
-    timer.startRequestTimer();
     const response = await AuthService.signup(form);
 
     if (response instanceof Error) {
-      timer.cancelRequestTimer();
       return response;
     }
 
-    timer.cancelRequestTimer();
     const userData = response;
     const { user, token } = userData;
 
@@ -126,16 +130,14 @@ export const AuthProvider = ({
   }, []);
 
   const login = useCallback(async (form: ILoginForm) => {
-    timer.startRequestTimer();
     const response = await AuthService.login(form);
+
     if (response instanceof Error) {
-      timer.cancelRequestTimer();
       return response;
     }
 
     const { user, token } = response;
 
-    timer.cancelRequestTimer();
     if (response.status === "success" && user && token) {
       setUser(user);
       setAuthToken(token);
@@ -148,13 +150,12 @@ export const AuthProvider = ({
 
   const handleSignInWithGoogle = useCallback(async (GoogleToken: string) => {
     //Server will login user or create a new one with a random password, no token is stored in client' browser in THIS case.
-    timer.startRequestTimer();
 
     const response = await AuthService.handleSignInWithGoogle(GoogleToken);
 
     if (response instanceof Error) {
       App.setLoading(false);
-      timer.cancelRequestTimer();
+
       alert(
         `Falha ao realizar login pelo Google:"${response.message}". Favor usar login e senha ou se cadastrar.`
       );
@@ -164,7 +165,6 @@ export const AuthProvider = ({
 
     const { user, token } = response;
 
-    timer.cancelRequestTimer();
     if (response.status === "success" && user && token) {
       setUserEmail(user.email);
       setUser(user);
@@ -175,20 +175,18 @@ export const AuthProvider = ({
   }, []);
 
   const getUser = useCallback(async () => {
-    timer.startRequestTimer();
     if (!App.loading) App.setLoading(true);
 
     const response = await AuthService.getUser();
 
     if (response instanceof Error) {
-      timer.cancelRequestTimer();
       App.setLoading(false);
       navigate("/login");
       return;
     }
 
     const { user, status } = response;
-    timer.cancelRequestTimer();
+
     if (status === "success" && user) {
       setUser(user);
       setUserEmail(user.email);
@@ -344,6 +342,7 @@ export const AuthProvider = ({
       user,
       userEmail,
       openWelcomeDialog,
+      openPatienceDialog,
       openForgotPwdModal,
       openChangePasswordModal,
       login,
@@ -356,6 +355,7 @@ export const AuthProvider = ({
       resetPassword,
       changePassword,
       setOpenWelcomeDialog,
+      setOpenPatienceDialog,
       setOpenForgotPwdModal,
       handleSignInWithGoogle,
       setOpenChangePasswordModal,

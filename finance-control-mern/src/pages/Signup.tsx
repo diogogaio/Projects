@@ -6,6 +6,7 @@ import {
   Divider,
   TextField,
   Typography,
+  useMediaQuery,
   LinearProgress,
 } from "@mui/material";
 import { z } from "zod";
@@ -16,6 +17,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { AppLayout } from "../shared/components";
 import { useAuthContext } from "../shared/contexts";
 import { Environment } from "../shared/environment";
+import { PatienceDialog } from "../shared/components/modals";
+import { useRequestTimer } from "../shared/utils/useRequestTimer";
 
 export type TSignUp = z.infer<typeof schema>;
 
@@ -42,8 +45,11 @@ const schema = z
   });
 
 export const SignUp = () => {
-  const { Auth } = useAuthContext();
   const navigate = useNavigate();
+  const { Auth } = useAuthContext();
+  const { startRequestTimer, cancelRequestTimer } = useRequestTimer();
+
+  const isLargeScreen = useMediaQuery("(min-width: 1600px)");
 
   const {
     reset,
@@ -57,14 +63,17 @@ export const SignUp = () => {
   const onSubmit: SubmitHandler<TSignUp> = async (data) => {
     clearErrors();
 
+    startRequestTimer();
     const response = await Auth.createNewUser(data);
 
     if (response instanceof Error) {
+      cancelRequestTimer();
       const errorMessage = response.message;
       setError("root", { message: errorMessage });
       return;
     }
     reset();
+    cancelRequestTimer();
   };
 
   const handleCancel = () => {
@@ -79,12 +88,16 @@ export const SignUp = () => {
         sx={{
           p: 4,
           gap: 1,
+          top: "50%",
+          left: "50%",
           boxShadow: 20,
           display: "flex",
           maxHeight: "90vh",
           flexDirection: "column",
           bgcolor: "background.paper",
           width: { xs: "95vw", sm: "350px" },
+          position: isLargeScreen ? "absolute" : "unset",
+          transform: isLargeScreen ? "translate(-50%, -50%)" : "",
         }}
       >
         <Typography
@@ -183,6 +196,7 @@ export const SignUp = () => {
           </Stack>
         </Box>
       </Box>
+      <PatienceDialog />
     </AppLayout>
   );
 };

@@ -1,5 +1,3 @@
-import React from "react";
-import { TransitionProps } from "@mui/material/transitions";
 import {
   Slide,
   Button,
@@ -9,6 +7,8 @@ import {
   DialogContent,
   DialogContentText,
 } from "@mui/material";
+import React from "react";
+import { TransitionProps } from "@mui/material/transitions";
 
 import { useAuthContext } from "../../contexts";
 import { Environment } from "../../environment";
@@ -39,7 +39,9 @@ export const WelcomeDialog = () => {
         onClose={handleClose}
         aria-describedby="Seja bem vindo!"
       >
-        <DialogTitle color={Environment.APP_MAIN_TEXT_COLOR}>Olá !</DialogTitle>
+        <DialogTitle color={Environment.APP_MAIN_TEXT_COLOR}>
+          Seja bem vindo!
+        </DialogTitle>
 
         <DialogContent>
           <DialogContentText component="div" id="Seja bem vindo!">
