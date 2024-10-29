@@ -28,15 +28,13 @@ export const WelcomeDialog = () => {
   const handleClose = () => {
     Auth.setOpenWelcomeDialog(false);
   };
-  (",  . . ");
 
   return (
     <>
       <Dialog
+        onClose={handleClose}
         open={Auth.openWelcomeDialog}
         TransitionComponent={Transition}
-        keepMounted
-        onClose={handleClose}
         aria-describedby="Seja bem vindo!"
       >
         <DialogTitle color={Environment.APP_MAIN_TEXT_COLOR}>

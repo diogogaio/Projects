@@ -72,12 +72,11 @@ export const AuthProvider = ({
 
   const navigate = useNavigate();
 
-  useEffect(
-    () => console.log("OPEN PATIENCE DIALOG?: ", openPatienceDialog),
-    [openPatienceDialog]
-  );
-
   const { App } = useAppContext();
+
+  useEffect(() => {
+    console.log("PATIENCE DIALOG?: ", openPatienceDialog);
+  }, [openPatienceDialog]);
 
   const setAuthToken = (token: string) => {
     if (token) {

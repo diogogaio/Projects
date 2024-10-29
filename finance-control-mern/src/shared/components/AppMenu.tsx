@@ -110,6 +110,7 @@ export function AppMenu() {
         id="menu-icon"
         anchorEl={anchorEl}
         onClose={handleClose}
+        onClick={handleClose}
         MenuListProps={{
           "aria-labelledby": "menu-icon",
         }}
