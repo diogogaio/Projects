@@ -23,8 +23,8 @@ export const AppRoutes = () => {
       <Route element={<PrivateRoutes />}>
         <Route path="/transactions" element={<Transactions />} />
         <Route path="/checkout" element={<Checkout />} />
-        <Route path="/paymentReturn/:session_id" element={<PaymentReturn />} />
       </Route>
+      <Route path="/paymentReturn/:session_id" element={<PaymentReturn />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/resetPassword/:id/:token" element={<ResetPassword />} />
       <Route path="*" element={<Navigate to="/" />} />

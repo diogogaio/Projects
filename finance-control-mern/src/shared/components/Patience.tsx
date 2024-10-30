@@ -84,8 +84,8 @@ export const Patience = () => {
       <Typography variant="body1" align="center">
         Por favor, tenha paciência, esta aplicação está rodando em servidor de
         nível gratuito, e após um certo período de inatividade é necessário
-        aguardar em torno de cinquenta segundos para voltar a funcionar
-        normalmente.
+        aguardar algo em torno de um minuto para voltar a funcionar
+        normalmente...
       </Typography>
     </Box>
   );
