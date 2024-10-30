@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { useState, ReactElement, useMemo } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { createContext, useCallback, useContext } from "react";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { isFirstDayOfMonth, isLastDayOfMonth, lastDayOfMonth } from "date-fns";
 
 import {
@@ -60,7 +60,6 @@ export const TransactionProvider = ({
   const location = useLocation();
   const navigate = useNavigate();
   const searchUrl = location.search;
-  const [searchParams, _] = useSearchParams();
 
   const { Auth } = useAuthContext();
   const { App } = useAppContext();
