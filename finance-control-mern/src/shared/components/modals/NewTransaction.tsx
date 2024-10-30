@@ -359,7 +359,6 @@ export const NewTransaction = () => {
             <Stack direction="row">
               <TextField
                 required
-                autoFocus
                 fullWidth
                 name="tag"
                 value={tag}

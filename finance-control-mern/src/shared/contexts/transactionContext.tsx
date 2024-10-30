@@ -122,9 +122,11 @@ export const TransactionProvider = ({
     async (query: string) => {
       if (!App.loading) App.setLoading(true);
 
-      const filteredTag = searchParams.get("tag");
-      const date_gte = searchParams.get("createdAt[gte]");
-      const date_lte = searchParams.get("createdAt[lte]");
+      // If your query parameters ever gets nested or more complex in  the future(e.g., arrays or objects), consider using the qs library for parsing url instead.
+      const params = new URLSearchParams(query);
+      const filteredTag = params.get("tag");
+      const date_gte = params.get("createdAt[gte]");
+      const date_lte = params.get("createdAt[lte]");
 
       //Distinguish between month transactions and custom search:
       if (date_gte && date_lte && searchParams.size === 2) {
@@ -158,7 +160,7 @@ export const TransactionProvider = ({
       setCount(response.count);
       setTotals(response.totals);
     },
-    [App.loading, searchParams]
+    [App.loading]
   );
 
   const stopRecurrence = useCallback(

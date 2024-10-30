@@ -1,6 +1,6 @@
 // import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
-import { createContext, useContext, useEffect } from "react";
+import { createContext, useContext } from "react";
 import { ReactElement, useCallback, useMemo, useState } from "react";
 
 import { TSignUp } from "../../pages";
@@ -73,10 +73,6 @@ export const AuthProvider = ({
   const navigate = useNavigate();
 
   const { App } = useAppContext();
-
-  useEffect(() => {
-    console.log("PATIENCE DIALOG?: ", openPatienceDialog);
-  }, [openPatienceDialog]);
 
   const setAuthToken = (token: string) => {
     if (token) {

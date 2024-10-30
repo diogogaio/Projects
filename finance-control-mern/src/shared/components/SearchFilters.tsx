@@ -225,7 +225,7 @@ export const SearchFilters = () => {
           sm={6}
           md={4}
           lg={2}
-          sx={{ textAlign: "center", order: { md: 3, lg: 1 } }}
+          sx={{ textAlign: "center", order: { md: 4, lg: 1 } }}
         >
           <Controller
             name="tag"
@@ -277,7 +277,6 @@ export const SearchFilters = () => {
                   type="number"
                   variant="filled"
                   value={value || ""}
-                  placeholder="1000,00"
                   error={!!errors.amount_gte}
                   label="Valores maiores que: "
                   helperText={errors.amount_gte?.message}
@@ -302,7 +301,7 @@ export const SearchFilters = () => {
             sm={6}
             md={4}
             lg={2}
-            sx={{ textAlign: "center", order: { md: 4, lg: 3 } }}
+            sx={{ textAlign: "center", order: { md: 5, lg: 3 } }}
           >
             <Controller
               name="amount_lte"
@@ -313,7 +312,6 @@ export const SearchFilters = () => {
                   type="number"
                   variant="filled"
                   value={value || ""}
-                  placeholder="1000,00"
                   error={!!errors.amount_lte}
                   label="Valores menores que: "
                   disabled={App.loading || isSubmitting}
@@ -340,7 +338,7 @@ export const SearchFilters = () => {
             lg={2}
             sx={{
               textAlign: "center",
-              order: { md: 5, lg: 5 },
+              order: { md: 2, lg: 5 },
             }}
           >
             <Controller
@@ -353,11 +351,12 @@ export const SearchFilters = () => {
                 >
                   <DatePicker
                     label="De:"
-                    disabled={App.loading}
-                    onError={() => alert("Verifique a data inserida.")}
-                    maxDate={endDate}
                     inputRef={ref} // Pass ref to the input
+                    maxDate={endDate}
+                    sx={{ width: "100%" }}
+                    disabled={App.loading}
                     value={value ? dayjs(value) : null}
+                    onError={() => alert("Verifique a data inserida.")}
                     onChange={(newValue) => {
                       if (newValue) {
                         setStartDate(newValue);
@@ -394,11 +393,12 @@ export const SearchFilters = () => {
                 >
                   <DatePicker
                     label="Até:"
-                    disabled={App.loading}
-                    onError={() => alert("Verifique a data inserida.")}
-                    minDate={startDate}
                     inputRef={ref} // Pass ref to the input
+                    minDate={startDate}
+                    sx={{ width: "100%" }}
+                    disabled={App.loading}
                     value={value ? dayjs(value) : null}
+                    onError={() => alert("Verifique a data inserida.")}
                     onChange={(newValue) => {
                       if (newValue) {
                         setEndDate(newValue);
