@@ -222,9 +222,7 @@ export const TransactionProvider = ({
           return;
         }
 
-        listInfo === "Mês atual"
-          ? await Transaction.fetchMonthTransactions()
-          : await Transaction.filterTransactions(searchUrl);
+        await Transaction.filterTransactions(searchUrl);
 
         App.setAppAlert({
           message: "Transação excluída.",
