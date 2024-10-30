@@ -12,6 +12,7 @@ import { TResetPwdData } from "../../pages/ResetPassword";
 import { AuthService, ILoginForm, IUser } from "../services/auth/AuthService";
 
 interface IAuthMethods {
+  isNewUser: boolean;
   userEmail: string;
   user: IUser | undefined;
   openWelcomeDialog: boolean;
@@ -25,6 +26,7 @@ interface IAuthMethods {
   createTag: (newTag: string) => Promise<void>;
   login: (form: ILoginForm) => Promise<Error | void>;
   createNewUser: (form: TSignUp) => Promise<IUser | Error>;
+  setIsNewUser: React.Dispatch<React.SetStateAction<boolean>>;
   resetPassword: (data: TResetPwdData) => Promise<void | Error>;
   handleSignInWithGoogle: (GoogleToken: string) => Promise<void>;
   changePassword: (data: TChangePwdForm) => Promise<void | Error>;
@@ -60,6 +62,7 @@ export const AuthProvider = ({
 }: IAuthProviderProps): ReactElement => {
   //Hooks
   const { LocalBase } = useLocalBaseContext();
+  const [isNewUser, setIsNewUser] = useState(false);
   const [userEmail, setUserEmail] = useState<string>("");
   const [user, setUser] = useState<IUser | undefined>(undefined);
 
@@ -114,6 +117,7 @@ export const AuthProvider = ({
 
     if (response.status === "success" && user && token) {
       setUser(user);
+      setIsNewUser(true);
       setAuthToken(token);
       setUserEmail(user.email);
       navigate("/transactions");
@@ -145,7 +149,6 @@ export const AuthProvider = ({
 
   const handleSignInWithGoogle = useCallback(async (GoogleToken: string) => {
     //Server will login user or create a new one with a random password, no token is stored in client' browser in THIS case.
-
     const response = await AuthService.handleSignInWithGoogle(GoogleToken);
 
     if (response instanceof Error) {
@@ -158,14 +161,17 @@ export const AuthProvider = ({
       return;
     }
 
-    const { user, token } = response;
+    const { user, token, newUser } = response;
 
     if (response.status === "success" && user && token) {
       setUserEmail(user.email);
       setUser(user);
       setAuthToken(token);
       navigate("/transactions");
-      if (response.newUser) setOpenWelcomeDialog(true);
+      if (newUser) {
+        setIsNewUser(newUser);
+        setOpenWelcomeDialog(true);
+      }
     } else App.setLoading(false);
   }, []);
 
@@ -336,6 +342,7 @@ export const AuthProvider = ({
     () => ({
       user,
       userEmail,
+      isNewUser,
       openWelcomeDialog,
       openPatienceDialog,
       openForgotPwdModal,
@@ -346,6 +353,7 @@ export const AuthProvider = ({
       deleteTag,
       createTag,
       deleteUser,
+      setIsNewUser,
       createNewUser,
       resetPassword,
       changePassword,
@@ -358,6 +366,7 @@ export const AuthProvider = ({
     [
       user,
       userEmail,
+      isNewUser,
       openWelcomeDialog,
       openForgotPwdModal,
       openChangePasswordModal,
@@ -367,6 +376,7 @@ export const AuthProvider = ({
       deleteTag,
       createTag,
       deleteUser,
+      setIsNewUser,
       createNewUser,
       resetPassword,
       changePassword,

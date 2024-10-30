@@ -20,8 +20,12 @@ import { useCallback, useMemo, useState } from "react";
 import { Environment } from "../environment";
 import { SortTransaction } from "./SortTransactions";
 import { capitalizeFirstLetter } from "../utils/formatText";
-import { useAppContext, useTransactionContext } from "../contexts";
 import { ITransaction } from "../services/transaction/TransactionService";
+import {
+  useAppContext,
+  useAuthContext,
+  useTransactionContext,
+} from "../contexts";
 
 let dateSortBy: "ascendente" | "descendente" = "descendente";
 let amountSortBy: "descendente" | "ascendente" = "descendente";
@@ -40,6 +44,7 @@ export const TransactionsTable = () => {
   sort?.startsWith("-") && (sort = sort.substring(1));
 
   const { App } = useAppContext();
+  const { Auth } = useAuthContext();
   const { Transaction } = useTransactionContext();
   const [sortingBy, setSortingBy] = useState(sort || "createdAt");
 
@@ -168,12 +173,20 @@ export const TransactionsTable = () => {
 
   const tableRows = useMemo(() => transactionRows(), [Transaction.list]);
 
-  if (!!!Transaction.list.length)
+  if (!!!Transaction.list.length && !Auth.isNewUser)
     return (
       <Typography variant="h6" align="center">
         Nenhuma transação encontrada.
       </Typography>
     );
+  else if (!!!Transaction.list.length && Auth.isNewUser) {
+    return (
+      <Typography variant="h6" align="center">
+        Você ainda não possui nenhuma transação, clique no botão acima para
+        começar.
+      </Typography>
+    );
+  }
 
   const effect = {
     cursor: "pointer",

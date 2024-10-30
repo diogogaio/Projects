@@ -89,7 +89,7 @@ export const TransactionProvider = ({
         return;
       }
 
-      Transaction.filterTransactions(searchUrl);
+      await Transaction.filterTransactions(searchUrl);
 
       setOpenNewTransaction(false);
       App.setAppAlert({
@@ -97,7 +97,7 @@ export const TransactionProvider = ({
         severity: "success",
       });
     },
-    [listInfo]
+    [listInfo, searchUrl]
   );
 
   const fetchMonthTransactions = useCallback(() => {
@@ -129,15 +129,17 @@ export const TransactionProvider = ({
       const date_lte = params.get("createdAt[lte]");
 
       //Distinguish between month transactions and custom search:
-      if (date_gte && date_lte && searchParams.size === 2) {
+      if (date_gte && date_lte && params.size === 2) {
         const date_gte_obj = dayjs(date_gte).toDate();
         const date_lte_obj = dayjs(date_lte).toDate();
         const is_first_day_of_month = isFirstDayOfMonth(date_gte_obj);
         const is_last_day_of_month = isLastDayOfMonth(date_lte_obj);
 
-        is_first_day_of_month &&
-          is_last_day_of_month &&
+        if (is_first_day_of_month && is_last_day_of_month) {
           setListInfo("Mês atual");
+        } else {
+          setListInfo("Busca personalizada");
+        }
       } else {
         setListInfo("Busca personalizada");
       }

@@ -158,9 +158,10 @@ export const NewTransaction = () => {
 
     const newTransaction: ITransaction = { ...data, transactionId: nanoid() };
 
-    Transaction.createNewTransaction(newTransaction);
+    await Transaction.createNewTransaction(newTransaction);
     reset();
     clearErrors();
+    if (Auth.isNewUser) Auth.setIsNewUser(false);
     Transaction.setOpenNewTransaction(false);
   };
 
