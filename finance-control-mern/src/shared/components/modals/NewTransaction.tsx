@@ -66,18 +66,27 @@ export const NewTransaction = () => {
 
   const schema = z.object({
     tag: z
-      .string()
+      .string({
+        required_error: "Este campo é obrigatório",
+        invalid_type_error: "Favor preencha este campo.",
+      })
       .min(3, { message: "Mínimo de 3 caracteres" })
       .max(20, { message: "Máximo de 20 caracteres" })
       .regex(/^[^\[\]]*$/, "Colchetes não são permitidos.")
       .transform((value) => value.trim().toLowerCase()),
     description: z
-      .string()
+      .string({
+        required_error: "Este campo é obrigatório",
+        invalid_type_error: "Favor preencha este campo.",
+      })
       .min(3, { message: "Mínimo de 3 caracteres." })
       .max(20, { message: "Limite de caracteres excedidos." })
       .regex(/^[^\[\]]*$/, "Colchetes não são permitidos."),
     amount: z
-      .string()
+      .string({
+        required_error: "Este campo é obrigatório",
+        invalid_type_error: "Favor preencha este campo.",
+      })
       .min(1, { message: "Valor obrigatório." })
       .max(10, { message: "Limite de caracteres excedidos." })
       .regex(/^(?!0$)(\d+([.,]?\d{1,2})?)$/, "Valor é inválido.")
@@ -93,7 +102,10 @@ export const NewTransaction = () => {
   });
 
   const newTagSchema = z
-    .string()
+    .string({
+      required_error: "Este campo é obrigatório",
+      invalid_type_error: "Favor preencha este campo.",
+    })
     .min(3, { message: "Mínimo de 3 caracteres." })
     .max(20, { message: "Máximo de 20 caracteres." })
     .regex(/^[^\[\]]*$/, "Colchetes não são permitidos.")
@@ -112,7 +124,7 @@ export const NewTransaction = () => {
     resolver: zodResolver(schema),
   });
 
-  const handleNewTag = async (tag: string) => {
+  const handleNewTag = async (tag: string | null) => {
     try {
       clearErrors();
       setLoading(true);
@@ -147,6 +159,7 @@ export const NewTransaction = () => {
       await Auth.deleteTag(tag);
       setLoading(false);
       setValue("tag", "Geral");
+      setTag("Geral");
       App.setAppAlert({ message: "Setor removido.", severity: "success" });
     }
   };
@@ -323,6 +336,7 @@ export const NewTransaction = () => {
               )}
             />
             <Stack direction="row">
+              {/* Add new tag button */}
               {!createNewTag && !tag && (
                 <IconButton
                   sx={{ px: 2 }}
@@ -334,6 +348,7 @@ export const NewTransaction = () => {
                   <AddIcon />
                 </IconButton>
               )}
+              {/* Delete tag button */}
               {tag && !loading && (
                 <IconButton
                   sx={{ px: 2 }}
@@ -345,6 +360,7 @@ export const NewTransaction = () => {
                   <DeleteIcon />
                 </IconButton>
               )}
+              {/* Loading progress */}
               {loading && !createNewTag && (
                 <CircularProgress
                   size="1rem"
