@@ -3,6 +3,7 @@ import {
   Link,
   Stack,
   Paper,
+  Tooltip,
   Typography,
   IconButton,
   useMediaQuery,
@@ -57,14 +58,21 @@ export const Footer = () => {
         }}
       >
         <Stack direction="column">
+          {/* Tooltip: last deployed version date: (yyyy-mm-dd.hh-min*/}
           {showDevName && (
-            <Typography
-              variant="caption"
-              color="secondary"
-              sx={{ fontStyle: "italic" }}
+            <Tooltip
+              sx={{ fontSize: "3px" }}
+              title="20241102.1922"
+              placement="top-end"
             >
-              Desenvolvido por Diogo Gaio
-            </Typography>
+              <Typography
+                variant="caption"
+                color="secondary"
+                sx={{ fontStyle: "italic" }}
+              >
+                Desenvolvido por Diogo Gaio
+              </Typography>
+            </Tooltip>
           )}
           <Box>
             <Typography
@@ -120,10 +128,6 @@ export const Footer = () => {
         openSourceModal={openSourceModal}
         setOpenSourceModal={setOpenSourceModal}
       />
-      {/* Last deployed version date: (yyyy-mm-dd.hh-min*/}
-      <Typography color="gray" sx={{ fontSize: "0.4rem" }}>
-        20240916.1208
-      </Typography>
     </Paper>
   );
 };
