@@ -109,6 +109,8 @@ export const SavedReadingList = () => {
 
   const sortByDate = () => {
     let filteredList = savedReadings;
+    const defaultStartDate = new Date(1986, 3, 10).getTime() / 1000;
+    const defaultEndDate = Date.now();
 
     filteredList = filteredList?.sort((date1, date2) => {
       const convertDate1 = date1.timestamp.seconds;
@@ -116,9 +118,10 @@ export const SavedReadingList = () => {
       return convertDate2 - convertDate1;
     });
 
-    if (startDate && endDate) {
-      const startTimestamp = new Date(startDate).getTime() / 1000;
-      const endTimestamp = new Date(endDate).getTime() / 1000;
+    if (startDate || endDate) {
+      const startTimestamp =
+        new Date(startDate || defaultStartDate).getTime() / 1000;
+      const endTimestamp = new Date(endDate || defaultEndDate).getTime() / 1000;
 
       filteredList = filteredList?.filter((item) => {
         const itemTimestamp = item.timestamp.seconds;
