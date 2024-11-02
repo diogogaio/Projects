@@ -301,6 +301,14 @@ export const SavedReadingList = () => {
       );
     });
 
+    if (!!!listContent?.length) {
+      return (
+        <Typography variant="h6" color="text.disabled">
+          Nenhuma leitura encontrada.
+        </Typography>
+      );
+    }
+
     return (
       <TableContainer
         sx={{
