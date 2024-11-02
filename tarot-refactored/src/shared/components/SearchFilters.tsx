@@ -63,26 +63,22 @@ export function SearchFilters({
       <Grid xs={12} sm={7} md={8} lg={8} xl={4} sx={{ width: "100%" }}>
         <TextField
           fullWidth
-          value={searchTerm}
+          value={searchTerm || search}
           disabled={serverLoading}
           label="Filtrar por nome:"
           onChange={(event) => {
             const text = event.target.value;
             setSearchTerm(text);
-            if (text.length >= 2 || !text) {
-              debounce(() =>
-                setSearchParams((prev) => {
-                  return {
-                    ...prev,
-                    search: text,
-                    page: "1",
-                    startDate: startDate || "",
-                    endDate: endDate || "",
-                    cardSearch: cardSearch || "",
-                  };
-                })
-              );
-            }
+            debounce(() =>
+              setSearchParams(
+                (prev) => {
+                  if (text.length >= 2) prev.set("search", text);
+                  else prev.delete("search");
+                  return prev;
+                },
+                { replace: true }
+              )
+            );
           }}
           id="outlined-multiline-static"
           rows={1}
@@ -105,14 +101,11 @@ export function SearchFilters({
           value={cardSearch || null}
           onChange={(_, newValue) => {
             setSearchParams((prev) => {
-              return {
-                ...prev,
-                page: "1",
-                search: search,
-                endDate: endDate || "",
-                startDate: startDate || "",
-                cardSearch: newValue || "",
-              };
+              prev.set("page", "1");
+              if (newValue) prev.set("cardSearch", newValue);
+              else prev.delete("cardSearch");
+
+              return prev;
             });
           }}
           renderInput={(params) => (
@@ -144,14 +137,9 @@ export function SearchFilters({
             value={startDate ? new Date(startDate) : null}
             onChange={(newValue) => {
               setSearchParams((prev) => {
-                return {
-                  ...prev,
-                  page: "1",
-                  search: search,
-                  endDate: endDate || "",
-                  cardSearch: cardSearch || "",
-                  startDate: newValue?.toString() || "",
-                };
+                prev.set("page", "1");
+                if (newValue) prev.set("startDate", newValue.toString());
+                return prev;
               });
             }}
           />
@@ -174,14 +162,9 @@ export function SearchFilters({
             value={endDate ? new Date(endDate) : null}
             onChange={(newValue) => {
               setSearchParams((prev) => {
-                return {
-                  ...prev,
-                  search: search,
-                  page: "1",
-                  startDate: startDate || "",
-                  endDate: newValue?.toString() || "",
-                  cardSearch: cardSearch || "",
-                };
+                prev.set("page", "1");
+                if (newValue) prev.set("endDate", newValue.toString());
+                return prev;
               });
             }}
           />

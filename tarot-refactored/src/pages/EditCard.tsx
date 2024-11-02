@@ -194,8 +194,6 @@ export const EditCard = () => {
               return "Significado";
             case "infoUrl":
               return "Info Completa";
-            case "textoInicial":
-              return "Significado";
             case "simOuNao":
               return "Sim ou Não";
             case "comments":

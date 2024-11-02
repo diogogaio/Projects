@@ -63,6 +63,8 @@ export const SavedReadingList = () => {
   const smDOwn = useMediaQuery(AppThemes.theme.breakpoints.down("sm"));
   const perPage = Environment.MAX_READINGS_LISTING; // Number of items per page
 
+  console.log("READING ID: " + readingId);
+
   const page = useMemo(() => {
     return Number(searchParams.get("page") || "1");
   }, [searchParams]);
@@ -83,32 +85,46 @@ export const SavedReadingList = () => {
     return searchParams.get("endDate");
   }, [searchParams]);
 
+  // useEffect(() => {
+  //   if (location.state && location.state.searchParams) {
+  //     console.log("PARAMS STATE: ", location.state.searchParams);
+  //     const { search, endDate, startDate, cardSearch, page } =
+  //       location.state.searchParams;
+
+  //     setSearchParams({
+  //       search: search || "",
+  //       endDate: endDate || "",
+  //       startDate: startDate || "",
+  //       cardSearch: cardSearch || "",
+  //       page: page || "1",
+  //     });
+  //   }
+  // }, [location.state]);
+
   useEffect(() => {
-    if (location.state && location.state.searchParams) {
-      const { search, endDate, startDate, cardSearch, page } =
-        location.state.searchParams;
-      setSearchParams({
-        search: search || "",
-        endDate: endDate || "",
-        startDate: startDate || "",
-        cardSearch: cardSearch || "",
-        page: page || "1",
-      });
+    // console.log("location.state?.searchParams: ", location.state?.searchParams);
+    const searchParams = location.state?.searchParams || {};
+
+    if (!!!Object.entries(searchParams).length) {
+      return;
     }
-  }, []);
+
+    const filteredParams = Object.fromEntries(
+      Object.entries(searchParams).filter(([, value]) => Boolean(value))
+    );
+
+    // console.log(" ###  FILTERED PARAMS: ###", filteredParams);
+
+    setSearchParams(filteredParams as Record<string, string>);
+  }, [location.state]);
 
   const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
     const tableHead = window.document.querySelector("thead");
     tableHead?.scrollIntoView({ behavior: "smooth" });
+
     setSearchParams((prev) => {
-      return {
-        ...prev,
-        page: value,
-        search: search,
-        endDate: endDate || "",
-        startDate: startDate || "",
-        cardSearch: cardSearch || "",
-      };
+      prev.set("page", String(value));
+      return prev;
     });
   };
 
