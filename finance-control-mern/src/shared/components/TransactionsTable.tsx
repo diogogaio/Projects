@@ -175,13 +175,13 @@ export const TransactionsTable = () => {
 
   if (!!!Transaction.list.length && !Auth.isNewUser)
     return (
-      <Typography variant="h6" align="center">
+      <Typography variant="h6" align="center" color="text.disabled">
         Nenhuma transação encontrada.
       </Typography>
     );
   else if (!!!Transaction.list.length && Auth.isNewUser) {
     return (
-      <Typography variant="h6" align="center">
+      <Typography variant="h6" align="center" color="text.disabled">
         Você ainda não possui nenhuma transação, clique no botão acima para
         começar.
       </Typography>
