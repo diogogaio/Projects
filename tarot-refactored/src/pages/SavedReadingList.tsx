@@ -33,9 +33,9 @@ import {
 } from "../shared/contexts";
 //@ts-ignore
 import Localbase from "localbase";
-import dbCards from "../assets/CardsDatabase";
-import { Environment } from "../shared/environment";
 import { TCardInfo } from "../shared/types";
+import { Environment } from "../shared/environment";
+import dbCards, { exempleReading } from "../assets/CardsDatabase";
 import { AppContainer, AppMainContainer } from "../shared/layouts";
 import { SearchFilters, SnackbarAlert } from "../shared/components";
 
@@ -63,8 +63,6 @@ export const SavedReadingList = () => {
   const smDOwn = useMediaQuery(AppThemes.theme.breakpoints.down("sm"));
   const perPage = Environment.MAX_READINGS_LISTING; // Number of items per page
 
-  console.log("READING ID: " + readingId);
-
   const page = useMemo(() => {
     return Number(searchParams.get("page") || "1");
   }, [searchParams]);
@@ -85,24 +83,7 @@ export const SavedReadingList = () => {
     return searchParams.get("endDate");
   }, [searchParams]);
 
-  // useEffect(() => {
-  //   if (location.state && location.state.searchParams) {
-  //     console.log("PARAMS STATE: ", location.state.searchParams);
-  //     const { search, endDate, startDate, cardSearch, page } =
-  //       location.state.searchParams;
-
-  //     setSearchParams({
-  //       search: search || "",
-  //       endDate: endDate || "",
-  //       startDate: startDate || "",
-  //       cardSearch: cardSearch || "",
-  //       page: page || "1",
-  //     });
-  //   }
-  // }, [location.state]);
-
   useEffect(() => {
-    // console.log("location.state?.searchParams: ", location.state?.searchParams);
     const searchParams = location.state?.searchParams || {};
 
     if (!!!Object.entries(searchParams).length) {
@@ -112,8 +93,6 @@ export const SavedReadingList = () => {
     const filteredParams = Object.fromEntries(
       Object.entries(searchParams).filter(([, value]) => Boolean(value))
     );
-
-    // console.log(" ###  FILTERED PARAMS: ###", filteredParams);
 
     setSearchParams(filteredParams as Record<string, string>);
   }, [location.state]);
@@ -240,6 +219,7 @@ export const SavedReadingList = () => {
           return isEditedCard ? isEditedCard : defaultCard ? defaultCard : card;
         })
       );
+
       if (scrollToElementId) setScrollToElementId(undefined);
       setReadingTableCards(arrangedCards);
       if (readingNotes) setReadingNotes(undefined);
@@ -412,7 +392,12 @@ export const SavedReadingList = () => {
           <Button
             disabled={!readingId}
             color={Environment.APP_MAIN_TEXT_COLOR}
-            onClick={() =>
+            onClick={() => {
+              if (readingId === "exemple-reading") {
+                const exemple = exempleReading;
+                goToSelectedReading(exemple.id, exemple.reading);
+                return;
+              }
               navigate(`/readings-table/${readingId}`, {
                 state: {
                   searchParams: {
@@ -423,8 +408,8 @@ export const SavedReadingList = () => {
                     page,
                   },
                 },
-              })
-            }
+              });
+            }}
           >
             Mesa de leituras
           </Button>
