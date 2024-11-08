@@ -28,7 +28,7 @@ interface IGetUserResponse {
 
 const signup = async (form: TSignUp): Promise<IUserData | Error> => {
   try {
-    const { data } = await Api.post<IUserData>("/api/v1/user/signup", form);
+    const { data } = await Api.post<IUserData>("user/signup", form);
     return data;
   } catch (error) {
     const err = error as Error;
@@ -38,7 +38,7 @@ const signup = async (form: TSignUp): Promise<IUserData | Error> => {
 
 const login = async (form: ILoginForm): Promise<IUserData | Error> => {
   try {
-    const { data } = await Api.post<IUserData>("/api/v1/user/login", form);
+    const { data } = await Api.post<IUserData>("user/login", form);
     return data;
   } catch (error) {
     const err = error as Error;
@@ -48,10 +48,7 @@ const login = async (form: ILoginForm): Promise<IUserData | Error> => {
 
 const handleSignInWithGoogle = async (token: string) => {
   try {
-    const { data } = await Api.post<IUserData>(
-      "/api/v1/user/signinWithGoogle",
-      token
-    );
+    const { data } = await Api.post<IUserData>("user/signinWithGoogle", token);
     return data;
   } catch (error) {
     const err = error as Error;
@@ -61,7 +58,7 @@ const handleSignInWithGoogle = async (token: string) => {
 
 const getUser = async (): Promise<IGetUserResponse | Error> => {
   try {
-    const { data } = await Api.get<IGetUserResponse>("/api/v1/user/");
+    const { data } = await Api.get<IGetUserResponse>("user");
     return data;
   } catch (error) {
     const err = error as Error;
@@ -77,10 +74,7 @@ const updateUser = async (
     if (!fieldName || !fieldValue) alert("Favor confirmar campos enviados.");
 
     const updatedField = { [fieldName]: fieldValue };
-    const { data } = await Api.patch<IGetUserResponse>(
-      "/api/v1/user",
-      updatedField
-    );
+    const { data } = await Api.patch<IGetUserResponse>("user", updatedField);
     return data;
   } catch (error) {
     const err = error as Error;
@@ -92,7 +86,7 @@ const changePassword = async (
   form: TChangePwdForm
 ): Promise<IUserData | Error> => {
   try {
-    const { data } = await Api.patch<IUserData>("/api/v1/user/changePassword", {
+    const { data } = await Api.patch<IUserData>("user/changePassword", {
       ...form,
     });
     return data;
@@ -104,7 +98,7 @@ const changePassword = async (
 
 const forgotPassword = async (email: string) => {
   try {
-    const response = await Api.post("/api/v1/user/forgotPassword", { email });
+    const response = await Api.post("user/forgotPassword", { email });
     return response;
   } catch (error) {
     const err = error as Error;
@@ -117,7 +111,7 @@ const resetPassword = async (
 ): Promise<IUserData | Error> => {
   try {
     const { data } = await Api.patch<IUserData>(
-      `/api/v1/user/resetPassword/${form.id}/${form.token}`,
+      `user/resetPassword/${form.id}/${form.token}`,
       form
     );
     return data;
@@ -129,7 +123,7 @@ const resetPassword = async (
 
 const deleteUser = async (): Promise<Error | void> => {
   try {
-    await Api.delete("/api/v1/user");
+    await Api.delete("user");
   } catch (error) {
     const err = error as Error;
     return err;

@@ -48,7 +48,7 @@ const createNewTransaction = async (
 ): Promise<TNewTransactionResponse | Error> => {
   try {
     const { data } = await Api.post<TNewTransactionResponse>(
-      "/api/v1/transactions",
+      "transactions",
       transaction
     );
     return data;
@@ -63,7 +63,7 @@ const getTransactions = async (
 ): Promise<IGetTransactionResponse | Error> => {
   try {
     const { data } = await Api.get<IGetTransactionResponse>(
-      `/api/v1/transactions${query}`
+      `transactions${query}`
     );
     return data;
   } catch (error) {
@@ -80,7 +80,7 @@ const updateTransaction = async (
   try {
     const updatedField = { [fieldName]: fieldValue };
     const { data } = await Api.patch<IUpdateTransactionResponse>(
-      `/api/v1/transactions/${id}`,
+      `transactions/${id}`,
       updatedField
     );
     return data;
@@ -92,7 +92,7 @@ const updateTransaction = async (
 
 const deleteTransaction = async (id: string) => {
   try {
-    await Api.delete(`/api/v1/transactions/${id}`);
+    await Api.delete(`transactions/${id}`);
   } catch (error) {
     let err = error as Error;
     return err;

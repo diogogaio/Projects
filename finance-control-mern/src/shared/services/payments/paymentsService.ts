@@ -10,7 +10,7 @@ export interface ISessionStatus {
 const createSession = async (email?: string) => {
   try {
     const { data } = await Api.post<ICreateSessionResponse>(
-      "api/v1/payments/createCheckoutSession",
+      "payments/createCheckoutSession",
       { email }
     );
     return data;
@@ -24,7 +24,7 @@ const createSession = async (email?: string) => {
 const sessionStatus = async (sessionId: string | undefined) => {
   try {
     const { data } = await Api.get<ISessionStatus>(
-      `api/v1/payments/sessionStatus?${sessionId}`
+      `payments/sessionStatus?${sessionId}`
     );
     return data;
   } catch (error) {
