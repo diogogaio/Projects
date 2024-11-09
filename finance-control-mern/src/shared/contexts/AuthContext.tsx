@@ -1,3 +1,4 @@
+import axios from "axios";
 // import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import { createContext, useContext } from "react";
@@ -5,13 +6,14 @@ import { ReactElement, useCallback, useMemo, useState } from "react";
 
 import { TSignUp } from "../../pages";
 import { useAppContext } from "./AppContext";
-import { Api } from "../services/api/axios-config";
 import { TChangePwdForm } from "../components/modals";
 import { useLocalBaseContext } from "./LocalBaseContext";
 import { TResetPwdData } from "../../pages/ResetPassword";
+import { getApiInstance, initializeApi } from "../services/api/axios-config";
 import { AuthService, ILoginForm, IUser } from "../services/auth/AuthService";
 
 interface IAuthMethods {
+  baseUrl: string;
   isNewUser: boolean;
   userEmail: string;
   user: IUser | undefined;
@@ -25,6 +27,7 @@ interface IAuthMethods {
   deleteTag: (tag: string) => Promise<void>;
   createTag: (newTag: string) => Promise<void>;
   login: (form: ILoginForm) => Promise<Error | void>;
+  // setBaseUrl: React.Dispatch<React.SetStateAction<string>>;
   createNewUser: (form: TSignUp) => Promise<IUser | Error>;
   setIsNewUser: React.Dispatch<React.SetStateAction<boolean>>;
   resetPassword: (data: TResetPwdData) => Promise<void | Error>;
@@ -64,6 +67,7 @@ export const AuthProvider = ({
   const { LocalBase } = useLocalBaseContext();
   const [isNewUser, setIsNewUser] = useState(false);
   const [userEmail, setUserEmail] = useState<string>("");
+  const [baseUrl, setBaseUrl] = useState("");
   const [user, setUser] = useState<IUser | undefined>(undefined);
 
   const [openWelcomeDialog, setOpenWelcomeDialog] = useState(false);
@@ -76,6 +80,7 @@ export const AuthProvider = ({
   const navigate = useNavigate();
 
   const { App } = useAppContext();
+  const Api = getApiInstance();
 
   const setAuthToken = (token: string) => {
     if (token) {
@@ -86,6 +91,8 @@ export const AuthProvider = ({
   };
 
   const appInit = async () => {
+    // await initializeApi();
+
     //Oly checks if user has a token and redirects to the transactions page if it exists
     const token = await LocalBase.getData(appName, "credentials");
 
@@ -341,6 +348,7 @@ export const AuthProvider = ({
   const Auth = useMemo(
     () => ({
       user,
+      baseUrl,
       userEmail,
       isNewUser,
       openWelcomeDialog,
@@ -365,6 +373,7 @@ export const AuthProvider = ({
     }),
     [
       user,
+      baseUrl,
       userEmail,
       isNewUser,
       openWelcomeDialog,

@@ -1,4 +1,6 @@
-import { Api } from "../api/axios-config";
+import { getApiInstance } from "../api/axios-config";
+
+const Api = getApiInstance();
 
 export interface ITransaction {
   tag: string;
