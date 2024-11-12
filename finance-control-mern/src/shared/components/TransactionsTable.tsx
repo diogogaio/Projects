@@ -237,6 +237,7 @@ export const TransactionsTable = () => {
               <TableCell>
                 <Tooltip title="Organizar em Ordem Alfabética">
                   <Typography
+                    noWrap
                     sx={effect}
                     variant="body1"
                     fontWeight="bold"
@@ -253,6 +254,7 @@ export const TransactionsTable = () => {
               <TableCell align="right">
                 <Tooltip title="Organizar por valor">
                   <Typography
+                    noWrap
                     sx={effect}
                     role="button"
                     variant="body1"
@@ -272,6 +274,7 @@ export const TransactionsTable = () => {
               <TableCell align="left" color="inherit">
                 <Tooltip title="Organizar por setor">
                   <Typography
+                    noWrap
                     sx={effect}
                     role="button"
                     variant="body1"
@@ -290,6 +293,7 @@ export const TransactionsTable = () => {
               <TableCell align="right">
                 <Tooltip title="Organizar por data">
                   <Typography
+                    noWrap
                     sx={effect}
                     role="button"
                     variant="body1"

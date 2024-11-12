@@ -10,6 +10,7 @@ import {
   LinearProgress,
 } from "@mui/material";
 import { z } from "zod";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -18,6 +19,7 @@ import { useAppContext, useAuthContext } from "../shared/contexts";
 
 import { Environment } from "../shared/environment";
 import { useRequestTimer } from "../shared/utils/useRequestTimer";
+import { checkMyServer } from "../shared/services/api/axios-config";
 import { ForgotPassword, PatienceDialog } from "../shared/components/modals";
 
 export const Login = () => {
@@ -48,6 +50,10 @@ export const Login = () => {
   } = useForm<TFormField>({
     resolver: zodResolver(schema),
   });
+
+  useEffect(() => {
+    checkMyServer();
+  }, []);
 
   const onSubmit: SubmitHandler<TFormField> = async (data) => {
     clearErrors();

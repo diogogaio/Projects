@@ -1,4 +1,4 @@
-import { getApiInstance } from "../api/axios-config";
+import { Api } from "../api/axios-config";
 import { TResetPwdData, TSignUp } from "../../../pages";
 import { TChangePwdForm } from "../../components/modals";
 
@@ -25,8 +25,6 @@ interface IGetUserResponse {
   status: "success";
   user: IUser;
 }
-
-const Api = getApiInstance();
 
 const signup = async (form: TSignUp): Promise<IUserData | Error> => {
   try {

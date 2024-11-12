@@ -1,6 +1,4 @@
-import { getApiInstance } from "../api/axios-config";
-
-const Api = getApiInstance();
+import { Api } from "../api/axios-config";
 
 interface ICreateSessionResponse {
   clientSecret: string;

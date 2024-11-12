@@ -28,7 +28,12 @@ export const useRequestTimer = () => {
   };
 
   const autoCancel = () => {
-    if (timerId.current) setTimeout(() => cancelRequestTimer(), 80 * 1000);
+    setTimeout(() => {
+      if (timerId.current) {
+        cancelRequestTimer();
+        window.location.reload();
+      }
+    }, 70 * 1000);
   };
 
   return { startRequestTimer, cancelRequestTimer };

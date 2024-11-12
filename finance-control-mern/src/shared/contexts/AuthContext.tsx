@@ -1,15 +1,14 @@
-import axios from "axios";
 // import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import { createContext, useContext } from "react";
 import { ReactElement, useCallback, useMemo, useState } from "react";
 
+import { Api, checkMyServer } from "../services/api/axios-config";
 import { TSignUp } from "../../pages";
 import { useAppContext } from "./AppContext";
 import { TChangePwdForm } from "../components/modals";
 import { useLocalBaseContext } from "./LocalBaseContext";
 import { TResetPwdData } from "../../pages/ResetPassword";
-import { getApiInstance, initializeApi } from "../services/api/axios-config";
 import { AuthService, ILoginForm, IUser } from "../services/auth/AuthService";
 
 interface IAuthMethods {
@@ -27,7 +26,7 @@ interface IAuthMethods {
   deleteTag: (tag: string) => Promise<void>;
   createTag: (newTag: string) => Promise<void>;
   login: (form: ILoginForm) => Promise<Error | void>;
-  // setBaseUrl: React.Dispatch<React.SetStateAction<string>>;
+  setBaseUrl: React.Dispatch<React.SetStateAction<string>>;
   createNewUser: (form: TSignUp) => Promise<IUser | Error>;
   setIsNewUser: React.Dispatch<React.SetStateAction<boolean>>;
   resetPassword: (data: TResetPwdData) => Promise<void | Error>;
@@ -67,7 +66,9 @@ export const AuthProvider = ({
   const { LocalBase } = useLocalBaseContext();
   const [isNewUser, setIsNewUser] = useState(false);
   const [userEmail, setUserEmail] = useState<string>("");
-  const [baseUrl, setBaseUrl] = useState("");
+  const [baseUrl, setBaseUrl] = useState(
+    "https://finance-control-api-o5t9.onrender.com/finance-api/v1/"
+  );
   const [user, setUser] = useState<IUser | undefined>(undefined);
 
   const [openWelcomeDialog, setOpenWelcomeDialog] = useState(false);
@@ -80,7 +81,6 @@ export const AuthProvider = ({
   const navigate = useNavigate();
 
   const { App } = useAppContext();
-  const Api = getApiInstance();
 
   const setAuthToken = (token: string) => {
     if (token) {
@@ -91,9 +91,10 @@ export const AuthProvider = ({
   };
 
   const appInit = async () => {
-    // await initializeApi();
+    await checkMyServer();
 
     //Oly checks if user has a token and redirects to the transactions page if it exists
+
     const token = await LocalBase.getData(appName, "credentials");
 
     if (!token) {
@@ -113,6 +114,7 @@ export const AuthProvider = ({
   };
 
   const createNewUser = useCallback(async (form: TSignUp) => {
+    await checkMyServer();
     const response = await AuthService.signup(form);
 
     if (response instanceof Error) {
@@ -136,6 +138,7 @@ export const AuthProvider = ({
   }, []);
 
   const login = useCallback(async (form: ILoginForm) => {
+    await checkMyServer();
     const response = await AuthService.login(form);
 
     if (response instanceof Error) {
@@ -156,6 +159,7 @@ export const AuthProvider = ({
 
   const handleSignInWithGoogle = useCallback(async (GoogleToken: string) => {
     //Server will login user or create a new one with a random password, no token is stored on client side in THIS case.
+    await checkMyServer();
     const response = await AuthService.handleSignInWithGoogle(GoogleToken);
 
     if (response instanceof Error) {
@@ -361,6 +365,7 @@ export const AuthProvider = ({
       deleteTag,
       createTag,
       deleteUser,
+      setBaseUrl,
       setIsNewUser,
       createNewUser,
       resetPassword,
@@ -385,6 +390,7 @@ export const AuthProvider = ({
       deleteTag,
       createTag,
       deleteUser,
+      setBaseUrl,
       setIsNewUser,
       createNewUser,
       resetPassword,

@@ -254,6 +254,15 @@ export const SearchFilters = () => {
                     label="Setor:"
                   />
                 )}
+                ListboxProps={{
+                  sx: {
+                    "& .MuiAutocomplete-option": {
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    },
+                  },
+                }}
               />
             )}
           />
