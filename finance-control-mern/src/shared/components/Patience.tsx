@@ -82,10 +82,10 @@ export const Patience = () => {
       <StopWatch />
 
       <Typography variant="body1" align="center">
-        Por favor, tenha paciência, esta aplicação está rodando em servidor de
-        nível gratuito, e após um certo período de inatividade é necessário
-        aguardar algo em torno de um minuto para voltar a funcionar
-        normalmente...
+        Por favor, tenha paciência, nosso servidor está fora do ar no momento e
+        você será redirecionado para um servidor público em nível gratuito. Após
+        um certo período de inatividade, é necessário aguardar algo em torno de
+        um minuto para que ele volte a rodar normalmente...
       </Typography>
     </Box>
   );

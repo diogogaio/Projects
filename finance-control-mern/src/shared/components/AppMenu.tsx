@@ -90,7 +90,7 @@ export function AppMenu() {
         <ListItemText sx={{ textWrap: "wrap" }}>{label}</ListItemText>
       </MenuItem>,
     ]);
-  }, [Auth]);
+  }, [Auth, Transaction]);
 
   return (
     <>

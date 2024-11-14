@@ -23,14 +23,22 @@ Api.interceptors.response.use(
 const checkMyServer = async () => {
   const myServerUrl = "https://myserver.fireweb.click:8443/finance-api/v1/";
 
-  if (Environment.ENV === "production") {
+  if (Environment.ENV === "development") {
+    // For development, you might use a local server
+    setApiBaseURL("http://127.0.0.1:3000/finance-api/v1/");
+    return;
+  }
+
+  if (
+    Environment.ENV === "production" &&
+    Api.defaults.baseURL !== myServerUrl
+  ) {
     try {
-      await axios.get(`${myServerUrl}ping`);
+      await axios.get(`${myServerUrl}ping`, { timeout: 5000 });
       setApiBaseURL(myServerUrl);
     } catch (error) {}
   } else {
-    // For development, you might use a local server
-    setApiBaseURL("http://127.0.0.1:3000/finance-api/v1/");
+    console.log("...at home");
   }
 };
 

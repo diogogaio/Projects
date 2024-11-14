@@ -15,7 +15,7 @@ export const useRequestTimer = () => {
     timerId.current = setTimeout(() => {
       Auth?.setOpenPatienceDialog(true);
       autoCancel();
-    }, 5000);
+    }, 8000);
   };
 
   const cancelRequestTimer = () => {
@@ -33,7 +33,7 @@ export const useRequestTimer = () => {
         cancelRequestTimer();
         window.location.reload();
       }
-    }, 70 * 1000);
+    }, 80 * 1000);
   };
 
   return { startRequestTimer, cancelRequestTimer };

@@ -28,7 +28,9 @@ export const Header = () => {
         }}
         sx={{
           color: "white",
+          margin: "0 auto",
           textAlign: "center",
+          display: "inline-block",
           cursor: Auth.userEmail ? "pointer" : "default",
         }}
         variant="h4"
