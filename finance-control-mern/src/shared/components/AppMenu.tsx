@@ -59,7 +59,13 @@ export function AppMenu() {
         icon: "picture_as_pdf",
         label: "Exportar PDF",
         iconColor: "error",
-        onClick: () => generatePDF(Auth.userEmail, Transaction.list),
+        onClick: () =>
+          generatePDF(
+            Auth.userEmail,
+            Transaction.list,
+            Transaction.listInfo,
+            Transaction.totals
+          ),
       },
       {
         icon: "tips_and_updates_icon",
