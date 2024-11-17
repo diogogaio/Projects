@@ -124,6 +124,7 @@ export const TransactionProvider = ({
       // If your query parameters ever gets nested or more complex in  the future(e.g., arrays or objects), consider using the qs library for parsing url instead.
       const params = new URLSearchParams(query);
       const page = params.get("page");
+      const limit = params.get("limit");
       const filteredTag = params.get("tag");
       const date_gte = params.get("createdAt[gte]");
       const date_lte = params.get("createdAt[lte]");
@@ -131,7 +132,8 @@ export const TransactionProvider = ({
       //Distinguish between month transactions and custom search:
       if (
         (date_gte && date_lte && params.size === 2) ||
-        (date_gte && date_lte && params.size === 3 && page)
+        (date_gte && date_lte && params.size === 3 && (page || limit)) ||
+        (date_gte && date_lte && params.size === 4 && page && limit)
       ) {
         const date_gte_obj = dayjs(date_gte).toDate();
         const date_lte_obj = dayjs(date_lte).toDate();
