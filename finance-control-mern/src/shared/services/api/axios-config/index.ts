@@ -21,7 +21,7 @@ Api.interceptors.response.use(
 );
 
 const checkMyServer = async () => {
-  const myServerUrl = "https://myserver.fireweb.click:8443/finance-api/v1/";
+  const myServerUrl = "https://myserver.fireweb.click/finance-api/v1/";
 
   if (Environment.ENV === "development") {
     // For development, you might use a local server
