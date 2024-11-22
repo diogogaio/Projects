@@ -125,11 +125,12 @@ export function Transactions() {
       </Stack>
 
       <Stack
+        spacing={1.5}
         direction="column"
         sx={{
+          width: "100%",
           alignItems: "center",
           justifyContent: "center",
-          width: "100%",
         }}
       >
         <TransactionsTable />
