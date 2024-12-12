@@ -19,6 +19,7 @@ import { Environment } from "../shared/environment";
 import dbCards from "../../src/assets/CardsDatabase";
 import { AppContainer, AppMainContainer } from "../shared/layouts";
 import padilhaImages from "../assets/images/padilha/padilhaExports";
+import riderWaite from "../assets/images/riderWaite/riderWaiteExports";
 import { useGlobalContext, useServerContext } from "../shared/contexts";
 
 export const EditCard = () => {
@@ -80,6 +81,21 @@ export const EditCard = () => {
   if (cardToEdit) {
     const [newCard, setNewCard] = useState<TCardInfo>(cardToEdit);
 
+    const riderWaitePath = cardToEdit.url.includes("astrolink")
+      ? cardToEdit.url
+      : riderWaite[`${cardToEdit.url}.jpg`];
+    const isPadilha =
+      cardToEdit.url.includes("padilha") || cardToEdit.url.includes("google"); // Old
+    //Old padilha cards database has a link to google drive as url and need path correction:
+    const padilhaPath = cardToEdit.url.includes("padilha")
+      ? padilhaImages[`${cardToEdit.url}.png` as keyof typeof padilhaImages]
+      : padilhaImages[
+          `padilha${cardToEdit.numero?.padStart(
+            2,
+            "0"
+          )}.png` as keyof typeof padilhaImages
+        ];
+
     const cardImage = (
       <Box width="120px" height="180px" position="relative">
         {imageLoading && (
@@ -96,11 +112,7 @@ export const EditCard = () => {
         )}
 
         <img
-          src={
-            cardToEdit.url.length > 9
-              ? cardToEdit.url
-              : padilhaImages[cardToEdit.url as keyof typeof padilhaImages]
-          }
+          src={isPadilha ? padilhaPath : riderWaitePath}
           alt={cardToEdit.nome}
           loading="lazy"
           onLoad={() => setImageLoading(false)}

@@ -15,6 +15,7 @@ import { Environment } from "../environment";
 import { useGlobalContext } from "../contexts";
 import { CardMeaningsAccordion } from "./CardMeaningsAccordion";
 import padilhaImages from "../../assets/images/padilha/padilhaExports";
+import riderWaite from "../../assets/images/riderWaite/riderWaiteExports";
 
 type TCardProps = {
   index: number;
@@ -40,13 +41,21 @@ export const Card = ({ card, index, isEdited }: TCardProps) => {
   const typographyRef = useRef<HTMLDetailsElement>(null);
   const isAlreadySelected = !!selectedCardsId?.find((sci) => sci === card?.id);
 
-  const isPexelsOrAstrolink =
-    card.url.includes("astrolink") || card.url.includes("pexels");
+  const isPadilha = card.url.includes("padilha") || card.url.includes("google"); // Older database versions urls has google.drive paths;
+
+  //Old padilha cards database has a link to google drive as url and need path correction:
   const padilhaPath = card.url.includes("padilha")
-    ? padilhaImages[card.url as keyof typeof padilhaImages]
+    ? padilhaImages[`${card.url}.png` as keyof typeof padilhaImages]
     : padilhaImages[
-        `padilha${card.numero?.padStart(2, "0")}` as keyof typeof padilhaImages
+        `padilha${card.numero?.padStart(
+          2,
+          "0"
+        )}.png` as keyof typeof padilhaImages
       ];
+
+  const riderWaitePath = card.url.includes("astrolink")
+    ? card.url
+    : riderWaite[`${card.url}.jpg`];
 
   const handleOnclickAction = () => {
     if (readingTableCards)
@@ -138,7 +147,7 @@ export const Card = ({ card, index, isEdited }: TCardProps) => {
               })
             : console.log;
         }}
-        src={isPexelsOrAstrolink ? card.url : padilhaPath}
+        src={isPadilha ? padilhaPath : riderWaitePath}
       />
     </Box>
   );

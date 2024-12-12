@@ -22,6 +22,7 @@ import {
 import { Environment } from "../environment";
 import dbCards from "../../assets/CardsDatabase";
 import padilhaImages from "../../assets/images/padilha/padilhaExports";
+import riderWaite from "../../assets/images/riderWaite/riderWaiteExports";
 
 export const DrawerCards = () => {
   const [imageLoading, setImageLoading] = useState(true);
@@ -35,6 +36,7 @@ export const DrawerCards = () => {
   const { readingTableCards, setReadingTableCards } = useGlobalContext();
 
   const { readingId } = useParams();
+
   const smDown = useMediaQuery(AppThemes.theme.breakpoints.down("sm"));
 
   const addedCardOpacity = (id: string) => {
@@ -137,9 +139,11 @@ export const DrawerCards = () => {
 
             <img
               src={
-                card.url.length > 9
-                  ? card.url
-                  : padilhaImages[card.url as keyof typeof padilhaImages]
+                card.url.includes("padilha")
+                  ? padilhaImages[
+                      `${card.url}.png` as keyof typeof padilhaImages
+                    ]
+                  : riderWaite[`${card.url}.jpg`]
               }
               alt={card.nome}
               loading="lazy"

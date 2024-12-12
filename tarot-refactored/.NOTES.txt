@@ -1,3 +1,7 @@
+Firestore:
+
+.Old data stored in firebase has cards's URL property set to google drive for padilha and astrolink to Rider Waite. Padilha paths are corrected, because google drive will no longer be able to share images as chrome will not support third party cookies, but old Rider Waite URL paths are still active.
+
 EditCard:
 
 . Every new feature that involves new properties to the card object must be added to the "cardToEditKeys" filter variable in "cardToEditAccordion" so it is not shown to the user in the accordion.

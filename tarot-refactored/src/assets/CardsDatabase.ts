@@ -41,7 +41,7 @@ export const exempleReading: TUserSavedReadings = {
         "O significado da carta A Torre tem a ver com mudanças abruptas. Algo pode mudar em relação à situação questionada. Pense em uma estrutura ou fundação que entra em colapso. Um relacionamento, um emprego, uma amizade e em alguns casos, até mesmo estruturas físicas. Em uma leitura mais abrangente, alguns exemplos são perder o emprego, terminar um relacionamento, romper uma amizade, contrair dívidas ou até mesmo se mudar pode trazer à tona sentimentos conflitantes. Você pode achar que conhece alguém, ou que sabe a verdade sobre algo e acaba levando um choque de realidade quando descobre que estava errado. É como se você encarasse a situação questionada como uma coisa, quando de repente se mostra outra, tornando necessário gerenciar seus sentimentos, abraçar a mudança e seguir em frente, deixando o que quer que seja para trás. Em uma consulta sobre relacionamentos, A Torre pode indicar a necessidade de ser mais flexível com seu par. Caso você não mude, a relação pode entrar em colapso. Caso você esteja procurando alguém, talvez tenha que mudar um pouco seus conceitos e comportamentos para achar a pessoa certa. Para trabalho e finanças, ao mesmo tempo que pode apontar uma mudança de emprego, também pode sugerir cautela com seus recursos. Cuidado para não gastar demais, contrair dívidas ou fazer empréstimos altos. Tente gerir seus recursos com um pouco mais de cautela. Porém, estes são só exemplos. A Torre simplesmente pode sugerir que estamos enganados em relação a algo e temos a chance de reparar nossos erros, mesmo que de maneira dolorosa. O significado básico é a arrogância, ou seja, podemos estar errados a respeito de alguma coisa e precisamos reconhecer, tentando reparar o engano. Seja qual for o caso, as coisas voltam ao seu lugar no seu devido tempo e a harmonia sempre retorna.",
       textoSecondario:
         "A  Torre é a carta de número 16 do Tarot e simboliza geralmente um evento inesperado, um acontecimento caótico que aconteceu ou está prestes a acontecer. Pode ser uma carta assustadora, mas assim como outros Arcanos Maiores que inspiram receio, este traz a mensagem de que tudo acontece por um motivo e carrega uma lição a ser aprendida: a de que nada dura para sempre, então mudanças muitas vezes acontecem para o nosso bem. A carta faz alusão à Torre de Babel, ou seja, simboliza a arrogância do homem, a ambição construída sob falsas premissas. A lenda conta que após o grande dilúvio, Deus mandou que os sobreviventes se espalhassem pelo mundo a fim de reconstruir a humanidade. Porém, decidiram se juntar e viver juntos. Em determinado momento, decidiram construir uma enorme torre para alcançar o céu, símbolo de sua soberba, arrogância e ambição. Como castigo, Deus fez com que passassem a falar línguas diferentes. Ninguém conseguiu mais se entender e, em meio à confusão criada, a torre começou a ruir antes mesmo de seu término. Marte é o planeta associado a esta carta. A destruição da Torre representa o fim de um ciclo de possíveis erros que abre espaço para um recomeço. Na carta, vemos uma torre em chamas em meio à tempestade, pessoas caindo, enfim, um verdadeiro pandemônio. As pessoas que caem dela são as mesmas que não conseguiram se libertar da prisão da carta anterior, O Diabo, ou seja, ainda estão presas por situações negativas. A simbologia da carta mostra ainda esse despertar súbito da consciência. É como um vislumbre repentino e momentâneo da verdade, um instante de inspiração que quebra as amarras da ignorância. As pessoas que caem de cabeça são despertadas pelos relâmpagos da consciência. As chamas são os 22 Arcanos Maiores e as nuvens cinzentas representam os infortúnios que pairam sobre todos nós de forma indiscriminada. Em uma leitura para o presente, esta carta indica que um acontecimento caótico e inesperado pode bagunçar a situação. Porém, devemos estar abertos à mudança e usar nosso bom senso para navegar em meio à tempestade.",
-      url: "https://www.astrolink.com.br/data/tarot/a-torre.jpg",
+      url: "a-torre",
     },
     {
       amorRelacionamento:
@@ -76,7 +76,7 @@ export const exempleReading: TUserSavedReadings = {
         "O Ás de Paus significa um novo começo - ou que existe um potencial para tal, envolto em criatividade e entusiasmo. Pode ser um novo relacionamento, um novo emprego ou qualquer nova empreitada que esteja nos seus planos ou tenha sido mentalizada. Às vezes, algo inesperado pode acontecer, como um convite ou uma mensagem. Seja o que for, a carta indica entusiasmo e um certo senso de aventura.",
       textoSecondario:
         "O Ás de Paus simboliza transformações e é um ótimo presságio em qualquer consulta. Representa novos começos, que podem acontecer de maneira inesperada. As situações associadas com mais frequência a essa carta são novos relacionamentos, planos de viagem, uma nova e emocionante oportunidade ou um projeto que envolva criatividade. Na carta, vemos uma mão saindo de uma nuvem. Ela traz um bastão de madeira com folhas, que simboliza crescimento, prosperidade e abundância. É a energia vital brotando da madeira, simbolizando potenciais, oportunidades e desenvolvimento. Ao fundo, à esquerda, há um castelo, símbolo de coisas imponentes e fantásticas.",
-      url: "https://www.astrolink.com.br/data/tarot/as-de-paus.jpg",
+      url: "as-de-paus",
     },
     {
       amorRelacionamento:
@@ -110,7 +110,7 @@ export const exempleReading: TUserSavedReadings = {
         "O 7 de Ouros significa que você deve parar um pouco e avaliar tudo que conseguiu conquistar até o momento antes de seguir em frente. Avalie os obstáculos que restam ou o que te impede de dar o próximo passo rumo ao seu crescimento. Se você se dedicou em prol de seu objetivo e tomou as decisões corretas até agora, seu empenho trará recompensas. Em uma consulta sobre relacionamentos, a carta pode indicar um tempo, uma pausa necessária, mas não sugere o fim da relação. Pode sugerir ainda que recentemente pode ter havido um período de afastamento e falta de comunicação.",
       textoSecondario:
         "O 7 de Ouros simboliza os frutos que colhemos através do nosso esforço e trabalho árduo. Na carta, vemos um homem contemplando os frutos de seu trabalho. Parece que ele deu duro para semear e plantar e agora os frutos, estão viçosos. Parece que sua dedicação valeu a pena e ele finalmente faz uma pausa para admirar sua obra e os benefícios de seu empenho. Assim, a carta representa ganhos, dedicação e ética de trabalho. Também reflete nosso estado superior de consciência, que nos dá uma visão mais ampla, foco e perseverança para realizarmos nossos objetivos. Esta não é uma carta de ação e sim de revisão e reflexão. Ela diz que é hora de dar um passo atrás e examinar o seu progresso até o momento antes de avançar. Você tem tudo para colher os frutos do seu empenho, mas sem perder o foco no que realmente importa.",
-      url: "https://www.astrolink.com.br/data/tarot/sete-de-ouros.jpg",
+      url: "sete-de-ouros",
     },
   ],
   timestamp: Timestamp.fromDate(new Date("2020-02-02")),
@@ -122,7 +122,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Paus",
     invertida: false,
     nome: "Ás de Paus",
-    url: "https://www.astrolink.com.br/data/tarot/as-de-paus.jpg",
+    url: "as-de-paus",
     textoInicial:
       "O Ás de Paus significa um novo começo - ou que existe um potencial para tal, envolto em criatividade e entusiasmo. Pode ser um novo relacionamento, um novo emprego ou qualquer nova empreitada que esteja nos seus planos ou tenha sido mentalizada. Às vezes, algo inesperado pode acontecer, como um convite ou uma mensagem. Seja o que for, a carta indica entusiasmo e um certo senso de aventura.",
     textoSecondario:
@@ -155,7 +155,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Paus",
     invertida: false,
     nome: "Dois de Paus",
-    url: "https://www.astrolink.com.br/data/tarot/dois-de-paus.jpg",
+    url: "dois-de-paus",
     textoInicial:
       "O 2 de Paus significa basicamente planejamento e decisões. Como é uma carta de dualidade, você pode se sentir dividido(a) entre duas escolhas. Às vezes não são escolhas tão importantes, mas agora parecem ser. Esse Arcano Menor traz consigo ansiedade e sentimentos extremos. Fique alerta com tudo que acontece a sua volta e siga seus instintos para evitar perdas.",
     textoSecondario:
@@ -190,7 +190,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Paus",
     invertida: false,
     nome: "Três de Paus",
-    url: "https://www.astrolink.com.br/data/tarot/tres-de-paus.jpg",
+    url: "tres-de-paus",
     textoInicial:
       "O 3 de Paus sugere que você deve tomar uma iniciativa. Às vezes ficamos travados em alguma situação ou decisão, mas a indicação aqui é a de que você precisa arriscar e dar o primeiro passo. Esse arcano menor indica sucesso, mas para alcançá-lo, é necessário agir. Coragem é uma palavra que você deve ter em mente. Há uma correspondência energética que sugere mudança e você deve arriscar para transformar seus sonhos em realidade. A carta também fala sobre manter promessas, tanto as que você fez quanto receber as que fizeram para você. Em consultas sobre amor, às vezes o 3 de Paus aparece quando o relacionamento passa por algum período conturbado ou em diversas questões que envolvem o escopo dos relacionamentos. Se for o caso, indica que é uma boa hora certa para conversar e tentar se entender.",
     textoSecondario:
@@ -226,7 +226,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Paus",
     invertida: false,
     nome: "Quatro de Paus",
-    url: "https://www.astrolink.com.br/data/tarot/quatro-de-paus.jpg",
+    url: "quatro-de-paus",
     textoInicial:
       "O 4 de Paus significa que boas surpresas podem estar a caminho. Se você está passando por um momento complicado, esse Arcano Menor traz boas notícias e indica que os problemas ou perturbações logo poderão ficar para trás. A carta também representa os pilares de uma casa, assim, também fala sobre assuntos domésticos. Em uma leitura mais abrangente, pode ser uma mudança, a compra de um novo imóvel, a construção de uma casa ou ainda sair de férias ou retornar para o seu lar. Seja como for, a carta anuncia eventos alegres.",
     textoSecondario:
@@ -261,7 +261,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Paus",
     invertida: false,
     nome: " Cinco de Paus",
-    url: "https://www.astrolink.com.br/data/tarot/cinco-de-paus.jpg",
+    url: "cinco-de-paus",
     textoInicial:
       "O 5 de paus significa que você pode estar no caminho errado em alguma questão, gastando energia em prol de algo mas parece haver resistência envolvida de alguma forma - ou alguém está competindo com você. Em uma consulta sobre relacionamentos, pode indicar uma terceira pessoa envolvida. No trabalho, sugere competição. Esse arcano alerta que você deve repensar suas estratégias e alterar seu rumo se quiser alcançar seus objetivos. Não precisa ser uma mudança radical, mas certamente você deve evitar conflitos e obstáculos.",
     textoSecondario:
@@ -296,7 +296,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Paus",
     invertida: false,
     nome: "Seis de Paus",
-    url: "https://www.astrolink.com.br/data/tarot/seis-de-paus.jpg",
+    url: "seis-de-paus",
     textoInicial:
       "O 6 de Paus significa basicamente sucesso e que problemas podem ser superados no momento, sugerindo o desfrutar de uma vitória merecida. Em uma consulta, indica que um momento de sucesso e reconhecimento pode estar próximo. Sugere que você tem a vantagem na situação em questão e que há chances de sair vencedor(a). Só tenha cuidado para que seu ego não cresça demais. Autocontrole é uma palavra-chave.",
     textoSecondario:
@@ -331,7 +331,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Paus",
     invertida: false,
     nome: "Sete de Paus",
-    url: "https://www.astrolink.com.br/data/tarot/sete-de-paus.jpg",
+    url: "sete-de-paus",
     textoInicial:
       "O 7 de Paus sugere que você será ou pode estar sendo testado(a). Sua integridade é posta à prova e se você se mantiver fiel às suas crenças, poderá conseguir algo que há muito busca. A estrada nunca é fácil e certamente você teve que lutar muito para chegar até o momento, mas se você manteve sua ética e moral, pode aguardar sua recompensa. Sugere que está na hora de vencer uma batalha.",
     textoSecondario:
@@ -366,7 +366,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Paus",
     invertida: false,
     nome: "Oito de Paus",
-    url: "https://www.astrolink.com.br/data/tarot/oito-de-paus.jpg",
+    url: "oito-de-paus",
     textoInicial:
       "O 8 de Paus significa ação, movimento e mudança. Esse Arcano Menor alerta para decisões rápidas, onde você deverá utilizar a sua intuição. Há também a chance de um convite inesperado, até mesmo para viajar. Se você estiver enfrentando conflitos e problemas, tudo pode mudar de uma hora para outra. Mudanças trazem novas realidades e você deve se preparar para adaptar-se rapidamente a elas.",
     textoSecondario:
@@ -401,7 +401,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Paus",
     invertida: false,
     nome: "Nove de Paus",
-    url: "https://www.astrolink.com.br/data/tarot/nove-de-paus.jpg",
+    url: "nove-de-paus",
     textoInicial:
       "O 9 de Paus significa que o Universo pode estar provendo a energia necessária para superar qualquer obstáculo no momento. Porém, não aja impulsivamente. Seja qual for a situação, tente analisá-la bem, equilibre mente e corpo, intuição e ação. Você deve ter paciência e sabedoria para lidar com a questão ou o atual momento, dessa forma conseguirá lidar com qualquer adversidade.A carta sugere coragem e indica que manter a paciência e a perseverança são atos que serão recompensados, basta continuar no caminho certo.",
     textoSecondario:
@@ -436,7 +436,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Paus",
     invertida: false,
     nome: "Dez de Paus",
-    url: "https://www.astrolink.com.br/data/tarot/dez-de-paus.jpg",
+    url: "dez-de-paus",
     textoInicial:
       "O 10 de Paus significa sobrecarga. Ou seja, sugere que você pode estar sobrecarregado(a) pelas responsabilidades e desafios do dia a dia ou relacionados à questão perguntada. Porém, a carta também traz uma mensagem positiva: este ciclo pode estar chegando ao fim e você conseguirá realizar seus objetivos. Ao mesmo tempo, a carta também traz um alerta sobre sucessos temporários. Se algo está muito perfeito, tome cuidado pois obstáculos podem surgir. Geralmente o 10 de Paus surge em uma consulta para alertar que o sucesso pode escapar das nossas mãos, ou quando nos machucamos ou nos sentimos culpados por não conseguir cumprir com nossas responsabilidades.",
     textoSecondario:
@@ -471,7 +471,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Paus",
     invertida: false,
     nome: "Valete de Paus",
-    url: "https://www.astrolink.com.br/data/tarot/valete-de-paus.jpg",
+    url: "valete-de-paus",
     textoInicial:
       "O Valete de Paus geralmente significa o recebimento de uma boa notícia. É uma carta que carregam muita energia positiva, assim sugere que você poderá se sentir renovado(a) na situação em questão. A carta sugere a disponibilidade do combustível necessário para novos começos e realizações. O Valete de Paus trata basicamente sobre algo novo e excitante aparecendo.",
     textoSecondario:
@@ -506,7 +506,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Paus",
     invertida: false,
     nome: "Cavaleiro de Paus",
-    url: "https://www.astrolink.com.br/data/tarot/cavaleiro-de-paus.jpg",
+    url: "cavaleiro-de-paus",
     textoInicial:
       "O Cavaleiro de Paus significa energias renovadas. Um novo e inesperado caminho pode se abrir e a carta sugere que você pode querer entrar nele de cabeça. Esta carta traz impulsividade e coragem para desbravar o desconhecido. Indica que você pode ainda não ter ideia do que encontrará, mas que está disposto(a) a pagar pra ver. O cavaleiro está em constante movimento e é rápido, por isso não deixa que as oportunidades escapem. Com tanta vontade de arriscar é aconselhado ter cautela, pois algumas situações podem ser imprevisíveis, tanto para o lado positivo quanto para o negativo.",
     textoSecondario:
@@ -541,7 +541,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Paus",
     invertida: false,
     nome: "Rainha de Paus",
-    url: "https://www.astrolink.com.br/data/tarot/rainha-de-paus.jpg",
+    url: "rainha-de-paus",
     textoInicial:
       "A Rainha das Paus significa um momento com mais foco e determinação para alcançar objetivos ou resolver situações. A carta indica amor e paixão, tanto para resolver questões quanto pelo próximo. É uma carta que sugere coragem e força para perseguir o que você deseja no momento. Outra leitura sugere uma mulher que pode te ajudar em um momento que você precisa, reestabelecendo a paz e a harmonia.",
     textoSecondario:
@@ -576,11 +576,11 @@ const dbCards: TCardInfo[] = [
     naipe: "Paus",
     invertida: false,
     nome: " Rei de Paus",
-    url: "https://www.astrolink.com.br/data/tarot/rei-de-paus.jpg",
+    url: "rei-de-paus",
     textoInicial:
       "O Rei de Paus significa basicamente o poder de decisão. Pode representar alguém em uma posição de poder, um chefe, pai ou outra figura em sua vida, ou ainda que você está nessa posição de poder no momento e através da determinação e coragem pode alcançar o sucesso desejado em alguma situação. A carta traz o ímpeto para realizar, mas também pode indicar autoritarismo, onde você acaba impondo algo. Representa também estabilidade financeira, sugerindo uma promoção ou um ganho inesperado, como uma herança. Alguém que detenha poder de decisão pode entrar em sua vida, tanto para ajudar como para gerar obstáculos.",
     textoSecondario:
-      "O Rei de Paus simboliza o fogo que arde, a ação, determinação e o poder absoluto de realização. É uma evolução do Cavaleiro de Paus, que tem como simbolismo uma postura mais estável e segura. Na carta vemos o Rei sentado em seu trono, segurando um bastão de madeira como se fosse seu cetro. Suas vestes amarelas e laranjas remetem aos signos de Fogo, inspirando ação, energia e coragem para realizar qualquer feito. A salamandra que morde o próprio rabo é derivada do Orobouros, simbolizando o infinito e a motivação para superar obstáculos.",
+      "O Rei de Paus simboliza o fogo que arde, a ação, determinação e o poder absoluto de realização. É uma evolução do Cavaleiro de Paus, que tem como simbolismo uma postura mais estável e segura. Na carta vemos o Rei sentado em seu trono, segurando um bastão de madeira como se fosse seu cetro. Suas vestes amarelas e laranjas remetem aos signos de Fogo, inspirando ação, energia e coragem para realizar qualquer feito. A salamandra que morde o próprio rabo é derivada do Ouroboros, simbolizando o infinito e a motivação para superar obstáculos.",
     palavrasChave:
       "liderança, empreendedorismo, ousadia, controle, visão, honra, otimismo.",
     palavrasChaveInvertidas:
@@ -611,7 +611,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Copas",
     invertida: false,
     nome: "Ás de Copas",
-    url: "https://www.astrolink.com.br/data/tarot/as-de-copas.jpg",
+    url: "as-de-copas",
     textoInicial:
       "O Ás de Copas significa que desejos podem ser realizados no momento, onde além de receber o que almeja, você também poderá se sentir mais pleno(a), em meio a alegria e amor. Pode ser um gesto de gentileza, pode ser um novo relacionamento, ou mesmo um novo passo em sua relação atual ou na questão mentalizada.",
     textoSecondario:
@@ -645,7 +645,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Copas",
     invertida: false,
     nome: "Dois de Copas",
-    url: "https://www.astrolink.com.br/data/tarot/dois-de-copas.jpg",
+    url: "dois-de-copas",
     textoInicial:
       "O 2 de Copas significa harmonia nos relacionamentos. Sugere que uma parceria tende a ser altamente proveitosa, seja no amor, negócios ou trabalho. É um bom sinal para uma nova sociedade, para começar um relacionamento ou fazer novas amizades. Caso você esteja em um relacionamento, a carta indica muita sintonia e cumplicidade. Pode ser a hora de dar o próximo passo ou avançar na situação questionada.",
     textoSecondario:
@@ -679,7 +679,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Copas",
     invertida: false,
     nome: "Três de Copas",
-    url: "https://www.astrolink.com.br/data/tarot/tres-de-copas.jpg",
+    url: "tres-de-copas",
     textoInicial:
       "O 3 de Copas significa que algum evento especial pode acontecer. Pode ser em uma situação diversa em um encontro, em torno da questão mentalizada ou mesmo coisas simples como situações inusitadas com amigos. A energia feminina é forte nessa carta, que também sugere que é um bom momento para acordos, para o amor e para a resolução de problemas ou tensões. Seja como for, bons momentos estão em jogo.",
     textoSecondario:
@@ -713,7 +713,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Copas",
     invertida: false,
     nome: "Quatro de Copas",
-    url: "https://www.astrolink.com.br/data/tarot/quatro-de-copas.jpg",
+    url: "quatro-de-copas",
     textoInicial:
       "O 4 de Copas significa que alguma coisa pode não estar muito bem. Sugere que algum desgosto do passado ou presente pode estar interferindo na sua vida ou na questão atual. O momento é de reflexão, onde você deve mergulhar em seu interior e fazer uma autoanálise a respeito do momento. Assim que compreender melhor o que sente, poderá se libertar e retomar a confiança para prosseguir. Só tome cuidado para não ficar tão envolvido(a) com seu lado emocional a ponto de deixar passar boas oportunidades. Esta carta traz uma mensagem clara: descruze os braços e abra a mente para outras possibilidades na situação em questão. Pode ser que a resposta esteja ao seu redor, mas você está tão inerte que não consegue enxergá-la. Indica também cansaço, desânimo ou insatisfação. Pode ser que estagnação e dúvidas não deixem que você siga em frente ou que aproveite as oportunidades que aparecem no momento.",
     textoSecondario:
@@ -724,7 +724,7 @@ const dbCards: TCardInfo[] = [
     amorRelacionamento:
       "Se estiver em um relacionamento, o Quatro de Copas indica monotonia dentro da relação. Vocês estão tão confortáveis com a maneira como as coisas transcorrem que acabaram esquecendo de se renovar e aumentar o amor que já sentem um pelo outro. Comecem a se divertir mais, aproveitar melhor o tempo a dois e sair um pouco da zona de conforto para aproveitar melhor a vida, isso vai fazer com que a união de vocês se fortaleça ainda mais e novas experiências aconteçam, ativando sensações maravilhosas e, muito provavelmente, desconhecidas. Por outro lado, esta carta pode indicar que uma das partes do relacionamento está emocionalmente afastada e não está levando tão a sério o compromisso. Se for este o caso, então o momento é de sentar e conversar com seu parceiro e expor o que se sente em relação à união de vocês para, só então, decidirem se devem ou não permanecer juntos. Planejar o futuro desta união só será possível quando todos estiverem envolvidos emocionalmente. Se estiver solteiro, há oportunidades de novos romances soltos no ar, mas você não está aberto o suficiente para se permitir vê-las. Você está tão disperso com outras questões e ignorando totalmente o seu lado sentimental e sua vida amorosa, que está deixando passar pessoas que poderiam colorir sua vida e te proporcionar momentos únicos e mágicos. Só depende de você começar esse novo romance, pois o amor já está batendo na sua porta. Várias interpretações podem ser impostas sobre o aparecimento do Quatro de Copas em uma leitura de tarot sobre amor e aos relacionamentos. Muitas vezes indica monotonia para aqueles que já estão em um relacionamento romântico, o que não é necessariamente uma coisa ruim. Nesse caso, é possível aproveitar o fato de a relação ser confortável e desenvolver outros aspectos afetivos. Afinal, o amor pode se manifestar de muitas maneiras. Simultaneamente, esta carta também pode indicar que uma das partes do relacionamento está emocionalmente afastado ou que a pessoa está enfrentando um relacionamento complicado em que o compromisso é unilateral. Para os solteiros, o Quatro de Copas geralmente indica que há oportunidades de amor no ar, mas você não está no estado de espírito certo que permite vê-las. Você volta seus pensamentos para dentro e está tentando refletir sobre questões que estão chamando sua atenção para outro lugar. De vez em quando, este é um bom exercício para organizar seus pensamentos, mas não se deixe apanhar por muito tempo, pois o amor verdadeiro pode passar por você.",
     dinheiroTrabalho:
-      "O Quatro de Copas indica que você anda distraído em relação ao seu trabalho e isso se deve muito ao fato de considerá-lo monótono ou repetitivo, como se estivesse preso em um looping eterno e não soubesse como sair. Faz algum tempo que você perdeu o brilho nos olhos e a paixão pelo trabalho e projetos aos quais está encarregado e, mesmo que novas oportunidades surjam, você não possui ânimo algum para seguir em frente e a culpa disso tudo é o simples fato de não ter encontrado ainda a raíz desse tédio que acarreta em uma estagnação generalizada. Talvez, você precise de um tempo para refletir sobre o andamento das coisas e tentar encontrar o que tanto o incomoda em seu trabalho ou na sua carreira e, somente depois que fizer esta auto análise, é que você conseguirá agir para melhorar as coisas. Por outro lado, esta carta pode indicar o aparecimento de novas oportunidades. O que o impulsiona para tomar uma atitude em relação à elas, pois, caso não sejam aproveitadas, elas passarão, e outras podem não surgir. No âmbito financeiro, você está tão preocupado em ficar vendo o que os outros tem, invadido por um sentimento mesquinho de inveja ou ciúmes que acaba perdendo as grandes oportunidades que surgem bem a sua frente. Chegou a hora de começar a valorizar o que você conquistou até aqui e melhorar o que pode ser melhorado, sem utilizar os outros como parâmetros. Concentre-se em si mesmo, isso o ajudará a perceber o que possui e analisar melhor como andam suas finanças. Existem várias interpretações para o aparecimento do Quatro de Copas na leitura de tarot sobre finanças e trabalho. É muito comum indicar que as atividades são repetitivas e monótonas. No trabalho, indica que não existe paixão na realização das atividades, causando apatia e descontentamento, que pode surgir antes do conforto material. Em uma outra interpretação, o Quatro de Copas indica o aparecimento de novas oportunidades. O que impulsiona para tomar uma atitude em relação às oportunidades que estão batendo em sua porta, pois caso não sejam aproveitadas, elas passarão, e outras oportunidades podem não surgir. ",
+      "O Quatro de Copas indica que você anda distraído em relação ao seu trabalho e isso se deve muito ao fato de considerá-lo monótono ou repetitivo, como se estivesse preso em um looping eterno e não soubesse como sair. Faz algum tempo que você perdeu o brilho nos olhos e a paixão pelo trabalho e projetos aos quais está encarregado e, mesmo que novas oportunidades surjam, você não possui ânimo algum para seguir em frente e a culpa disso tudo é o simples fato de não ter encontrado ainda a raiz desse tédio que acarreta em uma estagnação generalizada. Talvez, você precise de um tempo para refletir sobre o andamento das coisas e tentar encontrar o que tanto o incomoda em seu trabalho ou na sua carreira e, somente depois que fizer esta auto análise, é que você conseguirá agir para melhorar as coisas. Por outro lado, esta carta pode indicar o aparecimento de novas oportunidades. O que o impulsiona para tomar uma atitude em relação à elas, pois, caso não sejam aproveitadas, elas passarão, e outras podem não surgir. No âmbito financeiro, você está tão preocupado em ficar vendo o que os outros tem, invadido por um sentimento mesquinho de inveja ou ciúmes que acaba perdendo as grandes oportunidades que surgem bem a sua frente. Chegou a hora de começar a valorizar o que você conquistou até aqui e melhorar o que pode ser melhorado, sem utilizar os outros como parâmetros. Concentre-se em si mesmo, isso o ajudará a perceber o que possui e analisar melhor como andam suas finanças. Existem várias interpretações para o aparecimento do Quatro de Copas na leitura de tarot sobre finanças e trabalho. É muito comum indicar que as atividades são repetitivas e monótonas. No trabalho, indica que não existe paixão na realização das atividades, causando apatia e descontentamento, que pode surgir antes do conforto material. Em uma outra interpretação, o Quatro de Copas indica o aparecimento de novas oportunidades. O que impulsiona para tomar uma atitude em relação às oportunidades que estão batendo em sua porta, pois caso não sejam aproveitadas, elas passarão, e outras oportunidades podem não surgir. ",
     saudeEspiritualidade:
       "A carta Quatro de Copas indica exaustão, perda energética e depressão. Você está passando por um momento turbulento que está afetando diretamente sua saúde física e mental, principalmente por conta de toda pressão e estresse que está sentindo por não conseguir solucionar seus problemas e possíveis conflitos. Antes de mais nada, é preciso descobrir qual área de sua vida está sugando mais suas energias e trabalhar para estancar esse vazamento tão prejudicial à sua saúde. O segundo passo será se concentrar para resolver os problemas um de cada vez e não se deixar ser atropelados por eles. Reequilibrar sua vida é o que trará paz interior que você tanto necessita, mas será preciso um pouco mais de ânimo e força de vontade para fazer isso, por isso, se preciso for, procure a ajuda de um profissional ou de um grupo de apoio para expressar o que sente e conseguir reorganizar as caixinhas de sua mente. Isso pode fazer grande diferença em sua vida. A meditação também é uma boa dica para se centralizar. No âmbito espiritual, é preciso cuidado para não acabar ignorando tudo de bom que o universo está enviando para você por estar se deixando prender em um passado de arrependimentos e mágoas. Liberte-se dos sentimentos que te fazem mal para conseguir absorver toda a positividade que lhe é entregue neste instante. Encontre seu equilíbrio interior. Na leitura de tarot sobre saúde e espiritualidade, o aparecimento do Quatro de Copas, indica cansaço e exaustão, indicando que é necessária uma análise de quais são os setores da sua vida que está sugando toda sua energia. A meditação, pode ser o caminho para encontrar a paz interior e colocar equilibrar os setores da sua vida. Já em relação à espiritualidade, cuidado para não ignorar tudo que está vindo de bom na sua direção, analise todas as oportunidades, e veja quais são as opções que não são tão positivas quanto você está imaginando. ",
     significadoInvertido:
@@ -747,7 +747,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Copas",
     invertida: false,
     nome: "Cinco de Copas",
-    url: "https://www.astrolink.com.br/data/tarot/cinco-de-copas.jpg",
+    url: "cinco-de-copas",
     textoInicial:
       "O 5 de Copas significa que pode haver algum desapontamento, porém não é algo que mudará sua vida profundamente. Pode até trazer tristeza, mas indica que esta pode ser superada. Talvez possa ser alguma situação de abandono, decepção ou você pode estar sentindo a falta de algo ou alguém. Pode ser também que ainda não tenha recebido aquela coisa tão esperada ou tomou uma decisão errada. Seja qual for o motivo da possível frustração, o melhor que você pode fazer é trabalhar qualquer mágoa que esteja te atrapalhando. Só reconquistando seu amor-próprio você conseguirá superar qualquer possível problema ou dor.",
     textoSecondario:
@@ -782,7 +782,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Copas",
     invertida: false,
     nome: "Seis de Copas",
-    url: "https://www.astrolink.com.br/data/tarot/seis-de-copas.jpg",
+    url: "seis-de-copas",
     textoInicial:
       "O 6 de Copas significa que você não deve levar tudo tão a sério. Indica que pode ser uma boa hora para relaxar um pouco e aproveitar as boas energias envolvidas. Sugere também ajuda no trabalho e no amor e está envolta a um sentimento de gratidão pelo que a vida deu até agora. Sugere um sentimento de nostalgia, mas não fique muito preso(a) ao passado. As boas lembranças servem como aprendizado e te dão força para seguir em frente.",
     textoSecondario:
@@ -817,7 +817,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Copas",
     invertida: false,
     nome: "Sete de Copas",
-    url: "https://www.astrolink.com.br/data/tarot/sete-de-copas.jpg",
+    url: "sete-de-copas",
     textoInicial:
       "O 7 de Copas significa sonhos ou algo que está tentando nos alertar. Assim, preste atenção aos sonhos no momento, pois eles podem conter informações importantes. Ao mesmo tempo, a carta também indica os sonhos que temos na vida. Porém, tome cuidado para não se perder em devaneios. Sonhar é muito bom, mas se não arregaçarmos as mangas, eles nunca se tornarão realidade. Em suma o conselho principal é: não se perca em ilusões.",
     textoSecondario:
@@ -852,7 +852,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Copas",
     invertida: false,
     nome: "Oito de Copas",
-    url: "https://www.astrolink.com.br/data/tarot/oito-de-copas.jpg",
+    url: "oito-de-copas",
     textoInicial:
       "O 8 de Copas simboliza perda, porém, que pode ser positiva, pois a carta também carrega ímpetos de mudança em seu cerne. Sendo assim, pode ser que você tenha que se livrar de um peso do passado para dar um novo rumo às coisas relacionadas a questão ou em seu atual momento. Talvez você tenha que aceitar algum término ou ainda pode estar iniciando uma jornada para se conhecer melhor e recomeçar. Mantenha o coração aberto para abraçar essa renovação por completo. A mensagem é que mesmo em meio à tristeza ou a solidão, temos que levantar a cabeça e pensar positivo, pois coisas boas nos aguardam. Sugere deixar para trás as mágoas e as desilusões e buscar o realmente importa.",
     textoSecondario:
@@ -887,7 +887,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Copas",
     invertida: false,
     nome: "Nove de Copas",
-    url: "https://www.astrolink.com.br/data/tarot/nove-de-copas.jpg",
+    url: "nove-de-copas",
     textoInicial:
       "O 9 de Copas significa realização. É uma carta positiva, pois nos avisa que nossos problemas e tristezas não importam e a satisfação estão a caminho. Esta carta é portadora da alegria e indica que falta só um pouco para alcançá-la plenamente. Sugere que seus desejos serão alcançados como recompensa dos seus esforços.",
     textoSecondario:
@@ -922,7 +922,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Copas",
     invertida: false,
     nome: "Dez de Copas",
-    url: "https://www.astrolink.com.br/data/tarot/dez-de-copas.jpg",
+    url: "dez-de-copas",
     textoInicial:
       "O 10 de Copas significa momentos felizes. Se seu coração deseja algo, sugere que você deve conseguir em breve. A carta também indica o fim de um ciclo, ou seja, você pode finalmente conquistar ou ter conquistado algo, resoluções na questão atual, um amor ou ter dado o próximo passo em seu relacionamento. Se você está enfrentando algum problema, ele pode ser resolvido com um final feliz.",
     textoSecondario:
@@ -957,7 +957,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Copas",
     invertida: false,
     nome: "Valete de Copas",
-    url: "https://www.astrolink.com.br/data/tarot/valete-de-copas.jpg",
+    url: "valete-de-copas",
     textoInicial:
       "O Valete de Copas significa que coisas boas estão em jogo no momento. A carta indica energia e entusiasmo, dessa forma, é um bom período para iniciar novos projetos ou prosseguir com a situação em questão. Também pode indicar um novo amor, renovação no relacionamento ou na questão mentalizada. Também sugere que novas amizades e parcerias podem ajudar em nossas empreitadas.",
     textoSecondario:
@@ -992,7 +992,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Copas",
     invertida: false,
     nome: "Cavaleiro de Copas",
-    url: "https://www.astrolink.com.br/data/tarot/cavaleiro-de-copas.jpg",
+    url: "cavaleiro-de-copas",
     textoInicial:
       "O Cavaleiro de Copas significa que uma notícia está chegando até você. Pode ser uma declaração de amor, uma mensagem que acabe com algum desentendimento ou novidades que causem alterações. É um momento propício para refletir e pensar no que você realmente deseja. Se você não estiver bem com alguma questão, poderá se sentir balançado(a). Não se iluda com as oportunidades e possibilidades que aparecerão, pense no que realmente importa e não deixe as emoções te guiarem.",
     textoSecondario:
@@ -1027,7 +1027,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Copas",
     invertida: false,
     nome: "Rainha de Copas",
-    url: "https://www.astrolink.com.br/data/tarot/rainha-de-copas.jpg",
+    url: "rainha-de-copas",
     textoInicial:
       "A Rainha de Copas significa um momento de calma e compreensão. A carta pode sugerir uma mulher de destaque em sua vida, que inspira carinho, atenção e ajuda quando você precisa, como uma amiga, chefe ou esposa/companheira. Ou, pode representar você mesmo(a), a compaixão, amor e proteção que dedica a outras pessoas. Caso a consulta seja sobre uma situação específica, sugere verdades, projetos consolidados e resolução de problemas.",
     textoSecondario:
@@ -1062,7 +1062,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Copas",
     invertida: false,
     nome: "Rei de Copas",
-    url: "https://www.astrolink.com.br/data/tarot/rei-de-copas.jpg",
+    url: "rei-de-copas",
     textoInicial:
       "O Rei de Copas sugere total controle sobre as emoções e um equilíbrio que permite enxergar com clareza qualquer situação, tornando mais possível tomar decisões acertadas. A mensagem que a carta traz é muito positiva. Sugere um momento de compreensão, seja favorecendo seus relacionamentos, seja com seus amigos, familiares, com seu amor ou atrelado à questão mentalizada. Se algum problema ou conflito surgir ou estiver em andamento, indica calma e sabedoria necessárias para resolvê-los no momento. Caso alguém precise de seus conselhos, você saberá exatamente o que dizer. Ou, se for você quem precisa de ajuda, a carta indica que alguém com um enorme coração poderá ajudar ou entrar em cena.",
     textoSecondario:
@@ -1096,7 +1096,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Pentáculos",
     invertida: false,
     nome: "Ás de Ouros",
-    url: "https://www.astrolink.com.br/data/tarot/as-de-ouros.jpg",
+    url: "as-de-ouros",
     textoInicial:
       "Quando o Ás de Ouros aparece em uma consulta, geralmente traz bons presságios relacionados à carreira, prosperidade e finanças em geral. Em um significado abrangente, pode significar coisas boas no emprego, como uma promoção, um aumento salarial ou ainda um dinheiro com o qual você não contava. Se a pergunta foi relacionada à questões financeiras, pode ser que soluções estejam a caminho. Caso a consulta seja para o coração, a carta pode sugerir que um novo amor está a caminho ou um ponto de prosperidade e ganho na relação atual, trazendo estabilidade e segurança para sua vida.",
     textoSecondario:
@@ -1130,7 +1130,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Pentáculos",
     invertida: false,
     nome: "Dois de Ouros",
-    url: "https://www.astrolink.com.br/data/tarot/dois-de-ouros.jpg",
+    url: "dois-de-ouros",
     textoInicial:
       "O 2 de Ouros significa basicamente dualidade. Talvez você precise encontrar o equilíbrio em alguma relação, ou tenha uma escolha para fazer ou dois problemas para resolver. Em uma escala menor, pode significar que você está pode estar envolto a dois afazeres ou decisões. Dois projetos para tocar, duas reuniões, dois assuntos para tratar ou uma escolha, por exemplo. A carta carrega o símbolo do infinito, indicando que as coisas que você resolver agora influenciarão diretamente no seu futuro. Por isso, o conselho é fazer tudo de maneira honesta e justa para que energias positivas retornem para você.",
     textoSecondario:
@@ -1138,7 +1138,7 @@ const dbCards: TCardInfo[] = [
     palavrasChave:
       "multitarefa, desenvoltura, opções de pesagem, relocação ou viagem.",
     palavrasChaveInvertidas:
-      "caos, necessidade de repriorização, incapacidade de se comprometer, desequilíbrio, desorganizado.",
+      "caos, necessidade de priorizar, incapacidade de se comprometer, desequilíbrio, desorganizado.",
     amorRelacionamento:
       "O dois de Ouros pode estar indicando que você e seu parceiro terão uma decisão a tomar em breve. Pode ser a escolha de amarrá-los financeiramente, como uma hipoteca, ou comprar um carro juntos. Também pode indicar que você pondera as opções de morar junto porque faz sentido financeiramente. Em um sentido não materialista, também pode significar uma decisão geral que você precisará tomar sobre o relacionamento. Pode ser qualquer coisa, desde ter bebês até deixar o relacionamento. Se você for solteiro, o Dois de Ouros pode intimidar vários pretendentes ao seu redor, e você precisará escolher entre eles. Se você está procurando um relacionamento, deve confiar na sua intuição e fazer sua escolha. Aja e tome sua decisão. Manter as opções em aberto e namorar os dois é ótimo no curto prazo, mas as coisas podem ficar complicadas e as bolas podem cair.",
     dinheiroTrabalho:
@@ -1164,11 +1164,11 @@ const dbCards: TCardInfo[] = [
     naipe: "Pentáculos",
     invertida: false,
     nome: "Três de Ouros",
-    url: "https://www.astrolink.com.br/data/tarot/tres-de-ouros.jpg",
+    url: "tres-de-ouros",
     textoInicial:
       "O 3 de Ouros significa que seus dons e talentos estão sendo bem utilizados no momento. Tudo que você fizer com carinho e esmero terá mais chances de render bons frutos. Sendo assim, é um bom período para arregaçar as mangas e contar com a ajuda de outras pessoas, pois trabalho em equipe também está favorecido. O 3 de Ouros traz consigo a mensagem de que seu trabalho árduo e sua perseverança estão prestes a dar bons resultados. Se o trabalho for bem feito, certamente renderá frutos. Indica também que uma terceira pessoa possa ser importante para ajudar no momento ou na questão perguntada, seja colocando a mão na massa, orientando ou aconselhando.",
     textoSecondario:
-      "O 3 de Ouros simboliza um momento de trabalho árduo, mas com muitas chances de trazer sucesso. Na carta, vemos três pessoas. Um jovem aprendiz com dois arquitetos que estão segurando os planos para a catedral, representando a tríade. m várias culturas o número 3 simboliza coisas divinas, do alto, como o princípio trino e deuses como Osíris, Ísis e Hórus - ou a Santíssima Trindade na religião cristã. O jovem parece falar a respeito do seu trabalho e os outros dois ouvem com atenção. Isso indica que você pode ter ido bem em um projeto ou está prestes a embarcar em um outro, ou talvez receberá reconhecimento por algum trabalho em equipe ou por uma boa colaboração.",
+      "O 3 de Ouros simboliza um momento de trabalho árduo, mas com muitas chances de trazer sucesso. Na carta, vemos três pessoas. Um jovem aprendiz com dois arquitetos que estão segurando os planos para a catedral, representando a tríade. m várias culturas o número 3 simboliza coisas divinas, do alto, como o princípio trino e deuses como Osíris, Ísis e Horus - ou a Santíssima Trindade na religião cristã. O jovem parece falar a respeito do seu trabalho e os outros dois ouvem com atenção. Isso indica que você pode ter ido bem em um projeto ou está prestes a embarcar em um outro, ou talvez receberá reconhecimento por algum trabalho em equipe ou por uma boa colaboração.",
     palavrasChave:
       "trabalho em equipe, metas compartilhadas, colaboração, aprendizagem, objetivos, esforço.",
     palavrasChaveInvertidas:
@@ -1198,7 +1198,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Pentáculos",
     invertida: false,
     nome: "Quatro de Ouros",
-    url: "https://www.astrolink.com.br/data/tarot/quatro-de-ouros.jpg",
+    url: "quatro-de-ouros",
     textoInicial:
       "O 4 de Ouros significa basicamente que, no momento, pode haver um medo ou receio que não lhe permite largar algo ou tomar uma decisão assertiva. Quando esta carta aparece em uma consulta, você pode estar se apegando demais à segurança. E isso não é necessariamente uma coisa ruim, pois às vezes, de fato precisamos manter as coisas próximas ao nosso peito por razões de segurança. O problema é que não podemos deixar de viver, agir e dar atenção às pessoas ou coisas que nos cercam. Em determinado momento, todos ficamos presos a alguma coisa por conta do receio de perder ou de mudar nossa rotina. Esta carta não sugere cortar os laços, apenas mostra que você está fazendo um esforço ainda maior para trazer para perto o que quer que seja, na tentativa de manter o controle e a estabilidade. Porém, o 4 de Ouros te convida a pensar mais a fundo no que pode estar te fazendo agir assim. Pode não ser uma má ideia relaxar e largar de mão o que está te prendendo, pois a mensagem que a carta traz é que você não tem nada com que se preocupar no momento. Você só precisa de mais força de vontade e disciplina.",
     textoSecondario:
@@ -1218,7 +1218,7 @@ const dbCards: TCardInfo[] = [
     invertidoAmorRelacionamento:
       "O Quatro de Ouros invertido mostra que há mesquinhez em sua relação, seja de sua parte ou da outra pessoa. Os relacionamentos não prosperam por conta desse comportamento, que o prende em uma situação cômoda porém negativa. Se está em um relacionamento, o Quatro de Ouros mostra uma relação que se encaminha para uma maior estabilidade, se afastando das brigas e discussões ocasionadas pelo pessimismo, egoísmo e sentimentos de dominação que um de vocês, ou os dois, carregava consigo. A mágoa e tristeza de situações anteriores está sendo superada, mas ainda existe um longo caminho para que a relação se torne completamente saudável. É preciso entregar um pouco de liberdade ao outro e se permitir libertar-se, ou seja, não deixar o ciúmes e a possessão proibir que o outro seja ele mesmo. Perder sua personalidade dentro de um relacionamento só o faz despencar para um abismo profundo e vocês se deram conta disso a tempo de mudar. Continuem juntos neste processo de cura. É muito importante o trabalho em equipe para lidar com o que tanto os machucou no passado. Se está solteiro, você conseguiu, finalmente, se livrar da dor de relações passadas e traumas que tanto o impediram de recomeçar. Você está pronto para um novo amor e o universo consegue perceber isso. Foi difícil até aqui, mas você conseguiu. Não possui medo de estar consigo mesmo, o que o permiti estar novamente com outro alguém.",
     invertidoDinheiroTrabalho:
-      "Essa carta pode indicar que há apego demais ao dinheiro, às coisas materiais e ao que foi conquistado por meio do trabalho. O Quatro de Ouros é uma carta que traz duas leituras distintas, uma negativa e outra positiva, por isso é muito importante se atentar às cartas de apoio. Positivamente, ele indica que a generosidade e o apoio mútuo estão muito presentes em seus projetos ou na empresa em que atua. Você está sabendo trabalhar em equipe e aceitar a opinião dos outros, o que o ajuda a alavancar as atividades ao qual está incubido e chegar com tranquilidade ao sucesso de cada tarefa realizada. Você sabe reconhecer que o esforço foi de várias mãos e dá valor à isso, o que o faz ser visto com bons olhos por colegas e pessoas de hierarquia superior. Negativamente, ele indica uma supervalorização do próprio passe. Você acredita não precisar do apoio de outros e acaba tomando as próprias decisões sozinho, sem realmente colocar na balança os prós e contras das escolhas feitas. Mesmo que colegas ou pessoas em posição hierárquica superior o alertem e tentem guiá-lo para o melhor caminho, você, simplesmente, se mantém com os ouvidos e olhos fechados, o que se torna muito prejudicial em sua carreira. Você está perdendo oportunidades, não está sendo estratégico e a precipitação está sendo seu maior inimigo. Não seja orgulhoso, você não é o dono da verdade. Ainda dá tempo de mudar de atitude e aprender a trabalhar em equipe. Pensar que as pessoas o ajudam apenas com intuito de receberem crédito, que acredita ser apenas seu, é o maior equívoco aqui. No âmbito financeiro, por um lado você está começando a investir suas finanças em coisas produtivas e que lhe trarão retorno. Economizar para adquirir bens que realmente deseja é o melhor investimento que você faz para seu futuro. Por outro lado, você pode estar se envolvendo em esquemas furados para conseguir enriquecer com maior rapidez. Cuidado para não acabar caindo em uma armadilha e perdendo tudo o que possui.",
+      "Essa carta pode indicar que há apego demais ao dinheiro, às coisas materiais e ao que foi conquistado por meio do trabalho. O Quatro de Ouros é uma carta que traz duas leituras distintas, uma negativa e outra positiva, por isso é muito importante se atentar às cartas de apoio. Positivamente, ele indica que a generosidade e o apoio mútuo estão muito presentes em seus projetos ou na empresa em que atua. Você está sabendo trabalhar em equipe e aceitar a opinião dos outros, o que o ajuda a alavancar as atividades ao qual está incumbido e chegar com tranquilidade ao sucesso de cada tarefa realizada. Você sabe reconhecer que o esforço foi de várias mãos e dá valor à isso, o que o faz ser visto com bons olhos por colegas e pessoas de hierarquia superior. Negativamente, ele indica uma supervalorização do próprio passe. Você acredita não precisar do apoio de outros e acaba tomando as próprias decisões sozinho, sem realmente colocar na balança os prós e contras das escolhas feitas. Mesmo que colegas ou pessoas em posição hierárquica superior o alertem e tentem guiá-lo para o melhor caminho, você, simplesmente, se mantém com os ouvidos e olhos fechados, o que se torna muito prejudicial em sua carreira. Você está perdendo oportunidades, não está sendo estratégico e a precipitação está sendo seu maior inimigo. Não seja orgulhoso, você não é o dono da verdade. Ainda dá tempo de mudar de atitude e aprender a trabalhar em equipe. Pensar que as pessoas o ajudam apenas com intuito de receberem crédito, que acredita ser apenas seu, é o maior equívoco aqui. No âmbito financeiro, por um lado você está começando a investir suas finanças em coisas produtivas e que lhe trarão retorno. Economizar para adquirir bens que realmente deseja é o melhor investimento que você faz para seu futuro. Por outro lado, você pode estar se envolvendo em esquemas furados para conseguir enriquecer com maior rapidez. Cuidado para não acabar caindo em uma armadilha e perdendo tudo o que possui.",
     invertidoSaudeEspiritualidade:
       "O Quatro de Ouros invertido no geral sinalizará espiritualmente uma necessidade de relaxar o controle e evitar a obsessão. No caso de essa atitude não se alterar, a carta alerta para um padrão de desvio de caráter, mesquinharia e avareza. Há um desequilíbrio espiritual e dificuldade de desenvolvimento. No lado da saúde, indica uma obsessão pelo corpo e a presença de um forte temor à morte, apegando-se ao lado material da vida. O quatro de Ouros pode estar relacionado a problemas trazidos pela rigidez: artrite, artrose. Você está começando a trabalhar para o seu próprio bem estar, cuidando de sua saúde mental e física. Muito provavelmente, você passou por momentos turbulentos que o levou a se desequilibrar e quase chegar a uma estafa emocional, mas conseguiu procurar ajuda a tempo e os resultados de se abrir com alguém, profissional ou não, e receber o conforto e ajuda que tanto precisava naquele momento, já começam a ser sentidos. Continue trabalhando pela sua saúde. Ainda há muito a se fazer. Se precisar, procure orientação de um profissional, principalmente para cuidar das questões que envolvem seus sentimentos. No âmbito espiritual, você está progredindo. Mesmo que tenha tropeçado no meio do caminho e quase perdido sua fé, você conseguiu recuperá-la e segue em frente sem medo ou arrependimentos pelas escolhas feitas. Você encontrou o caminho que mais aquece seu coração. Mesmo que alguém lhe diga ser o caminho errado, continue escutando sua alma e seu coração, eles lhe guiarão sempre.",
     simOuNao:
@@ -1232,7 +1232,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Pentáculos",
     invertida: false,
     nome: "Cinco de Ouros",
-    url: "https://www.astrolink.com.br/data/tarot/cinco-de-ouros.jpg",
+    url: "cinco-de-ouros",
     textoInicial:
       "O 5 de Ouros significa algumas dificuldades, principalmente atreladas ao lado financeiro da consulta ou questão. Pode significar também um sentimento de abandono, principalmente em leituras atreladas ao término de um namoro ou casamento. Nesse sentido, não é uma carta muito alegre.",
     textoSecondario:
@@ -1266,7 +1266,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Pentáculos",
     invertida: false,
     nome: "Seis de Ouros",
-    url: "https://www.astrolink.com.br/data/tarot/seis-de-ouros.jpg",
+    url: "seis-de-ouros",
     textoInicial:
       "O 6 de Ouros significa que alguma situação difícil terá uma melhora. A carta indica um momento de generosidade onde as coisas tendem a voltar aos eixos. Sugere que a harmonia será restaurada e sua vida ou a questão em foco tem tudo para se equilibrar novamente. Em uma leitura mais abrangente, se você há problemas financeiros envolvidos, dificuldades no trabalho ou se seu relacionamento não anda bem, a carta sugere que é hora de tudo melhorar para que você reencontre o caminho certo.",
     textoSecondario:
@@ -1300,7 +1300,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Pentáculos",
     invertida: false,
     nome: "Sete de Ouros",
-    url: "https://www.astrolink.com.br/data/tarot/sete-de-ouros.jpg",
+    url: "sete-de-ouros",
     textoInicial:
       "O 7 de Ouros significa que você deve parar um pouco e avaliar tudo que conseguiu conquistar até o momento antes de seguir em frente. Avalie os obstáculos que restam ou o que te impede de dar o próximo passo rumo ao seu crescimento. Se você se dedicou em prol de seu objetivo e tomou as decisões corretas até agora, seu empenho trará recompensas. Em uma consulta sobre relacionamentos, a carta pode indicar um tempo, uma pausa necessária, mas não sugere o fim da relação. Pode sugerir ainda que recentemente pode ter havido um período de afastamento e falta de comunicação.",
     textoSecondario:
@@ -1334,7 +1334,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Pentáculos",
     invertida: false,
     nome: "Oito de Ouros",
-    url: "https://www.astrolink.com.br/data/tarot/oito-de-ouros.jpg",
+    url: "oito-de-ouros",
     textoInicial:
       "O 8 de Ouros significa que você está no caminho certo. Qualquer que seja a consulta, todo o empenho que você teve está prestes a dar retorno. Seja no campo profissional, em um relacionamento ou mesmo um projeto pessoal, a mensagem da carta é que você cumpriu todas as etapas e agora há chances de alcançar sua recompensa. A carta versa sobre comprometimento e dedicação, indica que sua mente pode estar focada no objetivo final e sugere que você está quase lá.",
     textoSecondario:
@@ -1368,7 +1368,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Pentáculos",
     invertida: false,
     nome: "Nove de Ouros",
-    url: "https://www.astrolink.com.br/data/tarot/nove-de-ouros.jpg",
+    url: "nove-de-ouros",
     textoInicial:
       "O 9 de Ouros significa que você está no caminho certo para o sucesso e que você será recompensado na medida certa do esforço que gastou. Se trabalhou duro até agora, com dedicação e foco, certamente colherá bons frutos. Ouros, símbolo do elemento terra, representa riqueza e abundância, mas não fala apenas do lado material. Pode ser uma riqueza interior ou ainda harmonia em seu relacionamento. Assim, em uma leitura mais abrangente, a carta pode indicar realizações na questão ou em vários campos de sua vida ou vitória em relação a questão atual.",
     textoSecondario:
@@ -1402,7 +1402,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Pentáculos",
     invertida: false,
     nome: "Dez de Ouros",
-    url: "https://www.astrolink.com.br/data/tarot/dez-de-ouros.jpg",
+    url: "dez-de-ouros",
     textoInicial:
       "O 10 de Ouros significa a realização de desejos. É o ponto final de um ciclo e não importa sobre qual situação seja a consulta, é uma carta que sugere que tudo dará certo. Em relacionamentos, indica estabilidade, durabilidade e felicidade. A respeito de trabalho e dinheiro, indica solução de problemas e ganhos. A carta indica que você pode estar prestes a conseguir exatamente o que deseja.",
     textoSecondario:
@@ -1436,7 +1436,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Pentáculos",
     invertida: false,
     nome: "Valete de Ouros",
-    url: "https://www.astrolink.com.br/data/tarot/valete-de-ouros.jpg",
+    url: "valete-de-ouros",
     textoInicial:
       "O Valete de Ouros significa que você pode encontrar um bom caminho para a resolução da questão atual. Para isso, basta  refletir, ponderar e ser realista. Representa um mensageiro e sugere que em breve você obterá as respostas que procura. A carta ainda pode representar alguém que poderá entrar em sua vida subitamente, seja para ajudar a alcançar objetivos ou interagir com a situação. Também fala sobre a busca de conhecimento superior ou que se deve dar valor a isso no momento.",
     textoSecondario:
@@ -1470,7 +1470,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Pentáculos",
     invertida: false,
     nome: "Cavaleiro de Ouros",
-    url: "https://www.astrolink.com.br/data/tarot/cavaleiro-de-ouros.jpg",
+    url: "cavaleiro-de-ouros",
     textoInicial:
       "O Cavaleiro de Ouros significa basicamente perseverança, esforço e comprometimento para realizar objetivos, mas, ao mesmo tempo, certa insegurança emocional. Indica que o momento é propício para sentir energia e determinação necessárias para completar qualquer tarefa. Também sugere estabilidade e segurança, esforço e responsabilidade. Quando aparece em uma consulta, indica que você poderá conquistar algo que perdurará. É o momento ideal para concretizar os planos que tenham sido iniciados, já que a energia da carta lida com o ato de construir bases sólidas para qualquer coisa. A carta é prática, mas sugere não se envolver emocionalmente com seus assuntos. Em uma consulta sobre relacionamento, pode sugerir o envolvimento com alguém que te traz estabilidade financeira, mas não existe tanta paixão. Em relação às finanças, a carta anuncia que boas notícias podem chegar rápido.",
     textoSecondario:
@@ -1504,7 +1504,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Pentáculos",
     invertida: false,
     nome: "Rainha de Ouros",
-    url: "https://www.astrolink.com.br/data/tarot/rainha-de-ouros.jpg",
+    url: "rainha-de-ouros",
     textoInicial:
       "A Rainha de Ouros significa o recebimento de uma mensagem ligada a abundância e fertilidade. Sugere que tudo o que você fez até o momento, as decisões que você tomou, o empenho e o trabalho árduo garantiram estabilidade e conforto.",
     textoSecondario:
@@ -1538,7 +1538,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Pentáculos",
     invertida: false,
     nome: "Rei de Ouros",
-    url: "https://www.astrolink.com.br/data/tarot/rei-de-ouros.jpg",
+    url: "rei-de-ouros",
     textoInicial:
       "O Rei de Ouros indica que o sucesso pode estar prestes a chegar. Em consultas mais abrangentes, pode significar uma promoção no trabalho ou uma oportunidade qualquer, onde sua sabedoria e intelecto te guiarão para o caminho certo. Sugere que você está no controle e há confiança envolvida. Sugere disciplina e energia para a realização de desejos.",
     textoSecondario:
@@ -1572,7 +1572,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Espadas",
     invertida: false,
     nome: "Ás de Espadas",
-    url: "https://www.astrolink.com.br/data/tarot/as-de-espadas.jpg",
+    url: "as-de-espadas",
     textoInicial:
       "O Ás de Espadas indica que você pode perceber as coisas com mais clareza, que sua mente pode estar mais aguçada e só falta a coragem para agir. A carta sugere novos começos ou um período de total clareza mental. Lembre-se de que com grandes poderes, vêm grandes responsabilidades. Cuidado para não machucar outras pessoas com excessos de sinceridade e a brutalidade de sua razão ante a uma falta de emoção.",
     textoSecondario:
@@ -1591,7 +1591,7 @@ const dbCards: TCardInfo[] = [
     invertidoAmorRelacionamento:
       "O Ás de Espadas invertido indica que alguns problemas aparecem em seu relacionamento, causados ​​por dificuldades de comunicação ou talvez mais por sua ausência. Tente investir tempo com seu parceiro e trabalhar os problemas por meio da comunicação. Será uma solução fácil, desde que você se comprometa com isso e faça disso uma prática comum. No entanto, também pode haver problemas que estão mais enraizados em julgamentos confusos. Você pode tirar conclusões precipitadas sem clareza mental em relação a questões específicas em seu relacionamento ou se estiver solteiro sobre as pessoas que conhece. Você está perdendo informações ou evidências relevantes que estão atrapalhando sua visão. Certifique-se de investir tempo e energia em buscar a verdade, em vez de apenas aceitar a situação como ela esta.",
     invertidoDinheiroTrabalho:
-      "Com relação ao dinheiro, o Ás de Espada invertido o chama para prestar atenção extra à sua economia. Existe uma grande possibilidade de problemas em suas finanças e negociações contratuais. Examine cuidadosamente tudo relacionado a contratos, extratos bancários ou qualquer coisa legal para garantir que está tudo certo. O Ás de Espadas invertido em um contexto de trabalho e carreira indica que seu trabalho atual não tem o elemento criativo que você procura e não o satisfaz. Como a carta invertida também representa fracasso, pode sugerir que você será reprovado em uma entrevista de emprego ou que não está com o desempenho que está acostumado. Também pode indicar que seus problemas no trabalho são causados ​​por um bloqueio criativo que você está enfrentando no momento. Também pode haver problemas de comunicação que dificultam a excitação de outras pessoas sobre suas idéias, causando-lhe frustração. Tente ser extremamente cuidadoso com a escolha das palavras e certifique-se de que você pode se expressar claramente.",
+      "Com relação ao dinheiro, o Ás de Espada invertido o chama para prestar atenção extra à sua economia. Existe uma grande possibilidade de problemas em suas finanças e negociações contratuais. Examine cuidadosamente tudo relacionado a contratos, extratos bancários ou qualquer coisa legal para garantir que está tudo certo. O Ás de Espadas invertido em um contexto de trabalho e carreira indica que seu trabalho atual não tem o elemento criativo que você procura e não o satisfaz. Como a carta invertida também representa fracasso, pode sugerir que você será reprovado em uma entrevista de emprego ou que não está com o desempenho que está acostumado. Também pode indicar que seus problemas no trabalho são causados ​​por um bloqueio criativo que você está enfrentando no momento. Também pode haver problemas de comunicação que dificultam a excitação de outras pessoas sobre suas ideias, causando-lhe frustração. Tente ser extremamente cuidadoso com a escolha das palavras e certifique-se de que você pode se expressar claramente.",
     invertidoSaudeEspiritualidade:
       "A falta de clareza mental pode estar causando ansiedade. O estresse causado por julgamentos turvos ou problemas de comunicação pode estar alimentando esse sentimento. Em relação a tiragem sobre gravidez, esta carta indica desafios. Em relação ao seu caminho espiritual, o Ás de Espadas invertido indica que você está se sentindo frustrado. Você pode estar experimentando novas maneiras de se conectar com o seu eu espiritual, mas elas não trazem os resultados que você esperava.",
     simOuNao:
@@ -1605,7 +1605,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Espadas",
     invertida: false,
     nome: "Dois de Espadas",
-    url: "https://www.astrolink.com.br/data/tarot/dois-de-espadas.jpg",
+    url: "dois-de-espadas",
     textoInicial:
       "O 2 de Espadas significa um distanciamento. Sugere um conflito interno, onde você pode estar querendo se afastar da correria. O problema é se tornar muito isolado(a), se fechando para todos à sua volta. Estar na defensiva é uma coisa, mas erguer barreiras intransponíveis pode significar um rompimento com a realidade. Esta carta diz que o melhor no momento é encontrar a paz e o equilíbrio e não tomar decisões precipitadas. Assim como a carta sugere um conflito interior, pode indicar também um duelo com outra pessoa, onde cada qual acha que tem a razão.",
     textoSecondario:
@@ -1639,7 +1639,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Espadas",
     invertida: false,
     nome: "Três de Espadas",
-    url: "https://www.astrolink.com.br/data/tarot/tres-de-espadas.jpg",
+    url: "tres-de-espadas",
     textoInicial:
       "O 3 de Espadas geralmente significa algo doloroso em sua vida. Seu coração pode estar partido por conta de alguma situação ou de alguém. É necessário encontrar o equilíbrio em meio à tristeza para poder voltar a uma frequência positiva. Não seja vítima das injustiças, a vida às vezes bate forte, mas sempre temos o poder de nos levantar. Sugere que você deve ser honesto(a) com você mesmo(a) e parar de se enganar. Use o poder do seu intelecto e da razão, é a hora de dar a volta por cima e recomeçar.",
     textoSecondario:
@@ -1652,7 +1652,7 @@ const dbCards: TCardInfo[] = [
     dinheiroTrabalho:
       "Esta carta aponta para a perdas de dinheiro, trabalho ou projetos. Pessoas de confiança podem estar envolvidas nestas perdas. Esse é o momento de rever as parcerias e ficar atento para não se dedicar a áreas que não trazem satisfação profissional. Ministrar as energias no trabalho e abrir um canal de comunicação honesto com colegas ajuda a impedir a geração desnecessária de conflitos evitando o estresse. No setor financeiro não é um bom momento para investir ou formar novas parcerias, pois esta carta reforça a existência de traições e golpes. Caso esteja em busca de uma oportunidade de trabalho, é importante estar aberto a novas experiências e áreas. A busca pode se tornar menos maçante quando estamos dispostos a rever nossas aptidões e nos dispusermos a aprender coisas novas. ",
     saudeEspiritualidade:
-      "A urgência da cura se faz necessária. O 3 de espadas mostra a doença da alma. A angústia, tristeza, desolação e o sentimento de impotência que aflige o consulente é tão forte que a desesperança acaba se tornando uma constante. É preciso muito cuidado para lidar com o sofrimento, para que os sentimentos negativos não se enraizem e tragam novas dores. Depressão e doenças relacionadas à mente precisam de cuidados especiais. ",
+      "A urgência da cura se faz necessária. O 3 de espadas mostra a doença da alma. A angústia, tristeza, desolação e o sentimento de impotência que aflige o consulente é tão forte que a desesperança acaba se tornando uma constante. É preciso muito cuidado para lidar com o sofrimento, para que os sentimentos negativos não se enraízem e tragam novas dores. Depressão e doenças relacionadas à mente precisam de cuidados especiais. ",
     significadoInvertido:
       "Quando o três de espadas aparece na posição invertida, todos os significados negativos que esta carta carrega consigo se intensificam. O sentimento de vazio constante e a sensação de sufocamento parecem intermináveis e uma saída para a situação, inalcançável. É muito mais difícil para o consulente acreditar que conseguirá passar por essa fase, por isso é importante compreender que, apesar da dor inestimável, tudo se cura com o tempo.",
     invertidoAmorRelacionamento:
@@ -1672,7 +1672,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Espadas",
     invertida: false,
     nome: "Quatro de Espadas",
-    url: "https://www.astrolink.com.br/data/tarot/quatro-de-espadas.jpg",
+    url: "quatro-de-espadas",
     textoInicial:
       "O 4 de Espadas indica um conflito. Pode ser um conflito interno ou externo, mas a carta sugere que você deve se isolar da situação em questão para descansar e refletir um pouco. Seja uma perda sofrida ou uma decisão importante para tomar, recupere as energias para deixar a tristeza para trás e seguir em frente. Caso você tenha que decidir entre alguma coisa, analise bem a situação antes de tomar sua decisão.",
     textoSecondario:
@@ -1706,7 +1706,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Espadas",
     invertida: false,
     nome: "Cinco de Espadas",
-    url: "https://www.astrolink.com.br/data/tarot/cinco-de-espadas.jpg",
+    url: "cinco-de-espadas",
     textoInicial:
       "O 5 de Espadas indica um momento conturbado, onde pode faltar autoconfiança e sobrar negatividade na atual questão. Muitas vezes a carta sugere problemas no relacionamento, no trabalho ou em alguma outra área da sua vida, com desentendimentos que podem gerar discussões. Mesmo vencendo, sua vitória não parece tão saborosa. Palavras machucam e o resultado final pode ser triste ou doloroso. Esta carta preconiza um período de altos e baixos, onde você sente mais frustração do que sucesso. Tente clarear sua mente para não ter uma visão distorcida das coisas. Pense antes de falar e seja justo(a), assim suas vitórias serão verdadeiras. Na derrota, levante a cabeça e reúna suas forças para mais uma rodada.",
     textoSecondario:
@@ -1718,7 +1718,7 @@ const dbCards: TCardInfo[] = [
     amorRelacionamento:
       "O relacionamento está passando por um momento muito turbulento. Discussões e brigas se intensificam com o passar dos dias e quase não é possível reconhecer o amor que existiu entre você e seu parceiro. Vocês estão irritados, estressados, descontentes com a maneira como a relação se desgastou e isso se reflete na falta de respeito de um para com o outro. A falta de comunicação pode estar agravando as discussões que poderiam ser evitadas caso você parasse por um instante para refletir sobre a situação em si, se realmente vale o conflito ou não. É preciso repensar a relação como um todo. O amor não deve vir armado com palavras maldosas e violência. O amor é respeito e cumplicidade. Caso esteja preso em um relacionamento abusivo, não tenha vergonha de pedir ajuda. Procure auxílio na família, nos amigos e nos órgãos competentes antes que seja tarde demais. Não se permita sofrer nas mãos de alguém que jura te amar desta forma. Quem ama cuida. Se está solteiro, o cinco de espadas alerta para o perigo de se encontrar com desconhecidos. O momento não é bom para se aventurar em novos amores. As pessoas podem ser o que queremos quando não as conhecemos de fato e sua busca pode estar te levando a lugares obscuros e violentos. É preciso muito cuidado.",
     dinheiroTrabalho:
-      "O ambiente de trabalho está minado de negatividade. Conflitos estão se tornando mais corriqueiros e isso traz estresse, tensão e hostilidade entre os colegas de trabalho, atrapalhando o progresso e as atividades que você está incubido de realizar. Isto se deve muito à falta de comunicação e de liderança por parte dos envolvidos. É importante avaliar as atitudes de todos, inclusive a sua, para se certificar de quem ou o que é realmente o causador dos confrontos e, assim, tentar solucioná-los da melhor maneira possível. É preciso pensar antes de agir. Lutar para se defender somente quando a certeza da luta se fizer presente, caso contrário, volte a analisar todos os pontos para resolvê-los com diplomacia e profissionalismo. Nunca aja por impulso ou influência de terceiros. Olhe para as próprias atitudes para se certificar de que não seja você o causador dos problemas antes de se defender. Na área financeira, o cinco de espadas alerta para a cautela com suas finanças. Cuidado em quem confia, especialmente com aqueles que você pensa conhecer melhor, para não ser passado para trás e nem tirar vantagem de você. Se estiver passando por uma crise financeira, olhe para a situação como um todo, compreenda o que aconteceu e aprenda com os erros para não repetir eles no futuro. Agora, será preciso fazer algumas mudanças em seus hábitos para se recuperar financeiramente, mas com dedicação você conseguirá respirar aliviado em breve.",
+      "O ambiente de trabalho está minado de negatividade. Conflitos estão se tornando mais corriqueiros e isso traz estresse, tensão e hostilidade entre os colegas de trabalho, atrapalhando o progresso e as atividades que você está incumbido de realizar. Isto se deve muito à falta de comunicação e de liderança por parte dos envolvidos. É importante avaliar as atitudes de todos, inclusive a sua, para se certificar de quem ou o que é realmente o causador dos confrontos e, assim, tentar solucioná-los da melhor maneira possível. É preciso pensar antes de agir. Lutar para se defender somente quando a certeza da luta se fizer presente, caso contrário, volte a analisar todos os pontos para resolvê-los com diplomacia e profissionalismo. Nunca aja por impulso ou influência de terceiros. Olhe para as próprias atitudes para se certificar de que não seja você o causador dos problemas antes de se defender. Na área financeira, o cinco de espadas alerta para a cautela com suas finanças. Cuidado em quem confia, especialmente com aqueles que você pensa conhecer melhor, para não ser passado para trás e nem tirar vantagem de você. Se estiver passando por uma crise financeira, olhe para a situação como um todo, compreenda o que aconteceu e aprenda com os erros para não repetir eles no futuro. Agora, será preciso fazer algumas mudanças em seus hábitos para se recuperar financeiramente, mas com dedicação você conseguirá respirar aliviado em breve.",
     saudeEspiritualidade:
       "Você se sente cansado. Esta é a principal mensagem do cinco de espadas. Cansado, estressado e derrotado. Sente que nada do que possa fazer irá restaurar a juventude perdida ou o sentimento de vitória que já carregou consigo em momentos de glória. O problema está em se agarrar a estes pensamentos. Sentir-se derrotado só servirá para infestar a mente com pensamentos negativos e desenvolver problemas de saúde em vários aspectos. É preciso cuidar de si e parar de se martirizar por lutas das quais não saiu vencedor. Nem todas as batalhas são ganhas, mas todas servem de lições para nos fortalecer. Cuidado para que a descrença em si mesmo não acabe se tornando um gatilho para atitudes autodestrutivas, como o abuso de álcool e drogas. Não permita se perder nas sombras, pois este poderá ser um caminho sem volta. Cuide da sua saúde, da sua mente e do seu coração. Procure ajuda, se achar necessário. Lembre-se que todos os desafios que você ultrapassou até hoje, ganhando ou perdendo, serviram para te trazer sabedoria e força para seguir em frente. Utilize esta sabedoria para se curar e ajudar outras pessoas a superarem estes sentimentos.",
     significadoInvertido:
@@ -1740,7 +1740,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Espadas",
     invertida: false,
     nome: "Seis de Espadas",
-    url: "https://www.astrolink.com.br/data/tarot/seis-de-espadas.jpg",
+    url: "seis-de-espadas",
     textoInicial:
       "O 6 de Espadas significa um momento de transição, que tende a ser positiva. Esta transição pode ser física, emocional ou espiritual, dependendo da situação. No caso de bagagem emocional que você ainda carrega, a carta sugere que está na hora de deixá-la para trás e seguir em frente. As mudanças físicas podem ser o término de um relacionamento, mudança de casa, de trabalho, do panorama da situação em questão, etc. A carta também indica que algum problema que possa estar ocorrendo vai ser solucionado, ou alguém deixará de te incomodar. Pode ser uma boa época para pedir desculpas ou perdoar alguém. Outra mensagem importante é que você deve aprender com o que passou, a fim de se resguardar de outras mágoas no futuro. Embora não haja muita luz na carta, ela traz paz e esperança, mas devemos fazer questão de superar ressentimentos e terminar conflitos. Por fim, a carta também pode indicar uma viagem inesperada.",
     textoSecondario:
@@ -1774,7 +1774,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Espadas",
     invertida: false,
     nome: "Sete de Espadas",
-    url: "https://www.astrolink.com.br/data/tarot/sete-de-espadas.jpg",
+    url: "sete-de-espadas",
     textoInicial:
       "O 7 de Espadas significa que a mentira está em jogo. Alguém pode estar mentindo para você ou tentando te enganar. Ou ainda, você pode ter criado uma teia de mentiras como desculpa para não encarar a realidade ou a situação em questão. Você precisa ser honesto(a) consigo mesmo(a) no momento, admitindo seus sentimentos e desejos. Se a carta estiver falando sobre alguém que quer te enganar (ou está enganando), saiba que isso durará pouco, pois eventualmente você descobrirá. Caso você esteja tentando enganar alguém, saiba que também pode estar prestes a ser descoberto(a).",
     textoSecondario:
@@ -1808,7 +1808,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Espadas",
     invertida: false,
     nome: "Oito de Espadas",
-    url: "https://www.astrolink.com.br/data/tarot/oito-de-espadas.jpg",
+    url: "oito-de-espadas",
     textoInicial:
       "O 8 de Espadas significa obstáculos, sofrimento ou tristeza. Pode ser até por conta de algo menos importante ou pode ser que alguém esteja te fazendo sofrer. De qualquer forma, a carta não traz boas notícias, mas sim uma mensagem de que a sorte pode não te favorecer no momento. Geralmente não é nada que mudará sua vida drasticamente, lembre-se de que você pode superar qualquer situação.",
     textoSecondario:
@@ -1842,7 +1842,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Espadas",
     invertida: false,
     nome: "Nove de Espadas",
-    url: "https://www.astrolink.com.br/data/tarot/nove-de-espadas.jpg",
+    url: "nove-de-espadas",
     textoInicial:
       "O 9 de Espadas significa uma carga negativa ou difícil em torno da questão mentalizada ou em seu caminho. A carta sugere que você pode estar atravessando ou atravessará uma fase angustiante e serve como um lembrete de que às vezes passamos por fases estressantes ou por tormentos que parecem intermináveis. Porém, nada dura para sempre. Se for o caso, sugere que você se mantenha centrado(a) e não entre em desespero por pior que pareça a situação. Esta carta também pode servir como alerta, quando estamos muito estressados e ansiosos devemos desacelerar um pouco e respirar, antes que surjam problemas mais graves. Sugere cuidar da mente e do corpo.",
     textoSecondario:
@@ -1876,7 +1876,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Espadas",
     invertida: false,
     nome: "Dez de Espadas",
-    url: "https://www.astrolink.com.br/data/tarot/dez-de-espadas.jpg",
+    url: "dez-de-espadas",
     textoInicial:
       "O 10 de Espadas significa que algo chegou ou está chegando ao fim. A carta pode envolver traição, dor, decepção ou desgosto. Geralmente sugere uma perda real, mas sua mensagem é que enquanto uma porta se fecha para sempre, outra se abre. Passamos por momentos difíceis em nossa jornada e eles servem de aprendizado, porém devemos superar nossas dores e ressentimentos. Sugere que seja o que for, você não se faça de vítima nem fique preso(a) em um ciclo de sofrimento, pois tudo passa.",
     textoSecondario:
@@ -1910,7 +1910,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Espadas",
     invertida: false,
     nome: "Valete de Espadas",
-    url: "https://www.astrolink.com.br/data/tarot/valete-de-espadas.jpg",
+    url: "valete-de-espadas",
     textoInicial:
       "O Valete de Espadas significa que você deve ter a atenção redobrada. Sugere ter que lidar com uma situação inesperada e rápida, indicando que você terá a força e sabedoria necessárias para superar os desafios. Evite tomar decisões precipitadas, mantenha a cabeça no lugar e aja com inteligência, não com emoção. Esta carta significa também que segredos não durarão muito tempo.",
     textoSecondario:
@@ -1944,7 +1944,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Espadas",
     invertida: false,
     nome: "Cavaleiro de Espadas",
-    url: "https://www.astrolink.com.br/data/tarot/cavaleiro-de-espadas.jpg",
+    url: "cavaleiro-de-espadas",
     textoInicial:
       "O Cavaleiro de Espadas significa que alguém pode surgir de repente e de maneira impulsiva na situação em questão ou na sua vida no momento. Você deve ter muita cautela, pois esta pessoa pode ter intenções que não são muito claras, pode agir com manipulação ou dizer algo para te desviar da verdade. A carta sugere algum tipo de ação imprudente, do tipo que não pensa nas consequências de suas ações. Sua espada é rápida e quando entra em sua vida, não há o que fazer a não ser se manter firme, acreditando em sua força para superar quaisquer obstáculos que ele traga. Use seu raciocínio para vencer tal influência ou pessoa e exerça o poder da verdade. Você pode vencer qualquer desafio se estiver pensando claramente. Se a carta estiver te representando, pode alertar contra atitudes pretensiosas e arrogantes da sua parte.",
     textoSecondario:
@@ -1979,7 +1979,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Espadas",
     invertida: false,
     nome: "Rainha de Espadas",
-    url: "https://www.astrolink.com.br/data/tarot/rainha-de-espadas.jpg",
+    url: "rainha-de-espadas",
     textoInicial:
       "A Rainha de Espadas significa geralmente uma mulher mais velha que aparece em sua vida, atrelada à questão atual ou que uma situação está perto de encontrar sua conclusão de maneira racional. A figura da Rainha de Espadas se concentra em questões práticas da vida e pode ser bem fria, porém, é uma energia aconselhadora e justa. Assim, quando a carta aparece em uma consulta, pode estar dizendo que você deve usar a razão e não a emoção para resolver suas questões. Quando a leitura indica uma mulher em sua vida, tenha cuidado, pois da mesma forma que pode ser alguém com sabedoria e experiência, pode representar uma pessoa crítica, controladora e interesseira - ou alguém de língua afiada.",
     textoSecondario:
@@ -2013,7 +2013,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Espadas",
     invertida: false,
     nome: "Rei de Espadas",
-    url: "https://www.astrolink.com.br/data/tarot/rei-de-espadas.jpg",
+    url: "rei-de-espadas",
     textoInicial:
       "O Rei de Espadas significa poder intelectual e experiência de vida para lidar com a situação em questão ou o atual momento. Quando a consulta indica alguém entrando em sua vida, geralmente representa alguém em posição de poder e autoridade, uma pessoa rígida e por vezes controladora. Mas, não é uma má pessoa, apenas pode ser difícil de agradar. Se você conseguir sua proteção, ela pode te ajudar a resolver qualquer situação. Caso ela não esteja do seu lado, espere por obstáculos e oposição aos seus planos. Pode ser que sua mente você esteja em um bom momento para resolver as questões de maneira objetiva e racional, ou, através de alguém que exerça o papel de autoridade, como um chefe, familiar ou mesmo alguém da área da lei ou justiça. A carta traz a mensagem de que ordem e regras devem ser seguidas na situação em questão. Se for uma situação emocional, remova as emoções da equação e seja racional para tomar decisões.",
     textoSecondario:
@@ -2047,7 +2047,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Arcanos Maiores",
     invertida: false,
     nome: "Carta Neutra",
-    url: "https://images.pexels.com/photos/4040587/pexels-photo-4040587.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    url: "neutra",
     textoInicial: "",
     textoSecondario: "",
     palavrasChave: "Carta neutra para preencher espaços na leitura",
@@ -2070,7 +2070,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Arcanos Maiores",
     invertida: false,
     nome: "O Louco",
-    url: "https://www.astrolink.com.br/data/tarot/o-louco.jpg",
+    url: "o-louco",
     textoInicial:
       "O Louco simboliza novos começos, novas experiências, simboliza o início da jornada. Quando aparece em uma consulta, geralmente indica que está na hora de deixar para trás tudo que empata nossos objetivos, como medos, dúvidas e preocupações, para trilhar novos rumos. A carta sugere que esse novo começo seja empreendido de braços abertos e com alegria.",
     textoSecondario:
@@ -2105,7 +2105,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Arcanos Maiores",
     invertida: false,
     nome: "O Mago",
-    url: "https://www.astrolink.com.br/data/tarot/o-mago.jpg",
+    url: "o-mago",
     textoInicial:
       "A carta O Mago traz a mensagem de que seus talentos e seus próprios dons são as chaves para o seu sucesso em qualquer situação questionada. É como se você tivesse todas as ferramentas que precisa bem na sua frente para garantir que o sucesso potencial se manifeste. É uma carta que está diretamente ligada ao instinto e a intuição. Quando você está sentindo um impulso ou uma vontade grande de fazer alguma coisa e O Mago aparece em sua leitura, siga essa intuição e as coisas podem acontecer. Pode indicar também uma pessoa dominadora ou que a situação deve ser resolvida com inteligência, praticidade e racionalidade, além de anunciar o começo de uma relação amorosa, mas que pode conter traços de impulsividade.",
     textoSecondario:
@@ -2140,7 +2140,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Arcanos Maiores",
     invertida: false,
     nome: "A Sacerdotisa",
-    url: "https://www.astrolink.com.br/data/tarot/a-sacerdotisa.jpg",
+    url: "a-sacerdotisa",
     textoInicial:
       "A Sacerdotisa é um lembrete de que não temos como saber de tudo acerca de uma situação. Indica que ou não recebemos todos os fatos, ou não enxergamos todos os fatos ou outras pessoas podem estar retendo informações importantes. Quando esta carta aparece, indica segredos e que é melhor procurar pelas respostas. Você deve ponderar sobre a situação e saber que pode haver alguns acontecimentos ocorrendo nos bastidores dos quais você não tem total conhecimento. A carta mostra que para sabermos toda a verdade sobre algo, temos que usar todos os recursos disponíveis, como nossa intuição, nosso poder de convencimento e a reflexão. A Sacerdotisa é um arcano altamente espiritual, mas não é limitada a isso. Ela lida com fatos e sugere que não temos acesso a todos eles no momento. Por isso ela não é uma carta que nos convida para a ação mas sim, de maneira sutil, nos convida para a reflexão. Quanto mais ponderamos sobre uma situação, mais temos chance de obter as respostas que buscamos.",
     textoSecondario:
@@ -2175,7 +2175,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Arcanos Maiores",
     invertida: false,
     nome: "A Imperatriz",
-    url: "https://www.astrolink.com.br/data/tarot/a-imperatriz.jpg",
+    url: "a-imperatriz",
     textoInicial:
       "Quando a Imperatriz aparece em uma consulta, geralmente indica que as coisas vão bem na situação questionada, como se cada coisa estivesse em seu devido lugar, exatamente como desejado. Também pode trazer informações sobre o tema Mãe, seja sobre você no papel de mãe, sobre uma figura materna em sua vida ou na situação em questão. A Imperatriz é uma figura poderosa e muito segura de si. Sugere proteção e não questiona as decisões. Com a certeza de uma mãe cria bem seus filhos, ela não sugere dúvidas. Esta carta geralmente indica um bom presságio, assim como realização e sucesso.",
     textoSecondario:
@@ -2210,7 +2210,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Arcanos Maiores",
     invertida: false,
     nome: "O Imperador",
-    url: "https://www.astrolink.com.br/data/tarot/o-imperador.jpg",
+    url: "o-imperador",
     textoInicial:
       "Quando o imperador aparece em uma consulta, sugere que você está prestes a alcançar seus objetivos ou está no caminho certo. A conexão com Áries também tem a ver com liderança, controle e realização, ou seja, às vezes sugere que você assumirá um papel de líder ou controlará um problema. Pode indicar que este é um bom momento para iniciar um grande projeto, fazer orçamentos ou que novas oportunidades também podem surgir. De qualquer forma, pode ser importante procurar conselhos com uma figura de autoridade, como seu pai ou outra figura paterna antes de tomar decisões importantes.",
     textoSecondario:
@@ -2245,7 +2245,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Arcanos Maiores",
     invertida: false,
     nome: "O Papa",
-    url: "https://www.astrolink.com.br/data/tarot/o-papa.jpg",
+    url: "o-papa",
     textoInicial:
       "Quando o Papa aparece em uma consulta, as respostas remetem à busca de conselhos sábios. Esta carta também pode representar uma pessoa do signo de Touro relacionada à questão, em sua vida ou que está prestes a aparecer para interagir. Touro é um signo fixo muito familiarizado com rotina fixa e estrutura, coisas que trazem segurança, um sentimento primordial para o signo. O Papa encarna tudo isso e nos convida a voltar às nossas raízes e tradições. Sugere que você busque conhecimento ou conselhos sobre a situação em questão (um especialista, profissional ou um amigo sábio, por exemplo). A carta não indica que você deva tomar decisões importantes por conta própria. Pesquisa, estudo e aconselhamento, além de serem formas de fazer as coisas mais tradicionalmente, podem ser o caminho a seguir para resolver a situação em questão. A carta também representa melhora de status, mas que conselhos e assistência de pessoas ou instituições estruturadas são importantes para que isso aconteça. Por fim, pode significar também a busca por um poder superior, uma força maior que vem dentro de você e que em última análise, favorece uma nova chance de elevação espiritual.",
     textoSecondario:
@@ -2280,7 +2280,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Arcanos Maiores",
     invertida: false,
     nome: "Os Enamorados",
-    url: "https://www.astrolink.com.br/data/tarot/os-enamorados.jpg",
+    url: "os-enamorados",
     textoInicial:
       "Muitas vezes, a carta Os Enamorados tem a ver com uma importante decisão que deve ser tomada. Quando a situação envolve trabalho ou amor, ela sugere que você siga sua intuição. Se o seu coração está mandando você seguir um caminho, confie em seus instintos. Só não faça as coisas pensando somente em você, pois o tiro pode sair pela culatra. Pense sempre em quem está envolvido, tente fazer o melhor para todos. É um casal, sugerindo que a decisão que tomamos influencia outras pessoas. Ou seja, o simbolismo é de que a questão em jogo pode alterar sua vida e a de outros. Em alguns casos, a carta pode indicar um momento onde você tem que escolher entre determinada situação na questão. Tal escolha só depende de você. O importante é seguir o que o seu coração mandar e pensar nos envolvidos.",
     textoSecondario:
@@ -2315,7 +2315,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Arcanos Maiores",
     invertida: false,
     nome: "O Carro",
-    url: "https://www.astrolink.com.br/data/tarot/o-carro.jpg",
+    url: "o-carro",
     textoInicial:
       "Esta carta tende a anunciar vitórias e sucessos. Porém, diz que nada vem de bandeja. Mesmo com o sucesso batendo à porta, você deve batalhar por ele. Pode significar uma vitória, mas que deve ser merecida. Simboliza o trabalho duro e a dedicação a longo prazo, indicando que o sucesso não vem fácil, ele deve ser conquistado. Quando esta carta aparece em uma consulta, significa que você deve tomar as rédeas do seu destino e estar preparado para aproveitar as oportunidades que aparecem. Oportunidades estas que estão ligadas à questão perguntada ou de uma forma mais abrangente: uma promoção, um cargo de liderança em um projeto, um novo curso, um novo amor ou um grande passo no relacionamento atual. Porém, não tente dar um passo maior que a perna, você só deve assumir uma responsabilidade se souber que cumprirá. Por isso, não aceite cargos além de sua competência ou prazos que não conseguirá cumprir, caso contrário o sucesso poderá escapar. Câncer é o signo associado a esta carta, por isso ela também pode significar alguma pessoa do signo de Câncer em sua vida ou em torno da situação questionada. É um signo que trabalha duro e atinge o sucesso através de esforços longos e sustentados, e esta é a mensagem da carta: a vitória é quase certa, mas não virá de bandeja.",
     textoSecondario:
@@ -2348,7 +2348,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Arcanos Maiores",
     invertida: false,
     nome: "A Força",
-    url: "https://www.astrolink.com.br/data/tarot/a-forca.jpg",
+    url: "a-forca",
     textoInicial:
       "A Força representa as melhores características do signo de Leão, como coragem, determinação, resiliência e força, boas chaves para o sucesso. Porém, indica que para realizar seus objetivos, você também precisará de autocontrole para domar seus próprios leões interiores, que podem representar tanto seus conflitos internos quanto os obstáculos que a vida nos impõe. Em uma consulta ao Tarot, quando aparece tende a representar que algo superior nos ajudará a sobrepujar qualquer dificuldade pela qual estejamos passando ou envolvida na situação. Sugere proteção dos nossos objetivos, indicando mais foco e autocontrole em torno da situação. Geralmente indica que há um tipo de proteção envolvida na questão, disposta a ajudar no seu caminho até a vitória ou a resolução bem-sucedida de alguma situação. Pode indicar também algo que resistiu ao teste do tempo por causa da lealdade e força de vontade.",
     textoSecondario:
@@ -2383,7 +2383,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Arcanos Maiores",
     invertida: false,
     nome: "O Eremita",
-    url: "https://www.astrolink.com.br/data/tarot/o-eremita.jpg",
+    url: "o-eremita",
     textoInicial:
       "Quando a carta do Eremita aparece em uma consulta, pode significar que precisamos refletir em relação à situação. Às vezes é preciso dar um tempo e se isolar para ponderar e analisar melhor uma questão. Esta pode ser a mensagem que O Eremita traz: a necessidade de dar uma pausa e refletir. Anuncia que pode ser a hora de se afastar e analisar, mergulhar no seu interior em busca das respostas que você precisa no momento. Nunca pense no Eremita de forma negativa. Quando ele surgir, lembre-se que geralmente a carta mostra a necessidade de tirar um tempo para si, para poder pensar na vida e mergulhar no seu interior, procurando a verdade e as respostas certas advindas da sabedoria. Se a consulta é sobre relacionamentos, por exemplo, a carta pode sugerir que no momento é melhor se afastar e ver a situação de fora - ou parar para uma reflexão. A carta indica que não é hora de agir impulsivamente e sim de passar um tempo pensando nas coisas que estão acontecendo. Sugere que você precisa desenvolver seu espírito através de uma profunda introspecção, encontrar sua própria luz e fazer seu próprio caminho. Fique sozinho(a) ou associe-se apenas com aqueles que estão mais alinhados com o seu momento. Não desperdice tempo e energia com quem não está na mesma vibe que você.",
     textoSecondario:
@@ -2417,7 +2417,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Arcanos Maiores",
     invertida: false,
     nome: "A Roda da Fortuna",
-    url: "https://www.astrolink.com.br/data/tarot/a-roda-da-fortuna.jpg",
+    url: "a-roda-da-fortuna",
     textoInicial:
       "A Roda da Fortuna representa basicamente a colheita daquilo que plantamos. Apesar do seu significado otimista, não sugere prosperidade, sorte e fortuna do nada. Tudo isso está relacionado às ações que você tomou até o momento. Se você preparou o terreno fazendo escolhas sensatas e tocando seus projetos com afinco, seus objetivos serão realizados. Você semeou e regou sua plantação, agora é hora de colher bons frutos. Porém, se você se acomodou ou agiu de forma imprudente, sua colheita pode não ser das melhores. Isso vale para o curso da vida ou para a situação questionada. Quando a oportunidade se apresentar, você deve estar bem preparado para agarrá-la. Este Arcano Maior traz otimismo e anuncia que sua sorte pode estar prestes a mudar para melhor. Os signos fixos também influenciam a carta, assim, Escorpião, Leão, Aquário e Touro estão de alguma forma envolvidos na questão e podem trazer mensagens para a leitura.",
     textoSecondario:
@@ -2451,7 +2451,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Arcanos Maiores",
     invertida: false,
     nome: "A Justiça",
-    url: "https://www.astrolink.com.br/data/tarot/a-justica.jpg",
+    url: "a-justica",
     textoInicial:
       "Quando a carta da Justiça aparece em uma consulta, ela traz a mensagem de que a situação em questão tende a se resolver a seu favor, ou, pelo menos, da forma mais justa possível. Pode ser um assunto da lei, o resultado final de uma situação específica, questões de relacionamento ou outras situações. O significado básico da carta muitas vezes fala sobre decisões equilibradas e justas. Pode ser uma decisão que você precisa tomar (ou que será tomada contra você), ou ainda documentos e informações relevantes. Seja o que for, as decisões e ações tendem a ser a seu favor se estiver dentro do contexto normal e representa a vitória através da lógica e justiça. Durante uma leitura com mais cartas, é importante observar as cartas juntas à da Justiça. Elas podem ajudar a entender o que está se passando e o que deve ser considerado para se tomar a decisão final.",
     textoSecondario:
@@ -2485,7 +2485,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Arcanos Maiores",
     invertida: false,
     nome: "O Enforcado",
-    url: "https://www.astrolink.com.br/data/tarot/o-enforcado.jpg",
+    url: "o-enforcado",
     textoInicial:
       "Quando o Enforcado aparece em uma consulta, quer dizer que você precisa se desapegar de algo e seguir em frente. Você pode estar se agarrando a algo que não traz satisfação na questão atual, como um amor não correspondido ou nocivo, um emprego que não te levará a lugar algum, uma promoção que não sai, etc. Ao mesmo tempo em que é uma carta que sinaliza que você pode esperar um pouco, também é uma carta que sugere que você pode sair dessa inércia e agir, tentando acelerar ou mudar as coisas. É uma carta que representa um beco sem saída, algo que está estagnado e não dá para ver uma luz no fim do túnel. Parece que alguma força está restringindo a situação mentalizada ou o atual momento. Há em jogo uma sensação de que você não consegue realizar algo por conta de uma incrível inércia. Muitas vezes o desapego pode exigir um sacrifício da sua parte, pode ser doloroso, mas depois que conseguir deixar o que quer que seja para trás, você se sentirá libertado das correntes que te prendiam.",
     textoSecondario:
@@ -2520,7 +2520,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Arcanos Maiores",
     invertida: false,
     nome: "A Morte",
-    url: "https://www.astrolink.com.br/data/tarot/a-morte.jpg",
+    url: "a-morte",
     textoInicial:
       "A carta A Morte pode incutir medo ou receio nos que ainda não compreendem seu significado. De fato, quando pensamos no tema morte, nada de bom vem à mente, porém, o significado desta carta vai muito além do fim derradeiro. Tem a ver com términos, mas também traz consigo a possibilidade de novos começos, mudanças e transformações. A carta deve ser encarada como um símbolo de transição. O significado básico em uma consulta é de que algo pode estar prestes a mudar e possivelmente trará renascimento, melhorando a condição da situação em questão. Claro que mudanças podem ser incômodas, algumas pessoas aceitam melhor, outras são mais resistentes. Porém, a Morte traz consigo a promessa de melhorias assim que você deixar de lado o que estiver te atrapalhando. Escorpião é o signo associado à carta e quando ele corta algo de sua vida, geralmente é para sempre, mas com intenção de melhorá-la. Por isso, essa carta significa que alguma coisa na sua vida ou na situação questionada está prestes a ter um fim para você, mas isso não é ruim. É bom se atentar à energia escorpiana em sua vida ou até mesmo um(a) escorpiano(a) que pode entrar em jogo para interagir com a questão. Seja como for, a carta sugere alterações profundas, transformação e recomeços que representam um novo capítulo.",
     textoSecondario:
@@ -2554,7 +2554,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Arcanos Maiores",
     invertida: false,
     nome: "A Temperança",
-    url: "https://www.astrolink.com.br/data/tarot/a-temperanca.jpg",
+    url: "a-temperanca",
     textoInicial:
       "Temperança é a característica da pessoa que consegue equilibrar suas próprias vontades. Quando a carta aparece em uma consulta, significa basicamente equilíbrio e sugere harmonia para a situação em questão. Como está associada ao signo de Sagitário, o filósofo do Zodíaco, te convida a refletir sobre o panorama das coisas com mais profundidade. Assim, é uma carta que indica mais pensamento do que ação. Você não precisa gastar um monte de energia para resolver sua situação, muito pelo contrário. Em uma leitura, a carta traz a mensagem de que pode ser um bom momento para ser cauteloso, pois é um arcano que muitas vezes sugere moderação. Alguma viagem ou conexão estrangeira pode estar prestes a acontecer ou ter a ver com a questão.",
     textoSecondario:
@@ -2589,7 +2589,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Arcanos Maiores",
     invertida: false,
     nome: "O Diabo",
-    url: "https://www.astrolink.com.br/data/tarot/o-diabo.jpg",
+    url: "o-diabo",
     textoInicial:
       "A carta O Diabo é um Arcano Maior que nunca é visto com bons olhos. Mas, assim como A Morte, não é uma carta negativa. Apenas indica que existem lições que você tem que aprender e isso nem sempre é ruim. Sua associação com Capricórnio sugere que você deve tomar o controle da situação em questão, lidando com as coisas de maneira bem pragmática. Você deve se perguntar o que deseja e o que te impede de obter sucesso em relação a algo. Excessos, maus hábitos, amizades que só atrapalham, problemas de saúde, enfim, qualquer coisa que ponha correntes em você e que causem estagnação na vida ou na situação em questão. Assuma as características capricornianas e tome as rédeas da situação. Quando esta carta aparece em uma consulta, geralmente traz uma lição envolvida. Tem a ver com nossos instintos, sendo assim, luxúria, desejos, ambições, bens materiais e sexo. Apesar de trazer tudo isso, o Diabo é uma carta de dualidade. Você precisa se perguntar o que quer, pois caso se entregue de corpo e alma aos prazeres ou excessos, nada de bom acontecerá. A carta pode indicar que algo que está te segurando, mas você não sabe muito bem o que é. Você pode estar cometendo excessos, pode estar enfermo ou alguém pode estar te atrapalhando. O fato é que talvez o sucesso almejado pode não estar presente ainda. A carta então traz uma mensagem clara: liberte-se! Seja do que for. Deixe de lado más influências, corte os maus hábitos e os excessos, enfim, livre-se de todo peso morto que não te deixar dar o próximo passo na situação em questão.",
     textoSecondario:
@@ -2624,7 +2624,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Arcanos Maiores",
     invertida: false,
     nome: "A Torre",
-    url: "https://www.astrolink.com.br/data/tarot/a-torre.jpg",
+    url: "a-torre",
     textoInicial:
       "O significado da carta A Torre tem a ver com mudanças abruptas. Algo pode mudar em relação à situação questionada. Pense em uma estrutura ou fundação que entra em colapso. Um relacionamento, um emprego, uma amizade e em alguns casos, até mesmo estruturas físicas. Em uma leitura mais abrangente, alguns exemplos são perder o emprego, terminar um relacionamento, romper uma amizade, contrair dívidas ou até mesmo se mudar pode trazer à tona sentimentos conflitantes. Você pode achar que conhece alguém, ou que sabe a verdade sobre algo e acaba levando um choque de realidade quando descobre que estava errado. É como se você encarasse a situação questionada como uma coisa, quando de repente se mostra outra, tornando necessário gerenciar seus sentimentos, abraçar a mudança e seguir em frente, deixando o que quer que seja para trás. Em uma consulta sobre relacionamentos, A Torre pode indicar a necessidade de ser mais flexível com seu par. Caso você não mude, a relação pode entrar em colapso. Caso você esteja procurando alguém, talvez tenha que mudar um pouco seus conceitos e comportamentos para achar a pessoa certa. Para trabalho e finanças, ao mesmo tempo que pode apontar uma mudança de emprego, também pode sugerir cautela com seus recursos. Cuidado para não gastar demais, contrair dívidas ou fazer empréstimos altos. Tente gerir seus recursos com um pouco mais de cautela. Porém, estes são só exemplos. A Torre simplesmente pode sugerir que estamos enganados em relação a algo e temos a chance de reparar nossos erros, mesmo que de maneira dolorosa. O significado básico é a arrogância, ou seja, podemos estar errados a respeito de alguma coisa e precisamos reconhecer, tentando reparar o engano. Seja qual for o caso, as coisas voltam ao seu lugar no seu devido tempo e a harmonia sempre retorna.",
     textoSecondario:
@@ -2659,7 +2659,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Arcanos Maiores",
     invertida: false,
     nome: "A Estrela",
-    url: "https://www.astrolink.com.br/data/tarot/a-estrela.jpg",
+    url: "a-estrela",
     textoInicial:
       "A Estrela tem um significado extremamente positivo em uma consulta. Quando aparece, indica um momento em que as coisas começam a dar certo. Sugere que conflitos podem ser apaziguados, problemas de saúde curados, dívidas quitadas, separações que viram reuniões, situações que se tornam positivas, enfim, indica paz, prosperidade e harmonia em sua resposta. Às vezes também aponta a ajuda de alguém que agirá como seu protetor. Aquário é o signo associado a este Arcano Maior e empresta a ele seu espírito criativo e humanitário. A carta anuncia que bons tempos podem estar se aproximando ou envolvidos com a questão, onde você pode receber ajuda de outras pessoas e poderá ter uma maior noção de que algo superior está cuidando de você e da situação questionada. Sugere também que um(a) aquariano(a) poderá interagir com o momento ou questão, ou que você receberá influências de Aquário de alguma forma.",
     textoSecondario:
@@ -2693,7 +2693,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Arcanos Maiores",
     invertida: false,
     nome: "A Lua",
-    url: "https://www.astrolink.com.br/data/tarot/a-lua.jpg",
+    url: "a-lua",
     textoInicial:
       "A Lua em uma consulta significa que está na hora de você seguir a sua intuição. Indica segredos, mistérios e ilusões. Se você tem que tomar uma decisão e não tem certeza sobre que caminho tomar, escute seu coração. A carta é associada ao signo de Peixes, igualmente intuitivo, mas também ao de Câncer. Peixes até gosta de refletir e ponderar sobre as coisas e às vezes nos encontramos em situações onde falta apenas uma informação para que a decisão seja a mais acertada. Quando a carta da Lua aparece, sugere que suas emoções e sua intuição deverão prevalecer na decisão final. Sugere que provavelmente existem mais coisas acontecendo das quais não temos conhecimento, por isso, assim como Peixes, o melhor a fazer é recuarmos e mergulhar no nosso interior. Buscar a intuição necessária para vermos a situação com mais clareza, para descobrirmos o que falta, o que está escondido. Porém, ao mesmo tempo em que segredos podem ser negativos, este Arcano Maior pode ter uma leitura positiva. É como se a última peça do quebra-cabeças não estivesse disponível ainda, por isso você deve seguir seus instintos pois encontrará as respostas no momento certo.",
     textoSecondario:
@@ -2727,7 +2727,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Arcanos Maiores",
     invertida: false,
     nome: "O Sol",
-    url: "https://www.astrolink.com.br/data/tarot/o-sol.jpg",
+    url: "o-sol",
     textoInicial:
       "O Sol significa que boas energias estão em jogo. Quando esse Arcano Maior aparece na leitura, traz todo seu brilho para o momento. A carta sugere otimismo e abundância, indicando que o sucesso parece ser inevitável. O Sol traz energia para realizar, nos enche de confiança e ilumina nosso caminho. Qualquer situação em questão recebe seu brilho e pode ser resolvida. Esse Arcano Maior é a própria representação da vida e da luz. Ou seja, se você estava passando por tempos difíceis, ou alguma situação parecia sem solução, essa carta vem para indicar que boas coisas virão. O Sol traz otimismo, confiança e energia para que tudo se resolva e melhore.",
     textoSecondario:
@@ -2762,7 +2762,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Arcanos Maiores",
     invertida: false,
     nome: "O Julgamento",
-    url: "https://www.astrolink.com.br/data/tarot/o-julgamento.jpg",
+    url: "o-julgamento",
     textoInicial:
       "Quando a carta O Julgamento aparece em uma leitura, significa que um novo ciclo se inicia. Todo o seu desempenho ou os pormenores da questão serão avaliados e recompensas surgirão. Este Arcano Maior indica que está na hora de você refletir sobre a situação ou sua vida no momento a fim de obter mais consciência e elevação. Você terá uma mente mais clara e obterá as respostas que precisa. É uma carta de renascimento e muitas vezes indica que uma situação desgastada receberá uma injeção de ânimo. Ou seja, o Julgamento chegou e você deve refletir sobre sua vida, sobre o que você precisa mudar para obter êxito sobre uma situação que precisa ser alterada. Às vezes a mudança é lenta, mas com paciência, um recomeço se anuncia. Sugere perdoar, pedir perdão, deixar para trás qualquer bagagem que ainda esteja pesada. Indica que depois de tudo, um novo ciclo se iniciará. Assim, o Julgamento simboliza acima de tudo um recomeço, que dependerá de tudo que você semeou.",
     textoSecondario:
@@ -2796,7 +2796,7 @@ const dbCards: TCardInfo[] = [
     naipe: "Arcanos Maiores",
     invertida: false,
     nome: "O Mundo",
-    url: "https://www.astrolink.com.br/data/tarot/o-mundo.jpg",
+    url: "o-mundo",
     textoInicial:
       "A carta O Mundo significa que a situação em questão terá um desfecho. Esse Arcano Maior anuncia um novo começo e indica que a mudança é inevitável. As mudanças que ocorrem ou ocorrerão tendem a ser positivas, sugerindo resposta positiva. Simboliza que algo em sua vida ou relacionado à questão perguntada chegará a uma conclusão. Seja qual for o próximo passo do caminho, ele significará o início de uma nova jornada. Touro, Leão, Aquário e Escorpião estão representados nessa carta e um deles pode ser uma das respostas para sua situação atual. O Mundo indica basicamente sucesso, onde você finalmente colhe os frutos de seus esforços. Em uma leitura mais ampla, essa carta pode simbolizar o próprio mundo, eventos que acontecem a nível mundial e longas viagens podem ter influência na questão.",
     textoSecondario:

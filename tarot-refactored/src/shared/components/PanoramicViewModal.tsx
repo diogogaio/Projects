@@ -13,6 +13,7 @@ import { memo, useCallback, useMemo, useState } from "react";
 import { Environment } from "../environment";
 import { useGlobalContext } from "../contexts";
 import padilhaImages from "../../assets/images/padilha/padilhaExports";
+import riderWaite from "../../assets/images/riderWaite/riderWaiteExports";
 
 type TPanoramicViewProps = {
   readingTitle: string;
@@ -35,16 +36,20 @@ const PanoramicViewModalComponent = ({ readingTitle }: TPanoramicViewProps) => {
   const panoramicViewContent = useCallback(() => {
     return readingTableCards?.map((card) => {
       // Database card path were updated due to third party cookies disabled by google and not being able to fetch images from google drive
-      const isPexelsOrAstrolink =
-        card.url.includes("astrolink") || card.url.includes("pexels");
+      const riderWaitePath = card.url.includes("astrolink")
+        ? card.url
+        : riderWaite[`${card.url}.jpg`];
+
+      const isPadilha =
+        card.url.includes("padilha") || card.url.includes("google");
 
       const padilhaPath = card.url.includes("padilha")
-        ? padilhaImages[`${card.url}` as keyof typeof padilhaImages]
+        ? padilhaImages[`${card.url}.png` as keyof typeof padilhaImages]
         : padilhaImages[
             `padilha${card.numero?.padStart(
               2,
               "0"
-            )}` as keyof typeof padilhaImages
+            )}.png` as keyof typeof padilhaImages
           ];
 
       const cardName = (
@@ -154,7 +159,7 @@ const PanoramicViewModalComponent = ({ readingTitle }: TPanoramicViewProps) => {
                   setScrollToElementId(card.id);
                   setOpenPanoramicView(false);
                 }}
-                src={isPexelsOrAstrolink ? card.url : padilhaPath}
+                src={isPadilha ? padilhaPath : riderWaitePath}
               />
             </Tooltip>
             {!imageLoading && (
