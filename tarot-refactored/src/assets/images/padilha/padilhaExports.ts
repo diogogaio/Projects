@@ -5,8 +5,6 @@ const imagesRaw = import.meta.glob("./cards/*.png", {
   eager: true,
 }) as Record<string, { default: string }>;
 
-console.log("IMAGES RAW: " + JSON.stringify(imagesRaw));
-
 const padilhaImages: ImageMap = Object.keys(imagesRaw).reduce((acc, path) => {
   const fileName = path.split("/").pop(); // Extract file name
   if (fileName) {

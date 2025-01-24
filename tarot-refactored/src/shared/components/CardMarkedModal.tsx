@@ -53,7 +53,7 @@ export function CardMarkedModal() {
           selectedCardsId?.includes(card.id)
             ? {
                 ...card,
-                markedColor: form?.color || "#3F64F4",
+                markedColor: form?.color || "#9c27b0",
                 markedText: form?.text,
               }
             : card
