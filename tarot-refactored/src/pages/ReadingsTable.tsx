@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import { fromUnixTime } from "date-fns";
 import { useParams } from "react-router-dom";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import {
   useThemeContext,
@@ -22,9 +22,9 @@ import {
 } from "../shared/components";
 import { useDebounce } from "../shared/hooks";
 import { Card } from "../shared/components/Card";
+import { Environment } from "../shared/environment";
 import { exempleReading } from "../../src/assets/CardsDatabase";
 import { AppContainer, AppMainContainer } from "../shared/layouts";
-import { Environment } from "../shared/environment";
 
 export const ReadingsTable = () => {
   const [isOverflowing, setIsOverflowing] = useState(false);
@@ -42,6 +42,8 @@ export const ReadingsTable = () => {
   const { AppThemes } = useThemeContext();
   const { savedReadings, serverLoading, setSavedReadings } = useServerContext();
 
+  const cardsRef = useRef(new Map());
+
   const smDown = useMediaQuery(AppThemes.theme.breakpoints.down("sm"));
   const selectedReading = useMemo(() => {
     const reading = savedReadings?.find((sr) => sr.id === readingId);
@@ -57,31 +59,45 @@ export const ReadingsTable = () => {
   }, [readingNotes]);
 
   useEffect(() => {
-    const onPageLoad = () => {
-      const element = document.querySelector(
-        `img#${CSS.escape(String(scrollToElementId))}`
-      );
-
-      if (scrollToElementId && element) {
-        setTimeout(() => {
-          element?.scrollIntoView({
-            behavior: "instant",
-            block: "center",
-            inline: "center",
-          });
-        }, 500);
-      }
-    };
-
-    // Check if the page has already loaded
     if (document.readyState === "complete") {
-      onPageLoad();
-    } else {
-      window.addEventListener("load", onPageLoad, false);
-      // Remove the event listener when component unmounts
-      return () => window.removeEventListener("load", onPageLoad);
+      const element = cardsRef.current.get(scrollToElementId);
+      if (scrollToElementId && element) {
+        element?.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+          inline: "center",
+        });
+      }
     }
   }, [scrollToElementId]);
+  // If you encounter issues with the above code, replace it with the one below:
+  // useEffect(() => {
+  //   const onPageLoad = () => {
+  //     const element = cardsRef.current.get(scrollToElementId);
+  //     // const element = document.querySelector(
+  //     //   `img#${CSS.escape(String(scrollToElementId))}`
+  //     // );
+
+  //     if (scrollToElementId && element) {
+  //       setTimeout(() => {
+  //         element?.scrollIntoView({
+  //           behavior: "smooth",
+  //           block: "center",
+  //           inline: "center",
+  //         });
+  //       }, 500);
+  //     }
+  //   };
+
+  //   // Check if the page has already loaded
+  //   if (document.readyState === "complete") {
+  //     onPageLoad();
+  //   } else {
+  //     window.addEventListener("load", onPageLoad, false);
+  //     // Remove the event listener when component unmounts
+  //     return () => window.removeEventListener("load", onPageLoad);
+  //   }
+  // }, [scrollToElementId]);
 
   const handleReadingNotes = () => {
     setSavedReadings((prevSavedReadings) =>
@@ -101,6 +117,13 @@ export const ReadingsTable = () => {
           card={card}
           index={index}
           isEdited={!!card.edited}
+          ref={(node) => {
+            // Ref callBack: Store the DOM node in the Map with the card ID as the key
+            // This allows us to access the DOM node later for scrolling
+            const map = cardsRef.current;
+            if (node) map.set(card.id, node); // Store Box's DOM node
+            else map.delete(card.id);
+          }}
         />
       )),
     [readingTableCards]

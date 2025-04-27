@@ -83,9 +83,9 @@ export const DrawerCards = () => {
         }
 
         setReadingTableCards(newReadingCards);
+        setScrollToElementId(dbCard.id);
         if (!isAddingMoreCards) {
           handleClose();
-          setScrollToElementId(dbCard.id);
         }
       } else
         alert("Erro: Não foi possível encontrar base de dados das cartas.");
