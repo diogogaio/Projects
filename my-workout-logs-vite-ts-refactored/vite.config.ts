@@ -9,6 +9,9 @@ export default defineConfig({
   build: {
     commonjsOptions: { transformMixedEsModules: true }, // Change
   },
+  server: {
+    port: 5000, // Set your desired port here
+  },
 });
 
 // I added this plugin below to have ts complains displayed on console, below is the default vite.config.ts before the changes: :

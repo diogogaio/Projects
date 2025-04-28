@@ -33,7 +33,6 @@ import appReducer from "../../reducers/appReducer";
 import { useLocalBaseContext } from "./LocalBaseContext";
 
 let didInit = false;
-let userEmail: string = "unknown user";
 
 const appStates: IAppStateType = {
   appLoading: true,
@@ -51,13 +50,15 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
   const { AppThemes } = useThemeContext();
 
   //Modals
+  const [gymChartsModal, setGymChartsModal] = useState(false);
   const [logTrainingModal, setOpenLogTrainingModal] = useState(false);
   const [loggedTrainingInfoMd, setLoggedTrainingInfoMd] = useState(false);
   const [openNewGymChartModal, setOpenNewGymChartModal] = useState(false);
-  const [gymChartsModal, setGymChartsModal] = useState(false);
 
   //Keep the current date before re-rendering
   let inputDateRef = useRef(state.inputDate);
+  let userEmailRef = useRef("unknown user");
+  const userEmail: string = userEmailRef.current;
 
   useEffect(() => {
     if (!didInit) {
@@ -93,14 +94,14 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
         console.log("Checking if user is online...");
         if (user) {
           console.log("user Online: " + user.email);
-          userEmail = user.email || "unknown user";
+          userEmailRef.current = user.email || "unknown user";
 
           //Update data from server if user is on different device and no data was found there
           Firestore.serverLogic();
           navigate("/Calendar");
         } else {
           console.log("User Offline");
-          userEmail = "unknown user";
+          userEmailRef.current = "unknown user";
           navigate("/Login");
         }
       });
@@ -128,12 +129,17 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
 
         for (const item of state?.gymCharts) {
           console.log("User.clearUserData: Deleting on server: ", item.tittle);
-          await Firestore.deleteDoc(`My Gym Charts - ${userEmail}`, item.id);
+          await Firestore.deleteDoc(
+            `My Gym Charts - ${userEmailRef.current}`,
+            item.id
+          );
         }
       }
-      await LocalBase.deleteCollection(`My Gym Charts - ${userEmail}`);
+      await LocalBase.deleteCollection(
+        `My Gym Charts - ${userEmailRef.current}`
+      );
       const userWorkoutData = await LocalBase.getCollection(
-        `My Workout Data - ${userEmail}`
+        `My Workout Data - ${userEmailRef.current}`
       );
       if (userWorkoutData.length > 0) {
         if (deleteOnServer) {
@@ -144,13 +150,15 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
             const monthData = `${item.year} ${item.month}`;
             console.log("User.clearUserData(): Deleting on server: ", item);
             await Firestore.deleteDoc(
-              `My Workout Data - ${userEmail}`,
+              `My Workout Data - ${userEmailRef.current}`,
               monthData
             );
           }
           localStorage.removeItem("selectedAppTheme");
         }
-        await LocalBase.deleteCollection(`My Workout Data - ${userEmail}`);
+        await LocalBase.deleteCollection(
+          `My Workout Data - ${userEmailRef.current}`
+        );
       }
       console.log("User.clearUserData(): User data was cleared!");
     },
@@ -341,12 +349,12 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
       if (monthData) {
         //SET DATA :
         await Firestore.setDoc(
-          `My Workout Data - ${userEmail}`,
+          `My Workout Data - ${userEmailRef.current}`,
           selectedMonthDocName,
           monthData
         );
         await LocalBase.setData(
-          `My Workout Data - ${userEmail}`,
+          `My Workout Data - ${userEmailRef.current}`,
           selectedMonthDocName,
           monthData
         );
@@ -363,15 +371,15 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
       dispatch({ type: APP_REDUCER_ACTION_TYPE.SET_APP_LOADING_ON });
 
       const previousMonth = await LocalBase.getData(
-        `My Workout Data - ${userEmail}`,
+        `My Workout Data - ${userEmailRef.current}`,
         previousMonthDocName
       );
       const selectedMonth = await LocalBase.getData(
-        `My Workout Data - ${userEmail}`,
+        `My Workout Data - ${userEmailRef.current}`,
         selectedMonthDocName
       );
       const nextMonth = await LocalBase.getData(
-        `My Workout Data - ${userEmail}`,
+        `My Workout Data - ${userEmailRef.current}`,
         nextMonthDocName
       );
 
@@ -409,7 +417,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
 
     async getUserGymCharts() {
       const gymCharts = await LocalBase.getCollection(
-        `My Gym Charts - ${userEmail}`
+        `My Gym Charts - ${userEmailRef.current}`
       );
       if (gymCharts?.length > 0) {
         console.log("App.getUserGymCharts(): Setting gymCharts state.");
@@ -466,12 +474,12 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
           };
 
           await LocalBase.setData(
-            `My Workout Data - ${userEmail}`,
+            `My Workout Data - ${userEmailRef.current}`,
             selectedMonthDocName,
             updatedMonthData
           );
           await Firestore.setDoc(
-            `My Workout Data - ${userEmail}`,
+            `My Workout Data - ${userEmailRef.current}`,
             selectedMonthDocName,
             updatedMonthData
           );
@@ -498,7 +506,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
           };
 
           await LocalBase.setData(
-            `My Workout Data - ${userEmail}`,
+            `My Workout Data - ${userEmailRef.current}`,
             selectedMonthDocName,
             remainingMonthData
           );
@@ -506,7 +514,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
             "App.deleteTraining(): Deleted all training on selected day."
           );
           await Firestore.setDoc(
-            `My Workout Data - ${userEmail}`,
+            `My Workout Data - ${userEmailRef.current}`,
             selectedMonthDocName,
             remainingMonthData
           );
@@ -521,11 +529,11 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
         if (window.confirm("Deseja apagar todos registros deste mês?")) {
           dispatch({ type: APP_REDUCER_ACTION_TYPE.SET_APP_LOADING_ON });
           await LocalBase.deleteDocument(
-            `My Workout Data - ${userEmail}`,
+            `My Workout Data - ${userEmailRef.current}`,
             selectedMonthDocName
           );
           await Firestore.deleteDoc(
-            `My Workout Data - ${userEmail}`,
+            `My Workout Data - ${userEmailRef.current}`,
             selectedMonthDocName
           );
           await App.getSelectedMonthData();
@@ -546,10 +554,13 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
             (g) => g.id !== id
           );
           await LocalBase.setCollection(
-            `My Gym Charts - ${userEmail}`,
+            `My Gym Charts - ${userEmailRef.current}`,
             remainingGymCharts
           );
-          await Firestore.deleteDoc(`My Gym Charts - ${userEmail}`, id);
+          await Firestore.deleteDoc(
+            `My Gym Charts - ${userEmailRef.current}`,
+            id
+          );
           await App.getUserGymCharts();
           dispatch({ type: APP_REDUCER_ACTION_TYPE.SET_APP_LOADING_OFF });
         }
@@ -570,10 +581,15 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
                 "App.deleteAllGymCharts(): Deleting chart on server: ",
                 g.tittle
               );
-              Firestore.deleteDoc(`My Gym Charts - ${userEmail}`, g.id);
+              Firestore.deleteDoc(
+                `My Gym Charts - ${userEmailRef.current}`,
+                g.id
+              );
             }, index * 500);
           });
-          await LocalBase.deleteCollection(`My Gym Charts - ${userEmail}`);
+          await LocalBase.deleteCollection(
+            `My Gym Charts - ${userEmailRef.current}`
+          );
           await App.getUserGymCharts();
           dispatch({ type: APP_REDUCER_ACTION_TYPE.SET_APP_LOADING_OFF });
         }
@@ -586,7 +602,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
       console.log("Firestore.serverLogic(): Executing server logic...");
       if (Utils.isServerAllowed("CHECK_REQUESTS")) {
         const trainingLogsOnServer = await Firestore.getCollection(
-          `My Workout Data - ${userEmail}`
+          `My Workout Data - ${userEmailRef.current}`
         );
         if (trainingLogsOnServer && Array.isArray(trainingLogsOnServer)) {
           if (trainingLogsOnServer.length > 0) {
@@ -614,7 +630,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
     //   console.log("Firestore.serverLogic(): Executing server logic...");
 
     //   const hasDataOnThisDevice = await LocalBase.getCollection(
-    //     `My Workout Data - ${userEmail}`
+    //     `My Workout Data - ${userEmailRef.current}`
     //   );
 
     //   if (hasDataOnThisDevice.length) {
@@ -628,7 +644,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
     //     );
     //     if (Utils.isServerAllowed("CHECK_REQUESTS")) {
     //       const trainingLogsOnServer = await Firestore.getCollection(
-    //         `My Workout Data - ${userEmail}`
+    //         `My Workout Data - ${userEmailRef.current}`
     //       );
     //       if (trainingLogsOnServer && Array.isArray(trainingLogsOnServer)) {
     //         if (trainingLogsOnServer.length > 0) {
@@ -665,7 +681,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
       });
 
       await LocalBase.setCollectionWithDocName(
-        `My Workout Data - ${userEmail}`,
+        `My Workout Data - ${userEmailRef.current}`,
         userCollectionWithDocName
       );
       console.log("Firestore.getUserWorkouts(): Finished updating device.");
@@ -678,13 +694,16 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
         "Firestore.getUserGymCharts(): Looking for user charts on SERVER..."
       );
       const data = await Firestore.getCollection(
-        `My Gym Charts - ${userEmail}`
+        `My Gym Charts - ${userEmailRef.current}`
       );
       if (data ? data.length > 0 : false) {
         console.log(
           "Firestore.getUserGymCharts(): Gym chart data WAS FOUND ON SERVER, setting it on device..."
         );
-        await LocalBase.setCollection(`My Gym Charts - ${userEmail}`, data);
+        await LocalBase.setCollection(
+          `My Gym Charts - ${userEmailRef.current}`,
+          data
+        );
         await App.getUserGymCharts();
       } else {
         console.log(
@@ -700,7 +719,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
       data: TChart | IMonthData | TUserInfo
     ) {
       if (Utils.isServerAllowed("CHECK_REQUESTS")) {
-        if (userEmail !== "unknown user") {
+        if (userEmailRef.current !== "unknown user") {
           console.log(
             `Firestore.setDoc(): Setting collection: "${collectionName}" with document: "${docName}" and on server... `
           );
@@ -791,7 +810,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
 
     async deleteDoc(collectionName: string, docName: string) {
       if (Utils.isServerAllowed("CHECK_REQUESTS")) {
-        if (userEmail !== "unknown user") {
+        if (userEmailRef.current !== "unknown user") {
           try {
             await deleteDoc(doc(db, collectionName, docName));
             console.log(
@@ -842,7 +861,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
 
     async hasSavedGymCharts() {
       const gymCharts = await LocalBase.getCollection(
-        `My Gym Charts - ${userEmail}`
+        `My Gym Charts - ${userEmailRef.current}`
       );
       const hasCharts = gymCharts.length > 0;
       console.log(
@@ -879,7 +898,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
     isServerAllowed(operation: "UPDATE_DEVICE" | "CHECK_REQUESTS") {
       console.log("Firestore.isServerAllowed(): Getting user information...");
 
-      const USER_INFO_COLLECTION = `User info - ${userEmail}`;
+      const USER_INFO_COLLECTION = `User info - ${userEmailRef.current}`;
 
       const newUserInfo: TUserInfo = {
         SERVER_REQUESTS: 1,
@@ -888,7 +907,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
           operation === "UPDATE_DEVICE" ? new Date().toISOString() : undefined,
       };
 
-      if (userEmail === Environment.ADMIN) {
+      if (userEmailRef.current === Environment.ADMIN) {
         console.log("Utils.isServerAllowed(): User is ADMIN.");
         return true;
       }
