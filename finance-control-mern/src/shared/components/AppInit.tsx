@@ -6,6 +6,8 @@ import { PatienceDialog } from "./modals";
 import { useAuthContext } from "../contexts";
 import { useRequestTimer } from "../utils/useRequestTimer";
 
+let didInit = false;
+
 // Keep user from accessing login page if he already have a token
 export const AppInit = () => {
   const { Auth } = useAuthContext();
@@ -18,7 +20,11 @@ export const AppInit = () => {
       await Auth.appInit();
       cancelRequestTimer();
     };
-    initialize();
+
+    if (!didInit) {
+      didInit = true;
+      initialize();
+    }
   }, []);
 
   return (
