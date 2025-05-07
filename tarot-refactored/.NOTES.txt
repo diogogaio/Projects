@@ -16,3 +16,13 @@ SearchFilters.tsx:
 
   setSearchParams: Using "prev" to prevent typescript issues in changing URL state with new object directly. SortByDate function in readingList.tsx will also have undesired results if the other properties are not specified, specially startDate and endDate, because null or undefined in url are strings and not values, causing its variables to be truthy and not falsy as it should be.
 
+REFACTORING: 
+
+. CHECAR SE EDITCARD PODE USAR ReadingCards.handleUECCards, CASO SIM REUTILIZAR A FUNÇAO.
+. MANEIRA DE CRIAR LOADING QUANDO SELECIONAR NOVA LEITURA
+
+
+. test removeSelectedCards
+. test userSignout if the previous user`s reading cards will not show
+. The values passed as props to Providers in contexts should be memoized
+. useState() updater function (setSomething()) is stable, so React does not require it in depency arrays, remove it where necessary.

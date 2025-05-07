@@ -7,7 +7,9 @@ import {
   Skeleton,
   Typography,
   DialogTitle,
+  useMediaQuery,
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { memo, useCallback, useMemo, useState } from "react";
 
 import { Environment } from "../environment";
@@ -24,14 +26,26 @@ const PanoramicViewModalComponent = ({ readingTitle }: TPanoramicViewProps) => {
   const [showComments, setShowComments] = useState(false);
 
   const {
-    // Utils,
-    readingTableCards,
+    selectedReading,
     openPanoramicView,
     scrollToElementId,
-    readingTableColumns,
     setOpenPanoramicView,
     setScrollToElementId,
   } = useGlobalContext();
+
+  const readingTableCards = useMemo(
+    () => selectedReading.reading || [],
+    [selectedReading.reading]
+  );
+
+  const theme = useTheme();
+
+  const smDown = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const readingTableColumns = useMemo(
+    () => selectedReading.readingColumns || (smDown ? 1 : 3),
+    [selectedReading.readingColumns, smDown]
+  );
 
   const panoramicViewContent = useCallback(() => {
     return readingTableCards?.map((card) => {
@@ -139,6 +153,7 @@ const PanoramicViewModalComponent = ({ readingTitle }: TPanoramicViewProps) => {
                   height: "140px",
                   cursor: "pointer",
                   borderRadius: "10px",
+                  transform: card?.invertida ? "rotate(180deg)" : "none",
                 }}
                 id={card.id}
                 loading="lazy"

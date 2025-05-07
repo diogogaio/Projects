@@ -4,6 +4,7 @@ import {
   useCallback,
   ReactElement,
   createContext,
+  useRef,
 } from "react";
 import { differenceInMinutes } from "date-fns";
 
@@ -13,13 +14,12 @@ import {
   IAppContextData,
   TSnackbarOptions,
   IAppProviderProps,
+  TUserSavedReadings,
 } from "../types";
 import { Environment } from "../environment";
-import { useMediaQuery } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
 import { useServerContext } from "./ServerContext";
 import { useLocalBaseContext } from "./LocalBaseContext";
-import { exempleReading } from "../../assets/CardsDatabase";
+import dbCards, { newReading } from "../../assets/CardsDatabase";
 
 export const AppContext = createContext({} as IAppContextData);
 
@@ -35,8 +35,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
   } = useServerContext();
   const { LocalBase } = useLocalBaseContext();
 
-  const theme = useTheme();
-  const smDOwn = useMediaQuery(theme.breakpoints.down("sm"));
+  console.log("APP CONTEXT PROVIDER RENDERING...");
 
   //STATES:
   const [appLoading, setAppLoading] = useState(false);
@@ -47,16 +46,9 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
   const [scrollToElementId, setScrollToElementId] = useState<
     string | undefined
   >(undefined);
-  const [readingTableCards, setReadingTableCards] = useState<
-    TCardInfo[] | undefined
-  >(exempleReading.reading);
-  const [readingNotes, setReadingNotes] = useState<string | undefined>(
-    undefined
-  );
-  const [readingTableColumns, setReadingTableColumns] = useState<number>(
-    smDOwn ? 1 : 3
-  );
 
+  const [selectedReading, setSelectedReading] =
+    useState<TUserSavedReadings>(newReading);
   //DRAWERS:
   const [drawerMenu, setOpenDrawerMenu] = useState(false);
   const [drawerCards, setOpenDrawerCards] = useState<TDrawerCards>({
@@ -85,6 +77,8 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
 
     setAppSnackbarOptions(undefined);
   };
+
+  const lastHandledId = useRef<string | undefined>();
 
   const ReadingCards = {
     clearUEC: useCallback(async () => {
@@ -125,31 +119,131 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
         alert("Você não possui nenhuma carta personalizada!");
       }
     }, [userUEC, userServerUECtag]),
+
+    handleUECCards: useCallback(
+      async (readingCards: TCardInfo[]): Promise<TCardInfo[] | []> => {
+        setServerLoading(true);
+        window.scrollTo(0, 0);
+
+        if (!readingCards)
+          console.error("HandleUECCards: Reading cards are undefined.");
+        const setupCards = await Promise.all(
+          (readingCards || []).map((card) => {
+            let updatedCardName: string;
+            if (card.nome === "Pessoa Intermediária") {
+              // Fixing old database card names with updated names
+              updatedCardName =
+                card.numero === "24"
+                  ? "Pessoa Intermediária Homem"
+                  : "Pessoa Intermediária Mulher";
+            } else updatedCardName = card.nome;
+
+            let isEditedCard = userUEC?.find(
+              (editedCard) => editedCard.nome === updatedCardName
+            );
+            let defaultCard = dbCards.find(
+              (dbCard) => dbCard.nome === updatedCardName
+            );
+
+            if (isEditedCard) {
+              isEditedCard = {
+                ...isEditedCard,
+                id: card.id,
+                comments: card.comments || "",
+                invertida: card.invertida || false,
+                markedText: card.markedText || "",
+                markedColor: card.markedColor || "",
+              };
+            }
+
+            if (defaultCard) {
+              defaultCard = {
+                ...defaultCard,
+                id: card.id,
+                comments: card.comments || "",
+                invertida: card.invertida || false,
+                markedText: card.markedText || "",
+                markedColor: card.markedColor || "",
+              };
+            }
+
+            return isEditedCard
+              ? isEditedCard
+              : defaultCard
+              ? defaultCard
+              : card;
+          })
+        );
+
+        setServerLoading(false);
+        return setupCards;
+      },
+      []
+    ),
   };
 
   const Reading = {
+    async handleSelectedReading(readingId: string | undefined) {
+      console.time("TIMER:");
+      if (lastHandledId.current === readingId) {
+        console.log("⏭ Skipping handleSelectedReading; same ID.");
+        return;
+      }
+      lastHandledId.current = readingId;
+
+      window.scrollTo(0, 0);
+      if (readingId === "new-reading") {
+        console.log("Reading: Creating new reading...");
+        setSelectedReading(newReading);
+        return;
+      }
+      const readingSelected = savedReadings?.find((sr) => sr.id === readingId);
+
+      if (!readingSelected) {
+        console.log("Reading not found.");
+        return;
+      }
+
+      const cards = await ReadingCards.handleUECCards(readingSelected.reading);
+      setScrollToElementId(undefined);
+      setSelectedReading({ ...readingSelected, reading: cards });
+      console.timeEnd("TIMER:");
+    },
+
     async deleteReading(collectionName: string, docId: string = "new-reading") {
-      if (docId && docId !== "new-reading" && collectionName && savedReadings) {
+      if (
+        docId &&
+        docId !== "new-reading" &&
+        collectionName &&
+        !!savedReadings?.length
+      ) {
         if (
           window.confirm("Deseja realmente deletar esta leitura para sempre?")
         ) {
           await LocalBase.deleteDocument(collectionName, docId);
           await Firestore.deleteDoc(collectionName, docId);
           await Firestore.fetchDataFromServer();
-          setReadingTableCards(undefined);
+          setSelectedReading(newReading);
         }
       } else alert("Somente tiragens salvas!");
     },
 
     removeSelectedCards: useCallback(() => {
       if (window.confirm("Deseja remover todas as cartas selecionadas?")) {
-        setReadingTableCards((prev) =>
-          prev?.filter((card) => !selectedCardsId?.includes(card.id))
-        );
+        if (!selectedReading) {
+          return alert("Falha ao remover cartas selecionadas.");
+        }
+        setSelectedReading({
+          ...selectedReading,
+          reading: selectedReading.reading.filter(
+            (card) => !selectedCardsId?.includes(card.id)
+          ),
+        });
+
         setSelectedCardsId(undefined);
         setIsSelectingCards(false);
       }
-    }, [readingTableCards, selectedCardsId]),
+    }, [selectedReading?.reading, selectedCardsId]),
 
     updateDeviceReadings: useCallback(async () => {
       if (Environment.ADMIN_USER_TAG === userServerTag) {
@@ -251,28 +345,24 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
         appLoading,
         drawerCards,
         ReadingCards,
-        readingNotes,
+        selectedReading,
         selectedCardsId,
         isSelectingCards,
         scrollToElementId,
-        readingTableCards,
         openPanoramicView,
         appSnackbarOptions,
         openCardMarkedModal,
-        readingTableColumns,
         openSaveReadingModal,
         setAppLoading,
-        setReadingNotes,
         setOpenDrawerMenu,
         setOpenDrawerCards,
         setSelectedCardsId,
         setIsSelectingCards,
-        setReadingTableCards,
         setScrollToElementId,
         setOpenPanoramicView,
+        setSelectedReading,
         setAppSnackbarOptions,
         setOpenCardMarkedModal,
-        setReadingTableColumns,
         setOpenSaveReadingModal,
         handleCloseAppSnackBarOptions,
       }}

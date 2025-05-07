@@ -26,10 +26,16 @@ export const EditCard = () => {
   const [imageLoading, setImageLoading] = useState(true);
   const [expanded, setExpanded] = useState<string | false>(false);
 
-  const { readingTableCards, setReadingTableCards, setScrollToElementId } =
+  const { selectedReading, setSelectedReading, setScrollToElementId } =
     useGlobalContext();
+
   const { userUEC, Firestore, userServerUECtag, setUserUEC } =
     useServerContext();
+
+  const readingTableCards = useMemo(
+    () => selectedReading?.reading || [],
+    [selectedReading]
+  );
 
   const { readingId, cardName } = useParams();
   const navigate = useNavigate();
@@ -139,6 +145,9 @@ export const EditCard = () => {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
+      console.log("SUBMITTING EDITED CARD");
+
+      if (!selectedReading) return alert("Nenhuma tiragem selecionada!");
 
       if (!event.currentTarget.checkValidity()) {
         // Form is invalid, display a custom message or handle it as needed
@@ -161,20 +170,19 @@ export const EditCard = () => {
             ? userUEC?.map((card) => (card.nome === cardName ? newCard : card))
             : [...(userUEC || []), newCard]
         );
-        setReadingTableCards((prev) =>
-          prev?.map((card) => {
-            return card.nome === newCard.nome
-              ? {
-                  ...newCard,
-                  id: card.id,
-                  comments: card.comments || "",
-                  invertida: card.invertida || false,
-                  markedText: card.markedText || "",
-                  markedColor: card.markedColor || "",
-                }
-              : card;
-          })
-        );
+        const filteredCards = selectedReading?.reading.map((card) => {
+          return card.nome === newCard.nome
+            ? {
+                ...newCard,
+                id: card.id,
+                comments: card.comments || "",
+                invertida: card.invertida || false,
+                markedText: card.markedText || "",
+                markedColor: card.markedColor || "",
+              }
+            : card;
+        });
+        setSelectedReading({ ...selectedReading, reading: filteredCards });
         setScrollToElementId(cardToEdit?.id);
         navigate(`/readings-table/${readingId}`);
       } else console.error("Something went wrong when saving...");
@@ -295,29 +303,26 @@ export const EditCard = () => {
             }}
           >
             {cardImage}
-            <Box
-              noValidate
-              width="100%"
-              component="form"
-              onSubmit={handleSubmit}
-            >
+            <Box noValidate width="100%" component="form">
               {cardToEditAccordion()}
             </Box>
             <Stack direction="row" textAlign="center">
-              <Button color={Environment.APP_MAIN_TEXT_COLOR} type="submit">
-                {" "}
-                Salvar
-              </Button>
-              <Button
-                color={Environment.APP_MAIN_TEXT_COLOR}
-                onClick={() => {
-                  setScrollToElementId(cardToEdit?.id);
-                  navigate(`/readings-table/${readingId}`);
-                }}
-              >
-                {" "}
-                Cancelar
-              </Button>
+              <form onSubmit={handleSubmit}>
+                <Button color={Environment.APP_MAIN_TEXT_COLOR} type="submit">
+                  {" "}
+                  Salvar
+                </Button>
+                <Button
+                  color={Environment.APP_MAIN_TEXT_COLOR}
+                  onClick={() => {
+                    setScrollToElementId(cardToEdit?.id);
+                    navigate(`/readings-table/${readingId}`);
+                  }}
+                >
+                  {" "}
+                  Cancelar
+                </Button>
+              </form>
             </Stack>
           </Box>
         </AppMainContainer>

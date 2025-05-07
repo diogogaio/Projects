@@ -1,4 +1,3 @@
-import { useState, FormEvent, useEffect, ChangeEvent } from "react";
 import {
   Box,
   Modal,
@@ -11,6 +10,7 @@ import {
   FormControl,
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { useState, FormEvent, useEffect, ChangeEvent } from "react";
 
 import { Sell } from "@mui/icons-material";
 import { Environment } from "../environment";
@@ -29,27 +29,29 @@ export function CardMarkedModal() {
 
   const {
     selectedCardsId,
+    selectedReading,
     isSelectingCards,
-    readingTableCards,
     openCardMarkedModal,
     setSelectedCardsId,
+    setSelectedReading,
     setIsSelectingCards,
-    setReadingTableCards,
     setOpenCardMarkedModal,
   } = useGlobalContext();
 
   useEffect(() => {
-    if (readingTableCards) {
+    if (selectedReading.reading) {
       handleClose();
     }
-  }, [readingTableCards]);
+  }, [selectedReading.reading]);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (readingTableCards) {
+    if (selectedReading) {
       setLoading(true);
-      setReadingTableCards(
-        readingTableCards.map((card) =>
+
+      setSelectedReading({
+        ...selectedReading,
+        reading: selectedReading.reading.map((card) =>
           selectedCardsId?.includes(card.id)
             ? {
                 ...card,
@@ -57,8 +59,8 @@ export function CardMarkedModal() {
                 markedText: form?.text,
               }
             : card
-        )
-      );
+        ),
+      });
       setSelectedCardsId(undefined);
     }
   };

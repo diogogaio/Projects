@@ -40,9 +40,9 @@ export const ServerProvider = ({
 }: IServerProviderProps): ReactElement => {
   //STATES:
   const [serverLoading, setServerLoading] = useState(false);
-  const [savedReadings, setSavedReadings] = useState<
-    TUserSavedReadings[] | undefined
-  >(undefined);
+  const [savedReadings, setSavedReadings] = useState<TUserSavedReadings[]>([
+    exempleReading,
+  ]);
   const [serverSnackBarAlert, setServerSnackBarAlert] = useState<
     TServerSnackbarOptions | undefined
   >(undefined);
@@ -185,9 +185,9 @@ export const ServerProvider = ({
             navigate("/saved-readings-list/exemple-reading");
           } else {
             console.log(
-              "fetchDataFromServer: No user data found ON SERVER. Setting exemple reading..."
+              "fetchDataFromServer: No user data found ON SERVER. Showing exemple reading..."
             );
-            setSavedReadings([exempleReading]);
+            // setSavedReadings([exempleReading]);
             if (serverLoading) setServerLoading(false);
             navigate("/readings-table/exemple-reading");
           }
@@ -308,14 +308,15 @@ export const ServerProvider = ({
           );
           try {
             await deleteDoc(doc(db, collectionName, `${docName}`));
-            if (serverLoading) setServerLoading(false);
+            console.log("APAGADO COM SUCESSO DO SERVIDOR: ");
+            setServerLoading(false);
             setServerSnackBarAlert({
               open: true,
               message: "Apagado com sucesso do servidor!",
               severity: "success",
             });
           } catch (error) {
-            if (serverLoading) setServerLoading(false);
+            setServerLoading(false);
             setServerSnackBarAlert({
               open: true,
               message: "Erro ao apagar no servidor.",

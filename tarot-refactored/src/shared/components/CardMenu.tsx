@@ -15,6 +15,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { Environment } from "../environment";
 import { useGlobalContext, useServerContext } from "../contexts";
+import dbCards from "../../assets/CardsDatabase";
 
 type TCardMenuProps = {
   id: string;
@@ -27,8 +28,10 @@ export const CardMenu = ({ id, isUpsideDown, name, index }: TCardMenuProps) => {
   const { Firestore, userUEC, serverLoading, userServerUECtag, setUserUEC } =
     useServerContext();
   const {
-    readingTableCards,
-    setReadingTableCards,
+    // readingTableCards,
+    // setReadingTableCards,
+    selectedReading,
+    setSelectedReading,
     setSelectedCardsId,
     setOpenDrawerCards,
     setOpenCardMarkedModal,
@@ -38,6 +41,7 @@ export const CardMenu = ({ id, isUpsideDown, name, index }: TCardMenuProps) => {
 
   const navigate = useNavigate();
   const { readingId } = useParams();
+  const readingTableCards = selectedReading.reading;
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -144,26 +148,31 @@ export const CardMenu = ({ id, isUpsideDown, name, index }: TCardMenuProps) => {
 
   const markCardOff = () => {
     if (readingTableCards)
-      setReadingTableCards(
-        readingTableCards.map((card) =>
+      setSelectedReading({
+        ...selectedReading,
+        reading: readingTableCards.map((card) =>
           card.id === id ? { ...card, markedText: "", markedColor: "" } : card
-        )
-      );
+        ),
+      });
   };
 
   const removeCard = (id: string) => {
     console.log("removeCard: Removing card...");
     if (readingTableCards)
-      setReadingTableCards(readingTableCards.filter((card) => card.id !== id));
+      setSelectedReading({
+        ...selectedReading,
+        reading: readingTableCards.filter((card) => card.id !== id),
+      });
   };
 
   const upSideDown = () => {
     if (readingTableCards)
-      setReadingTableCards(
-        readingTableCards.map((card) =>
+      setSelectedReading({
+        ...selectedReading,
+        reading: readingTableCards.map((card) =>
           card.id === id ? { ...card, invertida: !card.invertida } : card
-        )
-      );
+        ),
+      });
   };
 
   const restoreDefaultCardMeanings = async (cardName: string) => {
@@ -179,6 +188,27 @@ export const CardMenu = ({ id, isUpsideDown, name, index }: TCardMenuProps) => {
         );
       await Firestore.deleteDoc(userServerUECtag, cardName);
       setUserUEC(userUEC?.filter((card) => card.nome !== cardName));
+
+      let defaultChart = dbCards.find((dbCard) => dbCard.nome === cardName);
+
+      if (!defaultChart)
+        return alert("Erro: Carta não encontrada na base de dados.");
+
+      setSelectedReading((prev) => ({
+        ...prev,
+        reading: prev.reading.map((card) =>
+          card.nome === cardName
+            ? {
+                ...defaultChart,
+                id: card.id,
+                comments: card.comments || "",
+                invertida: card.invertida || false,
+                markedText: card.markedText || "",
+                markedColor: card.markedColor || "",
+              }
+            : card
+        ),
+      }));
     } else {
       alert("Esta carta já é padrão.");
     }

@@ -5,6 +5,7 @@ export * from "./CardMenu";
 export * from "./MenuMini";
 export * from "./DrawerMenu";
 export * from "./DrawerCards";
+export * from "./ReadingNotes";
 export * from "./CardsSelector";
 export * from "./SearchFilters";
 export * from "./SnackbarAlert";

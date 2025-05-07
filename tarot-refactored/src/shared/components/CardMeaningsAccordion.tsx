@@ -10,7 +10,7 @@ import {
   AccordionSummary,
 } from "@mui/material";
 import { ArrowDropDown } from "@mui/icons-material";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 
 import {
   useThemeContext,
@@ -24,45 +24,81 @@ type TCardMeaningsAccordionProps = {
   card: TCardInfo;
 };
 
+type TCardCommentsProps = {
+  card: TCardInfo;
+};
+
+const CardComments = ({ card }: TCardCommentsProps) => {
+  const { debounce } = useDebounce(500);
+  const { serverLoading } = useServerContext();
+  const { selectedReading, setSelectedReading } = useGlobalContext();
+  const [cardComments, setCardComments] = useState<string>(card.comments || "");
+
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    } else {
+      debounce(handleCardComments);
+    }
+  }, [cardComments]);
+
+  const handleCardComments = () => {
+    const newReadingTableCardsComments = selectedReading.reading?.map((c) => {
+      if (c.id === card.id) {
+        return {
+          ...c,
+          comments: cardComments,
+        };
+      } else {
+        return c;
+      }
+    });
+
+    setSelectedReading({
+      ...selectedReading,
+      reading: newReadingTableCardsComments,
+    });
+  };
+
+  return (
+    <TextField
+      rows={4}
+      multiline
+      fullWidth
+      id={card.id}
+      name="comments"
+      disabled={serverLoading}
+      onChange={(event) => setCardComments(event.target.value)}
+      defaultValue={card.comments}
+      placeholder={"Ex: Carta tem aparecido frequentemente."}
+      inputProps={{
+        maxLength: 250,
+      }}
+    />
+  );
+};
+
 export const CardMeaningsAccordion = ({
   card,
 }: TCardMeaningsAccordionProps) => {
   const [expanded, setExpanded] = useState<string | false>(false);
-  const [cardComments, setCardComments] = useState<string | undefined>(
-    card?.comments
-  );
 
-  const { debounce } = useDebounce(500);
   const { AppThemes } = useThemeContext();
   const { serverLoading } = useServerContext();
-  const { readingTableCards, setReadingTableCards } = useGlobalContext();
 
   const shrinkFont = useMediaQuery(AppThemes.theme.breakpoints.down(960));
 
-  useEffect(() => {
-    if (cardComments !== undefined) debounce(handleCardComments);
-  }, [cardComments]);
+  // useEffect(() => {
+  //   if (cardComments !== undefined) debounce(handleCardComments);
+  // }, [cardComments]);
 
   const handleChange =
     (panel: string) => (_: React.SyntheticEvent, newExpanded: boolean) => {
       setExpanded(newExpanded ? panel : false);
     };
-
-  const handleCardComments = () => {
-    const newReadingTableCardsComments = readingTableCards?.map(
-      (readingTableCard) => {
-        if (readingTableCard.id === card?.id) {
-          return {
-            ...readingTableCard,
-            comments: cardComments,
-          };
-        } else {
-          return readingTableCard;
-        }
-      }
-    );
-    setReadingTableCards(newReadingTableCardsComments);
-  };
 
   const moreInfo = useMemo(() => {
     const cardProperties = [
@@ -213,20 +249,7 @@ export const CardMeaningsAccordion = ({
           </Tooltip>
         </AccordionSummary>
         <AccordionDetails>
-          <TextField
-            rows={4}
-            multiline
-            fullWidth
-            id={card.id}
-            name="comments"
-            disabled={serverLoading}
-            onChange={(event) => setCardComments(event.target.value)}
-            defaultValue={card.comments}
-            placeholder={"Ex: Carta tem aparecido frequentemente."}
-            inputProps={{
-              maxLength: 250,
-            }}
-          />
+          <CardComments card={card} />
         </AccordionDetails>
       </Accordion>
       {moreInfo}

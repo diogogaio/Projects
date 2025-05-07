@@ -116,6 +116,14 @@ export const exempleReading: TUserSavedReadings = {
   timestamp: Timestamp.fromDate(new Date("2020-02-02")),
 };
 
+export const newReading: TUserSavedReadings = {
+  id: "new-reading",
+  title: "Nova leitura",
+  notes: "",
+  reading: [],
+  timestamp: Timestamp.fromDate(new Date()),
+};
+
 const dbCards: TCardInfo[] = [
   {
     id: nanoid(),

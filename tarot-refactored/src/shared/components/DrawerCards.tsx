@@ -33,7 +33,8 @@ export const DrawerCards = () => {
   const { savedReadings } = useServerContext();
   const { drawerCards, setOpenDrawerCards, setScrollToElementId } =
     useGlobalContext();
-  const { readingTableCards, setReadingTableCards } = useGlobalContext();
+  const { selectedReading, setSelectedReading } = useGlobalContext();
+  const readingTableCards = selectedReading.reading;
 
   const { readingId } = useParams();
 
@@ -82,7 +83,8 @@ export const DrawerCards = () => {
           newReadingCards.push(dbCard);
         }
 
-        setReadingTableCards(newReadingCards);
+        // setReadingTableCards(newReadingCards);
+        setSelectedReading({ ...selectedReading, reading: newReadingCards });
         setScrollToElementId(dbCard.id);
         if (!isAddingMoreCards) {
           handleClose();

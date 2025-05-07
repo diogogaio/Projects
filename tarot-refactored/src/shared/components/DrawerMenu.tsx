@@ -24,7 +24,7 @@ import {
   useServerContext,
 } from "../contexts";
 import { CardsSelector } from "./CardsSelector";
-import { exempleReading } from "../../assets/CardsDatabase";
+import { newReading, exempleReading } from "../../assets/CardsDatabase";
 
 type TDrawerOption = {
   text: string;
@@ -49,33 +49,42 @@ export const DrawerMenu = () => {
     Reading,
     drawerMenu,
     ReadingCards,
-    readingNotes,
+    // readingNotes,
     selectedCardsId,
+    selectedReading,
     isSelectingCards,
-    readingTableCards,
-    readingTableColumns,
-    setReadingNotes,
+    // readingTableCards,
+    // readingTableColumns,
+    // setReadingNotes,
     setOpenDrawerMenu,
     setSelectedCardsId,
     setIsSelectingCards,
-    setReadingTableCards,
+    setSelectedReading,
+    // setReadingTableCards,
     setOpenPanoramicView,
     setAppSnackbarOptions,
-    setReadingTableColumns,
+    // setReadingTableColumns,
     setOpenCardMarkedModal,
     setOpenSaveReadingModal,
   } = useGlobalContext();
 
-  const { User, userUEC, userServerTag } = useServerContext();
+  const { User, userUEC, userServerTag, setSavedReadings } = useServerContext();
 
   const navigate = useNavigate();
   const location = useLocation();
   const { readingId } = useParams();
   const { AppThemes } = useThemeContext();
   const smDown = useMediaQuery(AppThemes.theme.breakpoints.down("sm"));
+  const readingTableCards = selectedReading.reading;
+  const readingTableColumns =
+    selectedReading?.readingColumns || (smDown ? 1 : 3);
 
   const handleColumnsChange = (event: SelectChangeEvent) => {
-    setReadingTableColumns(Number(event.target.value));
+    // setReadingTableColumns(Number(event.target.value));
+    setSelectedReading({
+      ...selectedReading,
+      readingColumns: Number(event.target.value),
+    });
   };
 
   const disabledConditions = useMemo(
@@ -115,8 +124,8 @@ export const DrawerMenu = () => {
         icon: "refresh",
         onClick: () => {
           if (window.confirm("Existem cartas na mesa, deseja continuar?"))
-            if (readingTableCards) setReadingTableCards(undefined);
-          if (readingNotes) setReadingNotes(undefined);
+            if (readingTableCards) setSelectedReading(newReading);
+          // if (readingNotes) setReadingNotes(undefined);
 
           navigate("/readings-table/new-reading");
         },
@@ -221,7 +230,7 @@ export const DrawerMenu = () => {
       userUEC,
       location,
       readingId,
-      readingNotes,
+      // readingNotes,
       userServerTag,
       selectedCardsId,
       isSelectingCards,
@@ -312,7 +321,7 @@ export const DrawerMenu = () => {
             onClick={async () => {
               if (userServerTag) {
                 await User.signUserOut();
-                setReadingTableCards(exempleReading.reading);
+                setSavedReadings([exempleReading]);
               } else {
                 navigate("/login");
               }

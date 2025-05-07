@@ -7,3 +7,6 @@ Note: Unlike Create React App, Vite does not automatically inject environment va
 
 
 
+Refactoring:
+
+ . useState() updater function (setSomething()) is stable, so React does not require it in depency arrays, remove it where necessary.

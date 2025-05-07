@@ -7,6 +7,7 @@ import {
   useGlobalContext,
   useServerContext,
 } from "../contexts";
+import { newReading } from "../../assets/CardsDatabase";
 
 type TMiniOptions = {
   text: string;
@@ -20,24 +21,22 @@ type TMiniOptions = {
 export const MenuMini = () => {
   const {
     Reading,
-    readingNotes,
     selectedCardsId,
     isSelectingCards,
-    readingTableCards,
-    setReadingNotes,
+    selectedReading,
     setOpenDrawerMenu,
     setSelectedCardsId,
     setIsSelectingCards,
-    setReadingTableCards,
+    setSelectedReading,
     setOpenPanoramicView,
     setAppSnackbarOptions,
     setOpenCardMarkedModal,
     setOpenSaveReadingModal,
   } = useGlobalContext();
 
+  const { AppThemes } = useThemeContext();
   const { User, userServerTag, userUEC, userEmail, serverLoading } =
     useServerContext();
-  const { AppThemes } = useThemeContext();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -53,6 +52,7 @@ export const MenuMini = () => {
     [userServerTag, isSelectingCards, location]
   );
 
+  const readingTableCards = selectedReading.reading;
   const btwSizes = useMediaQuery(
     AppThemes.theme.breakpoints.between("md", 1500)
   );
@@ -80,8 +80,7 @@ export const MenuMini = () => {
         hide: mdDown || btwSizes,
         onClick: () => {
           if (window.confirm("Existem cartas na mesa, deseja continuar?"))
-            if (readingTableCards) setReadingTableCards(undefined);
-          if (readingNotes) setReadingNotes(undefined);
+            setSelectedReading(newReading);
 
           navigate("/readings-table/new-reading");
         },
@@ -196,7 +195,6 @@ export const MenuMini = () => {
     btwSizes,
     location,
     readingId,
-    readingNotes,
     serverLoading,
     userServerTag,
     selectedCardsId,

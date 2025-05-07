@@ -17,14 +17,14 @@ import {
   TableContainer,
   LinearProgress,
 } from "@mui/material";
-import { fromUnixTime } from "date-fns";
-import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   useLocation,
   useNavigate,
   useParams,
   useSearchParams,
 } from "react-router-dom";
+import { fromUnixTime } from "date-fns";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import {
   useThemeContext,
@@ -33,33 +33,26 @@ import {
 } from "../shared/contexts";
 //@ts-ignore
 import Localbase from "localbase";
-import { TCardInfo } from "../shared/types";
 import { Environment } from "../shared/environment";
-import dbCards, { exempleReading } from "../assets/CardsDatabase";
 import { AppContainer, AppMainContainer } from "../shared/layouts";
 import { SearchFilters, SnackbarAlert } from "../shared/components";
 
 export const SavedReadingList = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
   const [loading, setLoading] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const location = useLocation();
-
-  const {
-    Reading,
-    readingNotes,
-    setReadingNotes,
-    readingTableCards,
-    scrollToElementId,
-    setReadingTableCards,
-    setScrollToElementId,
-    setReadingTableColumns,
-  } = useGlobalContext();
-  const { AppThemes } = useThemeContext();
-  const { userUEC, savedReadings, serverLoading, userServerTag } =
-    useServerContext();
-
   const navigate = useNavigate();
   const { readingId } = useParams();
+  const { AppThemes } = useThemeContext();
+  const { Reading, selectedReading } = useGlobalContext();
+  const { savedReadings, serverLoading, userServerTag } = useServerContext();
+
+  const readingTableCards = useMemo(
+    () => selectedReading.reading || [],
+    [selectedReading.reading]
+  );
+
   const smDOwn = useMediaQuery(AppThemes.theme.breakpoints.down("sm"));
   const perPage = Environment.MAX_READINGS_LISTING; // Number of items per page
 
@@ -162,11 +155,7 @@ export const SavedReadingList = () => {
     );
   }
 
-  const goToSelectedReading = async (
-    id: string,
-    reading: TCardInfo[],
-    readingColumns?: number
-  ) => {
+  const selectReading = (id: string) => {
     if (readingTableCards && readingId !== "exemple-reading") {
       if (
         window.confirm(
@@ -175,77 +164,18 @@ export const SavedReadingList = () => {
       ) {
       } else return;
     }
-
-    try {
-      setLoading(true);
-      window.scrollTo(0, 0);
-      const arrangedCards = await Promise.all(
-        reading.map((card) => {
-          let updatedCardName: string;
-          if (card.nome === "Pessoa Intermediária") {
-            // Fixing old database card names with updated names
-            updatedCardName =
-              card.numero === "24"
-                ? "Pessoa Intermediária Homem"
-                : "Pessoa Intermediária Mulher";
-          } else updatedCardName = card.nome;
-
-          let isEditedCard = userUEC?.find(
-            (editedCard) => editedCard.nome === updatedCardName
-          );
-          let defaultCard = dbCards.find(
-            (dbCard) => dbCard.nome === updatedCardName
-          );
-
-          if (isEditedCard) {
-            isEditedCard = {
-              ...isEditedCard,
-              id: card.id,
-              comments: card.comments || "",
-              invertida: card.invertida || false,
-              markedText: card.markedText || "",
-              markedColor: card.markedColor || "",
-            };
-          }
-
-          if (defaultCard) {
-            defaultCard = {
-              ...defaultCard,
-              id: card.id,
-              comments: card.comments || "",
-              invertida: card.invertida || false,
-              markedText: card.markedText || "",
-              markedColor: card.markedColor || "",
-            };
-          }
-
-          return isEditedCard ? isEditedCard : defaultCard ? defaultCard : card;
-        })
-      );
-
-      if (scrollToElementId) setScrollToElementId(undefined);
-      setReadingTableCards(arrangedCards);
-      if (readingNotes) setReadingNotes(undefined);
-      if (readingColumns) setReadingTableColumns(readingColumns);
-      setTimeout(() => {
-        setLoading(false);
-        navigate(`/readings-table/${id}`, {
-          state: {
-            searchParams: {
-              search,
-              endDate,
-              startDate,
-              cardSearch,
-              page,
-            },
-          },
-        });
-      }, 500);
-    } catch (error) {
-      alert("Erro ao processar.");
-      console.error(error);
-      setLoading(false);
-    }
+    navigate(`/readings-table/${id}`);
+    // navigate(`/readings-table/${id}`, {
+    //   state: {
+    //     searchParams: {
+    //       search,
+    //       endDate,
+    //       startDate,
+    //       cardSearch,
+    //       page,
+    //     },
+    //   },
+    // });
   };
 
   const listTable = useCallback(() => {
@@ -255,7 +185,7 @@ export const SavedReadingList = () => {
     const paginatedList = sortedList?.slice(startIndex, endIndex);
 
     const listContent = paginatedList?.map((savedReading) => {
-      let { id, title, reading, timestamp, readingColumns } = savedReading;
+      let { id, title, reading, timestamp } = savedReading;
 
       const convertedTimestamp = fromUnixTime(timestamp.seconds);
 
@@ -267,7 +197,7 @@ export const SavedReadingList = () => {
         >
           <TableCell
             onClick={() => {
-              goToSelectedReading(id, reading, readingColumns);
+              selectReading(id);
             }}
             scope="row"
             align="left"
@@ -404,11 +334,6 @@ export const SavedReadingList = () => {
             disabled={!readingId}
             color={Environment.APP_MAIN_TEXT_COLOR}
             onClick={() => {
-              if (readingId === "exemple-reading") {
-                const exemple = exempleReading;
-                goToSelectedReading(exemple.id, exemple.reading);
-                return;
-              }
               navigate(`/readings-table/${readingId}`, {
                 state: {
                   searchParams: {

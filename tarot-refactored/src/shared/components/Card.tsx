@@ -7,7 +7,7 @@ import {
   FormGroup,
   Typography,
 } from "@mui/material";
-import { forwardRef, useRef, useState } from "react";
+import { forwardRef, useMemo, useRef, useState } from "react";
 
 import { TCardInfo } from "../types";
 import { CardMenu } from "./CardMenu";
@@ -30,15 +30,19 @@ export const Card = forwardRef<HTMLDivElement, TCardProps>(
     const [imageLoading, setImageLoading] = useState(true);
     const {
       selectedCardsId,
+      selectedReading,
       isSelectingCards,
       scrollToElementId,
-      readingTableCards,
       setSelectedCardsId,
       setOpenPanoramicView,
       setScrollToElementId,
       setAppSnackbarOptions,
     } = useGlobalContext();
 
+    const readingTableCards = useMemo(
+      () => selectedReading.reading || [],
+      [selectedReading.reading]
+    );
     const isUpsideDown = card?.invertida;
     const typographyRef = useRef<HTMLDetailsElement>(null);
     const isAlreadySelected = !!selectedCardsId?.find(
@@ -70,6 +74,7 @@ export const Card = forwardRef<HTMLDivElement, TCardProps>(
     };
 
     const handleCardsSelection = (cardId: string) => {
+      console.log("handleCardsSelection: ", cardId);
       if (isAlreadySelected) {
         if (selectedCardsId) {
           const removeId = selectedCardsId.filter((id) => id !== cardId);
@@ -84,8 +89,9 @@ export const Card = forwardRef<HTMLDivElement, TCardProps>(
     };
 
     const handlePanoramicViewFeature = () => {
+      console.log("handlePanoramicViewFeature: ");
       if (readingTableCards && readingTableCards.length >= 2) {
-        setScrollToElementId(card?.id);
+        setScrollToElementId(card.id);
         setOpenPanoramicView(true);
       } else
         setAppSnackbarOptions({
@@ -149,7 +155,7 @@ export const Card = forwardRef<HTMLDivElement, TCardProps>(
               ? element.scrollIntoView({
                   block: "center",
                   inline: "center",
-                  behavior: "instant",
+                  behavior: "smooth",
                 })
               : console.log;
           }}
@@ -264,9 +270,9 @@ export const Card = forwardRef<HTMLDivElement, TCardProps>(
         )}
 
         <CardMenu
-          key={card?.id}
+          key={card.id}
           index={index}
-          id={card?.id}
+          id={card.id}
           isUpsideDown={!!isUpsideDown}
           name={card?.nome}
         />

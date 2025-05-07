@@ -9,9 +9,9 @@ import {
 } from "@mui/material";
 import { nanoid } from "nanoid";
 import SaveIcon from "@mui/material/Icon";
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { useNavigate, useParams } from "react-router-dom";
 
 import {
   useThemeContext,
@@ -27,25 +27,29 @@ export const SaveReadingModal = () => {
   const [loading, setLoading] = useState(false);
 
   const {
-    readingNotes,
-    readingTableCards,
-    readingTableColumns,
+    selectedReading,
+    setSelectedReading,
     openSaveReadingModal,
     setOpenSaveReadingModal,
   } = useGlobalContext();
-  const { savedReadings, Firestore, userServerTag, setSavedReadings } =
-    useServerContext();
+
   const { AppThemes } = useThemeContext();
   const { LocalBase } = useLocalBaseContext();
+  const { savedReadings, Firestore, userServerTag, setSavedReadings } =
+    useServerContext();
 
   const { readingId } = useParams();
-  const navigate = useNavigate();
 
-  const selectedReading = useMemo(
-    () => savedReadings?.find((sr) => sr.id === readingId),
-    [readingId, savedReadings]
-  );
-  const [readingTittle, setReadingTittle] = useState(selectedReading?.title);
+  const defaultTitle =
+    selectedReading.id === "new-reading" ? "" : selectedReading.title;
+
+  const [readingTittle, setReadingTittle] = useState(defaultTitle);
+
+  useEffect(() => {
+    if (selectedReading) {
+      setReadingTittle(defaultTitle);
+    }
+  }, [selectedReading]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -73,23 +77,33 @@ export const SaveReadingModal = () => {
     console.log("IS ALLOWED TO SAVE? ", isAllowedToSaveOnServer);
 
     if (
-      readingTableCards &&
+      selectedReading &&
       userServerTag &&
       readingId &&
       (userServerTag === Environment.ADMIN_USER_TAG
         ? true
         : isAllowedToSaveOnServer)
     ) {
-      if (selectedReading && readingTittle) {
+      if (!readingTittle) {
+        alert("Por favor, insira um título para a leitura.");
+        setLoading(false);
+        return;
+      }
+
+      const isNewReading = !!!savedReadings?.find(
+        (reading) => reading.id === readingId
+      );
+
+      if (!isNewReading && readingId !== "new-reading") {
         // UPDATE EXISTING SAVED READINGS:
         console.log("Updating existing reading...");
         console.log("READING TITLE: ", readingTittle);
         const updatedReading: TUserSavedReadings = {
           ...selectedReading,
           title: readingTittle,
-          reading: readingTableCards,
-          readingColumns: readingTableColumns,
         };
+
+        console.log("Saving updated reading...", updatedReading);
 
         const saveOnServer = await Firestore.setDoc(
           userServerTag,
@@ -103,11 +117,14 @@ export const SaveReadingModal = () => {
             updatedReading.id,
             updatedReading
           );
+
           setSavedReadings((prevSavedReadings) =>
-            prevSavedReadings?.map((savedReading) =>
+            prevSavedReadings.map((savedReading) =>
               savedReading.id === readingId ? updatedReading : savedReading
             )
           );
+          setSelectedReading((prev) => ({ ...prev, title: readingTittle }));
+
           setLoading(false);
           setOpenSaveReadingModal(false);
         }
@@ -115,17 +132,26 @@ export const SaveReadingModal = () => {
         return;
       }
 
-      if (!selectedReading && readingTittle) {
+      if (readingId === "new-reading" && isNewReading) {
         //UPDATE SAVED READING WITH NEW READING:
         console.log("Creating new reading...");
         const newReading: TUserSavedReadings = {
+          ...selectedReading,
           id: nanoid(),
-          notes: readingNotes || "",
-          reading: readingTableCards,
-          readingColumns: readingTableColumns,
           timestamp: Timestamp.fromDate(new Date()),
-          title: readingTittle || "Leitura sem Título",
+          title: readingTittle,
         };
+        // if (!selectedReading && readingTittle) {
+        //   //UPDATE SAVED READING WITH NEW READING:
+        //   console.log("Creating new reading...");
+        //   const newReading: TUserSavedReadings = {
+        //     id: nanoid(),
+        //     notes: readingNotes || "",
+        //     reading: readingTableCards,
+        //     readingColumns: readingTableColumns,
+        //     timestamp: Timestamp.fromDate(new Date()),
+        //     title: readingTittle || "Leitura sem Título",
+        //   };
 
         console.log("Saving new reading...");
         const saveOnServer = await Firestore.setDoc(
@@ -140,8 +166,8 @@ export const SaveReadingModal = () => {
             ...(prevSavedReadings || []),
             newReading,
           ]);
+          setSelectedReading((prev) => ({ ...prev, title: readingTittle }));
           setLoading(false);
-          navigate(`/readings-table/${newReading.id}`);
           setOpenSaveReadingModal(false);
         }
         setLoading(false);
@@ -224,7 +250,7 @@ export const SaveReadingModal = () => {
               id="reading-title"
               name="reading-title"
               onChange={(event) => setReadingTittle(event?.target.value)}
-              defaultValue={selectedReading?.title ?? ""}
+              defaultValue={readingTittle}
               placeholder="Nome da tiragem ou pergunta."
               inputProps={{
                 maxLength: 130,

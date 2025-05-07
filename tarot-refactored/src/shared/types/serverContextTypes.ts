@@ -82,9 +82,7 @@ export interface IServerContextData {
     _: React.SyntheticEvent | Event,
     reason?: string
   ) => void;
-  setSavedReadings: React.Dispatch<
-    React.SetStateAction<TUserSavedReadings[] | undefined>
-  >;
+  setSavedReadings: React.Dispatch<React.SetStateAction<TUserSavedReadings[]>>;
   setServerSnackBarAlert: React.Dispatch<
     React.SetStateAction<TServerSnackbarOptions | undefined>
   >;

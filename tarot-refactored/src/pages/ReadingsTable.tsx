@@ -1,62 +1,60 @@
-import {
-  Box,
-  TextField,
-  Typography,
-  useMediaQuery,
-  LinearProgress,
-} from "@mui/material";
 import { fromUnixTime } from "date-fns";
 import { useParams } from "react-router-dom";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useTheme } from "@mui/material/styles";
+import { Box, Typography, useMediaQuery, LinearProgress } from "@mui/material";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
-import {
-  useThemeContext,
-  useGlobalContext,
-  useServerContext,
-} from "../shared/contexts";
 import {
   SnackbarAlert,
   CardMarkedModal,
   SaveReadingModal,
   PanoramicViewModal,
 } from "../shared/components";
-import { useDebounce } from "../shared/hooks";
 import { Card } from "../shared/components/Card";
 import { Environment } from "../shared/environment";
-import { exempleReading } from "../../src/assets/CardsDatabase";
+import ReadingNotes from "../shared/components/ReadingNotes";
 import { AppContainer, AppMainContainer } from "../shared/layouts";
+import { useGlobalContext, useServerContext } from "../shared/contexts";
 
 export const ReadingsTable = () => {
+  console.log("READINGS TABLE RENDERED !!!");
   const [isOverflowing, setIsOverflowing] = useState(false);
 
   const { readingId } = useParams();
-  const { debounce } = useDebounce(500);
-
-  const {
-    readingNotes,
-    readingTableCards,
-    scrollToElementId,
-    readingTableColumns,
-    setReadingNotes,
-  } = useGlobalContext();
-  const { AppThemes } = useThemeContext();
-  const { savedReadings, serverLoading, setSavedReadings } = useServerContext();
 
   const cardsRef = useRef(new Map());
 
-  const smDown = useMediaQuery(AppThemes.theme.breakpoints.down("sm"));
-  const selectedReading = useMemo(() => {
-    const reading = savedReadings?.find((sr) => sr.id === readingId);
-    return reading
-      ? reading
-      : readingId === "exemple-reading"
-      ? exempleReading
-      : undefined;
-  }, [readingId, savedReadings]);
+  const { Reading, selectedReading, scrollToElementId } = useGlobalContext();
 
-  useEffect(() => {
-    if (readingNotes !== undefined) debounce(handleReadingNotes);
-  }, [readingNotes]);
+  const theme = useTheme();
+
+  const smDown = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const notes = useMemo(
+    () => selectedReading.notes || undefined,
+    [selectedReading]
+  );
+
+  const readingTableCards = useMemo(
+    () => selectedReading.reading,
+    [selectedReading.reading]
+  );
+  const readingTableColumns = useMemo(
+    () => selectedReading.readingColumns || (smDown ? 1 : 3),
+    [selectedReading.readingColumns, smDown]
+  );
+
+  const { serverLoading } = useServerContext();
+
+  const previousReadingId = useRef<string | undefined>();
+
+  useLayoutEffect(() => {
+    if (previousReadingId.current === readingId) return; // prevent unnecessary calls
+    previousReadingId.current = readingId;
+
+    console.log("READING TABLE USE LAYOUT EFFECT !!!");
+    Reading.handleSelectedReading(readingId);
+  }, [readingId]);
 
   useEffect(() => {
     if (document.readyState === "complete") {
@@ -70,66 +68,28 @@ export const ReadingsTable = () => {
       }
     }
   }, [scrollToElementId]);
-  // If you encounter issues with the above code, replace it with the one below:
-  // useEffect(() => {
-  //   const onPageLoad = () => {
-  //     const element = cardsRef.current.get(scrollToElementId);
-  //     // const element = document.querySelector(
-  //     //   `img#${CSS.escape(String(scrollToElementId))}`
-  //     // );
 
-  //     if (scrollToElementId && element) {
-  //       setTimeout(() => {
-  //         element?.scrollIntoView({
-  //           behavior: "smooth",
-  //           block: "center",
-  //           inline: "center",
-  //         });
-  //       }, 500);
-  //     }
-  //   };
-
-  //   // Check if the page has already loaded
-  //   if (document.readyState === "complete") {
-  //     onPageLoad();
-  //   } else {
-  //     window.addEventListener("load", onPageLoad, false);
-  //     // Remove the event listener when component unmounts
-  //     return () => window.removeEventListener("load", onPageLoad);
-  //   }
-  // }, [scrollToElementId]);
-
-  const handleReadingNotes = () => {
-    setSavedReadings((prevSavedReadings) =>
-      prevSavedReadings?.map((savedReading) =>
-        savedReading.id === readingId
-          ? { ...savedReading, notes: readingNotes }
-          : savedReading
-      )
-    );
-  };
-
-  const readingCards = useMemo(
-    () =>
-      readingTableCards?.map((card, index) => (
-        <Card
-          key={card.id}
-          card={card}
-          index={index}
-          isEdited={!!card.edited}
-          ref={(node) => {
-            // Ref callBack: Store the DOM node in the Map with the card ID as the key
-            // This allows us to access the DOM node later for scrolling
-            const map = cardsRef.current;
-            if (node) map.set(card.id, node); // Store Box's DOM node
-            else map.delete(card.id);
-          }}
-        />
-      )),
-    [readingTableCards]
-  );
+  const readingCards = useMemo(() => {
+    console.log("RENDERED CARDS !!!");
+    return readingTableCards?.map((card, index) => (
+      <Card
+        key={card.id}
+        card={card}
+        index={index}
+        isEdited={!!card.edited}
+        ref={(node) => {
+          // Ref callBack: Store the DOM node in the Map with the card ID as the key
+          // This allows us to access the DOM node later for scrolling
+          const map = cardsRef.current;
+          if (node) map.set(card.id, node); // Store Box's DOM node
+          else map.delete(card.id);
+        }}
+      />
+    ));
+  }, [readingTableCards]);
 
   useEffect(() => {
+    // TODO: Use refs for more reliability
     const innerContainer = document.getElementById("cards-container");
     const outerContainer = document.getElementById("reading-table-container");
     const checkOverflow = () => {
@@ -146,11 +106,7 @@ export const ReadingsTable = () => {
     <AppContainer>
       <AppMainContainer
         page="Mesa de Leituras"
-        subheading={
-          !!readingTableCards?.length
-            ? selectedReading?.title || "Leitura sem título"
-            : "Mesa vazia"
-        }
+        subheading={selectedReading.title}
       >
         <Box
           id="reading-table-container"
@@ -215,34 +171,13 @@ export const ReadingsTable = () => {
             </Box>
           </Box>
 
-          {readingTableCards && (
-            <Box
-              boxShadow={AppThemes.themeShadows}
-              width="95%"
-              alignSelf="center"
-            >
-              <TextField
-                rows={4}
-                fullWidth
-                multiline
-                id="reading-notes"
-                name="reading-notes"
-                disabled={serverLoading}
-                defaultValue={selectedReading?.notes || ""}
-                placeholder="Conclusões, observações e anotações da leitura."
-                onChange={(event) => setReadingNotes(event.target.value)}
-                inputProps={{
-                  maxLength: 2000,
-                }}
-              />
-            </Box>
+          {!!readingTableCards.length && (
+            <ReadingNotes initialNotes={notes} readingId={readingId} />
           )}
         </Box>
         <CardMarkedModal />
         <SaveReadingModal />
-        <PanoramicViewModal
-          readingTitle={selectedReading?.title || "Leitura sem Título"}
-        />
+        <PanoramicViewModal readingTitle={selectedReading.title} />
         <SnackbarAlert origin="app" />
         <SnackbarAlert origin="server" />
       </AppMainContainer>
