@@ -35,8 +35,6 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
   } = useServerContext();
   const { LocalBase } = useLocalBaseContext();
 
-  console.log("APP CONTEXT PROVIDER RENDERING...");
-
   //STATES:
   const [appLoading, setAppLoading] = useState(false);
   const [isSelectingCards, setIsSelectingCards] = useState(false);
@@ -185,10 +183,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
 
   const Reading = {
     async handleSelectedReading(readingId: string | undefined) {
-      console.time("TIMER:");
-      console.log("Reading: handleSelectedReading called...");
       if (lastHandledId.current === readingId) {
-        console.log("⏭ Skipping handleSelectedReading; same ID.");
         return;
       }
       lastHandledId.current = readingId;
@@ -208,7 +203,6 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
       const cards = await ReadingCards.handleUECCards(readingSelected.reading);
       setScrollToElementId(undefined);
       setSelectedReading({ ...readingSelected, reading: cards });
-      console.timeEnd("TIMER:");
       return true;
     },
 

@@ -17,7 +17,6 @@ import { AppContainer, AppMainContainer } from "../shared/layouts";
 import { useGlobalContext, useServerContext } from "../shared/contexts";
 
 export const ReadingsTable = () => {
-  console.log("READINGS TABLE RENDERED !!!");
   const [isOverflowing, setIsOverflowing] = useState(false);
 
   const { readingId } = useParams();
@@ -52,7 +51,6 @@ export const ReadingsTable = () => {
     if (previousReadingId.current === readingId) return; // prevent unnecessary calls
     previousReadingId.current = readingId;
 
-    console.log("READING TABLE USE LAYOUT EFFECT !!!");
     Reading.handleSelectedReading(readingId);
   }, [readingId]);
 
@@ -69,24 +67,25 @@ export const ReadingsTable = () => {
     }
   }, [scrollToElementId]);
 
-  const readingCards = useMemo(() => {
-    console.log("RENDERED CARDS !!!");
-    return readingTableCards?.map((card, index) => (
-      <Card
-        key={card.id}
-        card={card}
-        index={index}
-        isEdited={!!card.edited}
-        ref={(node) => {
-          // Ref callBack: Store the DOM node in the Map with the card ID as the key
-          // This allows us to access the DOM node later for scrolling
-          const map = cardsRef.current;
-          if (node) map.set(card.id, node); // Store Box's DOM node
-          else map.delete(card.id);
-        }}
-      />
-    ));
-  }, [readingTableCards]);
+  const readingCards = useMemo(
+    () =>
+      readingTableCards?.map((card, index) => (
+        <Card
+          key={card.id}
+          card={card}
+          index={index}
+          isEdited={!!card.edited}
+          ref={(node) => {
+            // Ref callBack: Store the DOM node in the Map with the card ID as the key
+            // This allows us to access the DOM node later for scrolling
+            const map = cardsRef.current;
+            if (node) map.set(card.id, node); // Store Box's DOM node
+            else map.delete(card.id);
+          }}
+        />
+      )),
+    [readingTableCards]
+  );
 
   useEffect(() => {
     // TODO: Use refs for more reliability

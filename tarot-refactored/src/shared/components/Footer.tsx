@@ -62,7 +62,7 @@ export const Footer = () => {
           {showDevName && (
             <Tooltip
               sx={{ fontSize: "3px" }}
-              title="20250427.1535"
+              title="20250508.1731"
               placement="top-end"
             >
               <Typography
