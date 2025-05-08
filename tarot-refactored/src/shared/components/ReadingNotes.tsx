@@ -13,31 +13,25 @@ type TReadingNotesProps = {
   initialNotes: string | undefined;
 };
 
-const ReadingNotes = ({ initialNotes, readingId }: TReadingNotesProps) => {
+const ReadingNotes = ({ initialNotes }: TReadingNotesProps) => {
   const [readingNotes, setReadingNotes] = useState<string | undefined>(
     undefined
   );
-
   const { debounce } = useDebounce(1000);
   const { AppThemes } = useThemeContext();
   const { serverLoading } = useServerContext();
   const { setSelectedReading } = useGlobalContext();
 
   useEffect(() => {
-    if (initialNotes) {
-      setReadingNotes(initialNotes);
-    }
+    setReadingNotes(initialNotes || "");
   }, [initialNotes]);
 
-  useEffect(() => {
-    if (readingNotes !== undefined) {
-      debounce(handleReadingNotes);
-    }
-  }, [readingNotes]);
-
-  const handleReadingNotes = () => {
-    if (!readingId || !readingNotes) return;
-    setSelectedReading((prev) => ({ ...prev, notes: readingNotes }));
+  const handleInputChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { value } = event.target;
+    setReadingNotes(value);
+    debounce(() => setSelectedReading((prev) => ({ ...prev, notes: value })));
   };
 
   return (
@@ -47,11 +41,11 @@ const ReadingNotes = ({ initialNotes, readingId }: TReadingNotesProps) => {
         fullWidth
         multiline
         id="reading-notes"
+        value={readingNotes}
         name="reading-notes"
         disabled={serverLoading}
-        defaultValue={readingNotes}
         placeholder="Conclusões, observações e anotações da leitura."
-        onChange={(event) => setReadingNotes(event.target.value)}
+        onChange={(event) => handleInputChange(event)}
         inputProps={{
           maxLength: 2000,
         }}
