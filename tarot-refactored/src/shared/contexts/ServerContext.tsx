@@ -60,16 +60,6 @@ export const ServerProvider = ({
   };
 
   useEffect(() => {
-    if (userServerTag) {
-      window.addEventListener("beforeunload", beforeExit);
-
-      return () => {
-        window.removeEventListener("beforeunload", beforeExit);
-      };
-    }
-  }, [userServerTag]);
-
-  useEffect(() => {
     if (!didInit) {
       didInit = true;
       User.isOnline();
@@ -96,8 +86,10 @@ export const ServerProvider = ({
           userServerTag = `TarotReadings${user.uid}`;
           userServerUECtag = `UEC-${userServerTag}`;
           console.log("User ONLINE: ", userEmail);
+          window.addEventListener("beforeunload", beforeExit);
           User.getUserData();
         } else {
+          window.removeEventListener("beforeunload", beforeExit);
           console.log("User is OFFLINE.");
           userEmail = "";
           userServerTag = "";

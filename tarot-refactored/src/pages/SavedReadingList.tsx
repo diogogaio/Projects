@@ -24,7 +24,7 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import { fromUnixTime } from "date-fns";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 
 import {
   useThemeContext,
@@ -38,7 +38,6 @@ import { AppContainer, AppMainContainer } from "../shared/layouts";
 import { SearchFilters, SnackbarAlert } from "../shared/components";
 
 export const SavedReadingList = () => {
-  const [loading, setLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
   const location = useLocation();
@@ -164,18 +163,8 @@ export const SavedReadingList = () => {
       ) {
       } else return;
     }
+
     navigate(`/readings-table/${id}`);
-    // navigate(`/readings-table/${id}`, {
-    //   state: {
-    //     searchParams: {
-    //       search,
-    //       endDate,
-    //       startDate,
-    //       cardSearch,
-    //       page,
-    //     },
-    //   },
-    // });
   };
 
   const listTable = useCallback(() => {
@@ -221,7 +210,7 @@ export const SavedReadingList = () => {
           <TableCell align="center">
             <IconButton
               onClick={() => Reading.deleteReading(userServerTag, id)}
-              disabled={loading || serverLoading}
+              disabled={serverLoading}
               size="large"
             >
               <Icon color="error">delete_outlined</Icon>
@@ -282,7 +271,6 @@ export const SavedReadingList = () => {
     page,
     search,
     endDate,
-    loading,
     startDate,
     cardSearch,
     savedReadings,
@@ -306,7 +294,7 @@ export const SavedReadingList = () => {
           }}
         >
           <Box width="100%">
-            {(serverLoading || loading) && (
+            {serverLoading && (
               <LinearProgress color={Environment.APP_MAIN_TEXT_COLOR} />
             )}
           </Box>

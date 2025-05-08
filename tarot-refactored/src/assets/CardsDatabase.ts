@@ -2056,7 +2056,8 @@ const dbCards: TCardInfo[] = [
     invertida: false,
     nome: "Carta Neutra",
     url: "neutra",
-    textoInicial: "",
+    textoInicial:
+      "Você pode personalizar o significado de todas as cartas utilizando o menu e opções.",
     textoSecondario: "",
     palavrasChave: "Carta neutra para preencher espaços na leitura",
     palavrasChaveInvertidas: "",

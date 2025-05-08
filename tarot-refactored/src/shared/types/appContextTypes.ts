@@ -38,17 +38,14 @@ export interface IAppContextData {
   selectedReading: TUserSavedReadings;
   appLoading: boolean;
   drawerMenu: boolean;
-  // readingNotes?: string;
   drawerCards: TDrawerCards;
   isSelectingCards: boolean;
   scrollToElementId?: string;
   selectedCardsId?: string[];
   openPanoramicView: boolean;
   ReadingCards: TReadingCards;
-  // readingTableColumns: number;
   openCardMarkedModal: boolean;
   openSaveReadingModal: boolean;
-  // readingTableCards?: TCardInfo[];
   appSnackbarOptions?: TSnackbarOptions;
 
   handleCloseAppSnackBarOptions: (
@@ -61,7 +58,6 @@ export interface IAppContextData {
   setScrollToElementId: React.Dispatch<
     React.SetStateAction<string | undefined>
   >;
-  // setReadingTableCards: React.Dispatch<React.SetStateAction<TCardInfo[] | []>>;
   setSelectedReading: React.Dispatch<React.SetStateAction<TUserSavedReadings>>;
   setAppSnackbarOptions: React.Dispatch<
     React.SetStateAction<TSnackbarOptions | undefined>
@@ -70,9 +66,7 @@ export interface IAppContextData {
   setOpenDrawerMenu: React.Dispatch<React.SetStateAction<boolean>>;
   setIsSelectingCards: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenPanoramicView: React.Dispatch<React.SetStateAction<boolean>>;
-  // setReadingTableColumns: React.Dispatch<React.SetStateAction<number>>;
   setOpenCardMarkedModal: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenSaveReadingModal: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenDrawerCards: React.Dispatch<React.SetStateAction<TDrawerCards>>;
-  // setReadingNotes: React.Dispatch<React.SetStateAction<string | undefined>>;
 }

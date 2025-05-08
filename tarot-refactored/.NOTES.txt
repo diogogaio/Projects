@@ -10,7 +10,7 @@ ReadingTable.tsx:
 
 . displayReading: 
 
-    Do not display cards from readings saved on server, their meanings should always come from UEC or CardsDatabase (defaultChart), because user may have recently modified its meanings in UEC and server reading cards ARE NOT UPDATED when UEC change and card data will be stale! Also, old server data readings  don't have the new "edited:boolean" property, and all server UEC queries must be by card name. Update all charts on server would increase the number of server requests dramatically! Change server database structure and shorten the number of card properties would put massive data from old Tarot project (before refactoring) at risk.
+    Do not display cards from readings saved on server, their meanings should always come from UEC or CardsDatabase (defaultChart), because user may have recently modified its meanings in UEC and server reading cards ARE NOT UPDATED when UEC change and card data will be stale! Also, old server data readings don't have the new "edited:boolean" property, and all server UEC queries must be by card name. Update all charts on server would increase the number of server requests dramatically! Change server database structure and shorten the number of card properties would put massive data from old Tarot project (before refactoring) at risk.
 
 SearchFilters.tsx: 
 
@@ -21,8 +21,5 @@ REFACTORING:
 . CHECAR SE EDITCARD PODE USAR ReadingCards.handleUECCards, CASO SIM REUTILIZAR A FUNÇAO.
 . MANEIRA DE CRIAR LOADING QUANDO SELECIONAR NOVA LEITURA
 
-
-. test removeSelectedCards
-. test userSignout if the previous user`s reading cards will not show
 . The values passed as props to Providers in contexts should be memoized
-. useState() updater function (setSomething()) is stable, so React does not require it in depency arrays, remove it where necessary.
+. useState() updater function (setSomething()) is stable, so React does not require it in dependency arrays, remove it where necessary.

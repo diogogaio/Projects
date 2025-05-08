@@ -1,10 +1,10 @@
 import {
+  useRef,
   useState,
   useContext,
   useCallback,
   ReactElement,
   createContext,
-  useRef,
 } from "react";
 import { differenceInMinutes } from "date-fns";
 
@@ -127,6 +127,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
 
         if (!readingCards)
           console.error("HandleUECCards: Reading cards are undefined.");
+
         const setupCards = await Promise.all(
           (readingCards || []).map((card) => {
             let updatedCardName: string;
@@ -185,13 +186,13 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
   const Reading = {
     async handleSelectedReading(readingId: string | undefined) {
       console.time("TIMER:");
+      console.log("Reading: handleSelectedReading called...");
       if (lastHandledId.current === readingId) {
         console.log("⏭ Skipping handleSelectedReading; same ID.");
         return;
       }
       lastHandledId.current = readingId;
 
-      window.scrollTo(0, 0);
       if (readingId === "new-reading") {
         console.log("Reading: Creating new reading...");
         setSelectedReading(newReading);
@@ -208,6 +209,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
       setScrollToElementId(undefined);
       setSelectedReading({ ...readingSelected, reading: cards });
       console.timeEnd("TIMER:");
+      return true;
     },
 
     async deleteReading(collectionName: string, docId: string = "new-reading") {
