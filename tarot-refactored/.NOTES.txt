@@ -16,10 +16,9 @@ SearchFilters.tsx:
 
   setSearchParams: Using "prev" to prevent typescript issues in changing URL state with new object directly. SortByDate function in readingList.tsx will also have undesired results if the other properties are not specified, specially startDate and endDate, because null or undefined in url are strings and not values, causing its variables to be truthy and not falsy as it should be.
 
-Maintenance: 
-
-. Check if EditCard can use ReadingCards.handleUECCards, 
-. Spinner when user selects a reading.
+Next maintenance: 
 
 . Re-structure contexts in a way to avoid objects as values and allow its memoization
+. Refactor database structure
+. Modularization of components
 
