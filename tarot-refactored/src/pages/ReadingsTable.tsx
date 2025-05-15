@@ -116,7 +116,9 @@ export const ReadingsTable = () => {
             width: "100%",
             display: "flex",
             flexDirection: "column",
-            justifyContent: "space-evenly",
+            justifyContent: !!readingTableCards.length
+              ? "space-evenly"
+              : "start",
             alignItems: isOverflowing ? "" : "center",
           }}
         >
