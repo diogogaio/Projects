@@ -2,7 +2,7 @@ import { fromUnixTime } from "date-fns";
 import { useParams } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import { Box, Typography, useMediaQuery, LinearProgress } from "@mui/material";
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import {
   SnackbarAlert,
@@ -47,7 +47,7 @@ export const ReadingsTable = () => {
 
   const previousReadingId = useRef<string | undefined>();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (previousReadingId.current === readingId) return; // prevent unnecessary calls
     previousReadingId.current = readingId;
 

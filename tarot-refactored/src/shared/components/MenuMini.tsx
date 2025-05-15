@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { memo, useMemo } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Icon, IconButton, Stack, Tooltip, useMediaQuery } from "@mui/material";
 
@@ -18,7 +18,7 @@ type TMiniOptions = {
   onClick: (() => void) | (() => Promise<void>);
 };
 
-export const MenuMini = () => {
+export const MenuMini = memo(() => {
   const {
     Reading,
     selectedCardsId,
@@ -226,4 +226,4 @@ export const MenuMini = () => {
       {buttonIcons}
     </Stack>
   );
-};
+});
