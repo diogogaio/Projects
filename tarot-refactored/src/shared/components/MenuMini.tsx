@@ -79,10 +79,11 @@ export const MenuMini = memo(() => {
         icon: "refresh",
         hide: mdDown || btwSizes,
         onClick: () => {
-          if (window.confirm("Existem cartas na mesa, deseja continuar?"))
+          if (window.confirm("Existem cartas na mesa, deseja continuar?")) {
             setSelectedReading(newReading);
 
-          navigate("/readings-table/new-reading");
+            navigate("/readings-table/new-reading");
+          }
         },
         disabled:
           isSelectingCards ||

@@ -123,11 +123,11 @@ export const DrawerMenu = () => {
         text: "Nova Tiragem",
         icon: "refresh",
         onClick: () => {
-          if (window.confirm("Existem cartas na mesa, deseja continuar?"))
+          if (window.confirm("Existem cartas na mesa, deseja continuar?")) {
             if (readingTableCards) setSelectedReading(newReading);
+            navigate("/readings-table/new-reading");
+          }
           // if (readingNotes) setReadingNotes(undefined);
-
-          navigate("/readings-table/new-reading");
         },
         disabled:
           isSelectingCards ||
