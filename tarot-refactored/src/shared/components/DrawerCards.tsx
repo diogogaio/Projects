@@ -94,10 +94,11 @@ export const DrawerCards = () => {
     },
     [
       readingId,
+      addedCardsId,
       savedReadings,
       readingTableCards,
       isAddingMoreCards,
-      addedCardsId,
+      selectedReading.notes,
     ]
   );
 

@@ -31,7 +31,7 @@ export const ReadingsTable = () => {
 
   const notes = useMemo(
     () => selectedReading.notes || undefined,
-    [selectedReading]
+    [selectedReading.notes]
   );
 
   const readingTableCards = useMemo(
