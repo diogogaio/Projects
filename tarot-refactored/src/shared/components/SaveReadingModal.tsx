@@ -10,8 +10,8 @@ import {
 import { nanoid } from "nanoid";
 import SaveIcon from "@mui/material/Icon";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { useNavigate, useParams } from "react-router-dom";
 
 import {
   useThemeContext,
@@ -38,6 +38,7 @@ export const SaveReadingModal = () => {
   const { savedReadings, Firestore, userServerTag, setSavedReadings } =
     useServerContext();
 
+  const navigate = useNavigate();
   const { readingId } = useParams();
 
   const defaultTitle =
@@ -97,7 +98,6 @@ export const SaveReadingModal = () => {
       if (!isNewReading && readingId !== "new-reading") {
         // UPDATE EXISTING SAVED READINGS:
         console.log("Updating existing reading...");
-        console.log("READING TITLE: ", readingTittle);
         const updatedReading: TUserSavedReadings = {
           ...selectedReading,
           title: readingTittle,
@@ -129,15 +129,17 @@ export const SaveReadingModal = () => {
           setOpenSaveReadingModal(false);
         }
         setLoading(false);
+
         return;
       }
 
       if (readingId === "new-reading" && isNewReading) {
         //UPDATE SAVED READING WITH NEW READING:
         console.log("Creating new reading...");
+        const id = nanoid();
         const newReading: TUserSavedReadings = {
           ...selectedReading,
-          id: nanoid(),
+          id,
           timestamp: Timestamp.fromDate(new Date()),
           title: readingTittle,
         };
@@ -171,6 +173,9 @@ export const SaveReadingModal = () => {
           setOpenSaveReadingModal(false);
         }
         setLoading(false);
+        // 🔑 Update the URL with the new readingId:
+        navigate(`/readings-table/${id}`, { replace: true });
+
         return;
       }
 
