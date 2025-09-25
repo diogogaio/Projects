@@ -49,21 +49,15 @@ export const DrawerMenu = () => {
     Reading,
     drawerMenu,
     ReadingCards,
-    // readingNotes,
     selectedCardsId,
     selectedReading,
     isSelectingCards,
-    // readingTableCards,
-    // readingTableColumns,
-    // setReadingNotes,
     setOpenDrawerMenu,
     setSelectedCardsId,
     setIsSelectingCards,
     setSelectedReading,
-    // setReadingTableCards,
     setOpenPanoramicView,
     setAppSnackbarOptions,
-    // setReadingTableColumns,
     setOpenCardMarkedModal,
     setOpenSaveReadingModal,
   } = useGlobalContext();
@@ -80,13 +74,11 @@ export const DrawerMenu = () => {
     selectedReading?.readingColumns || (smDown ? 1 : 3);
 
   const handleColumnsChange = (event: SelectChangeEvent) => {
-    // setReadingTableColumns(Number(event.target.value));
-    setSelectedReading({
-      ...selectedReading,
+    setSelectedReading((prev) => ({
+      ...prev,
       readingColumns: Number(event.target.value),
-    });
+    }));
   };
-
   const disabledConditions = useMemo(
     () =>
       !userServerTag ||
