@@ -1,4 +1,4 @@
-import {
+/* import {
   EmbeddedCheckout,
   EmbeddedCheckoutProvider,
 } from "@stripe/react-stripe-js";
@@ -51,3 +51,4 @@ export const Checkout = () => {
     </div>
   );
 };
+ */

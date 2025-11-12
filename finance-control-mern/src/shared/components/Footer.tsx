@@ -31,7 +31,7 @@ export const Footer = () => {
       {showDevName && (
         <Tooltip
           sx={{ fontSize: "3px" }}
-          title="20250429.1110"
+          title="20251112.1725"
           placement="top-end"
         >
           <Typography variant="caption" sx={{ fontStyle: "italic" }}>

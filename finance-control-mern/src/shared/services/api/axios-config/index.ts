@@ -20,7 +20,7 @@ Api.interceptors.response.use(
   (error) => errorInterceptor(error)
 );
 
-const checkMyServer = async () => {
+/* const checkMyServer = async () => {
   const myServerUrl = "https://myserver.fireweb.click/finance-api/v1/";
 
   if (Environment.ENV === "development") {
@@ -40,6 +40,39 @@ const checkMyServer = async () => {
   } else {
     console.log("...at home");
   }
+}; */
+
+//Improved function above after getting CORS errors after couple of months of uptime in 11/11/2025. Obs: this function is called in multiple places.
+const checkMyServer = async () => {
+  // const myServerUrl = "https://myserver.fireweb.click/finance-api/v1/";
+
+  if (Environment.ENV === "development") {
+    console.log("...in development mode, using local server");
+    setApiBaseURL("http://127.0.0.1:3000/finance-api/v1/");
+    return;
+  }
+
+  //Home server is down for now, so commenting this out to go straight to Render API if not in development.
+
+  /* if (
+    Environment.ENV === "production" &&
+    Api.defaults.baseURL !== myServerUrl
+  ) {
+    try {
+      const response = await axios.get(`${myServerUrl}ping`, { timeout: 2000 });
+      if (response.status === 200) {
+        setApiBaseURL(myServerUrl);
+      } else {
+        throw new Error("Server not OK");
+      }
+    } catch (error) {
+      console.warn("MyServer not available, using Render API.");
+      // força permanecer no Render
+      setApiBaseURL(
+        "https://finance-control-api-o5t9.onrender.com/finance-api/v1/"
+      );
+    }
+  } */
 };
 
 const setApiBaseURL = (baseURL: string) => {

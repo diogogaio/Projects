@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { createContext, useContext } from "react";
 import { ReactElement, useCallback, useMemo, useState } from "react";
 
-import { Api, checkMyServer } from "../services/api/axios-config";
+import { Api /* checkMyServer */ } from "../services/api/axios-config";
 import { TSignUp } from "../../pages";
 import { useAppContext } from "./AppContext";
 import { TChangePwdForm } from "../components/modals";
@@ -91,7 +91,7 @@ export const AuthProvider = ({
   };
 
   const appInit = async () => {
-    await checkMyServer();
+    // await checkMyServer();
 
     //Oly checks if user has a token and redirects to the transactions page if it exists
 
@@ -114,7 +114,7 @@ export const AuthProvider = ({
   };
 
   const createNewUser = useCallback(async (form: TSignUp) => {
-    await checkMyServer();
+    // await checkMyServer();
     const response = await AuthService.signup(form);
 
     if (response instanceof Error) {
@@ -138,7 +138,7 @@ export const AuthProvider = ({
   }, []);
 
   const login = useCallback(async (form: ILoginForm) => {
-    await checkMyServer();
+    // await checkMyServer();
     const response = await AuthService.login(form);
 
     if (response instanceof Error) {
@@ -159,7 +159,7 @@ export const AuthProvider = ({
 
   const handleSignInWithGoogle = useCallback(async (GoogleToken: string) => {
     //Server will login user or create a new one with a random password, no token is stored on client side in THIS case.
-    await checkMyServer();
+    // await checkMyServer();
     const response = await AuthService.handleSignInWithGoogle(GoogleToken);
 
     if (response instanceof Error) {

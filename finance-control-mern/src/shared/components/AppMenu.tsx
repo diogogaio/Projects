@@ -9,7 +9,7 @@ import {
 import Menu from "@mui/material/Menu";
 import { useCallback, useState } from "react";
 import MenuItem from "@mui/material/MenuItem";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import { generatePDF } from "../utils/exportPDF";
 
@@ -39,7 +39,7 @@ export function AppMenu() {
   const { App } = useAppContext();
   const { Auth } = useAuthContext();
   const { Transaction } = useTransactionContext();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const renderAppMenu = useCallback(() => {
     const menuItems: IMenuItens[] = [
@@ -79,12 +79,12 @@ export function AppMenu() {
         iconColor: "error",
         onClick: () => Auth.deleteUser(),
       },
-      {
+      /*  {
         icon: "volunteer_activism_icon",
         label: "Cafezinho do desenvolvedor",
         iconColor: "secondary",
         onClick: () => navigate(`/checkout`),
-      },
+      }, */
     ];
 
     return menuItems.map(({ icon, label, iconColor, onClick }, index) => [

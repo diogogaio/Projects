@@ -4,7 +4,7 @@ import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import {
   Login,
   SignUp,
-  Checkout,
+  /* Checkout, */
   Transactions,
   ResetPassword,
 } from "../../pages";
@@ -23,7 +23,7 @@ export const AppRoutes = () => {
       <Route element={<PrivateRoutes />}>
         <Route path="/transactions" element={<Transactions />} />
       </Route>
-      <Route path="/checkout" element={<Checkout />} />
+      {/* <Route path="/checkout" element={<Checkout />} /> */}
       <Route path="/paymentReturn/:session_id" element={<PaymentReturn />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/resetPassword/:id/:token" element={<ResetPassword />} />
