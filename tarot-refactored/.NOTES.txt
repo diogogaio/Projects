@@ -22,3 +22,5 @@ Next maintenance:
 . Refactor database structure
 . Modularization of components
 
+DrawerCards -> addCardToTable - Use toSpliced instead to improve readability
+

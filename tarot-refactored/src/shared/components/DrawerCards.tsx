@@ -59,7 +59,7 @@ export const DrawerCards = () => {
       }
 
       const isRepeatedCard = readingTableCards?.find(
-        (card) => card.id === selectedCardId
+        (card) => card.id === selectedCardId,
       );
 
       let dbCard = dbCards.find((dbc) => dbc.id === selectedCardId);
@@ -76,6 +76,7 @@ export const DrawerCards = () => {
           addCardAsideIndex >= 0 &&
           dbCard
         ) {
+          //refactor this using toSpliced.
           newReadingCards.splice(addCardAsideIndex + 1, 0, dbCard);
           console.log("addCardToTable: Adding new card aside...");
         } else {
@@ -99,7 +100,7 @@ export const DrawerCards = () => {
       readingTableCards,
       isAddingMoreCards,
       selectedReading.notes,
-    ]
+    ],
   );
 
   const drawerCardsContent = useCallback(
@@ -181,7 +182,7 @@ export const DrawerCards = () => {
       ));
       return drawerCardsImages;
     },
-    [drawerCards.content, isAddingMoreCards, imageLoading, addedCardsId]
+    [drawerCards.content, isAddingMoreCards, imageLoading, addedCardsId],
   );
 
   return (
