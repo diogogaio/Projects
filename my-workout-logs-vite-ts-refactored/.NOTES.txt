@@ -1,3 +1,4 @@
+. Avoid using nanoid() in keys like in <CalendarDay> at Calendar.tsx
 . Improve this app with dashboard
 . Sign in with google account
 
