@@ -35,7 +35,7 @@ export const Footer = () => {
       {/* Last deployed version date: (yyyy-mm-dd.hh-min*/}
       <Tooltip
         sx={{ fontSize: "3px" }}
-        title="20250428.1245"
+        title="20260331.1505"
         placement="top-end"
       >
         <Typography variant="caption" sx={{ fontStyle: "italic" }}>
