@@ -10,4 +10,11 @@ Note: Unlike Create React App, Vite does not automatically inject environment va
 
 Refactoring:
 
- . useState() updater function (setSomething()) is stable, so React does not require it in depency arrays, remove it where necessary.
+ . useState() updater function (setSomething()) is stable, so React does not require it in dependency arrays, remove it where necessary.
+
+
+Issues: 
+
+. When on subsequent months, <ActualDate> failed to bring me back to current date (2026-03-31) an actually going to (2026-04-01) one day after.
+
+. Password need to be cleared when known user with saved password clicks create new user in login.

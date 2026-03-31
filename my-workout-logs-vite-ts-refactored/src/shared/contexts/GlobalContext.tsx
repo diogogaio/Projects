@@ -131,33 +131,33 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
           console.log("User.clearUserData: Deleting on server: ", item.tittle);
           await Firestore.deleteDoc(
             `My Gym Charts - ${userEmailRef.current}`,
-            item.id
+            item.id,
           );
         }
       }
       await LocalBase.deleteCollection(
-        `My Gym Charts - ${userEmailRef.current}`
+        `My Gym Charts - ${userEmailRef.current}`,
       );
       const userWorkoutData = await LocalBase.getCollection(
-        `My Workout Data - ${userEmailRef.current}`
+        `My Workout Data - ${userEmailRef.current}`,
       );
       if (userWorkoutData.length > 0) {
         if (deleteOnServer) {
           console.log(
-            "User.clearUserData(): will delete workout data on server."
+            "User.clearUserData(): will delete workout data on server.",
           );
           for (const item of userWorkoutData) {
             const monthData = `${item.year} ${item.month}`;
             console.log("User.clearUserData(): Deleting on server: ", item);
             await Firestore.deleteDoc(
               `My Workout Data - ${userEmailRef.current}`,
-              monthData
+              monthData,
             );
           }
           localStorage.removeItem("selectedAppTheme");
         }
         await LocalBase.deleteCollection(
-          `My Workout Data - ${userEmailRef.current}`
+          `My Workout Data - ${userEmailRef.current}`,
         );
       }
       console.log("User.clearUserData(): User data was cleared!");
@@ -166,7 +166,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
     async deleteAccount() {
       if (
         window.confirm(
-          "Seu cadastro e todas as informações armazenadas serão desfeitas, deseja continuar?"
+          "Seu cadastro e todas as informações armazenadas serão desfeitas, deseja continuar?",
         )
       ) {
         dispatch({ type: APP_REDUCER_ACTION_TYPE.SET_APP_LOADING_ON });
@@ -183,15 +183,15 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
             .catch((error) => {
               dispatch({ type: APP_REDUCER_ACTION_TYPE.SET_APP_LOADING_OFF });
               const errorCode = error.code;
-              // An error ocurred
+              // An error occurred
               if (errorCode === "auth/requires-recent-login") {
                 alert(
-                  "É necessário ter logado recentemente para deletar este usuário. Por favor, refaça o login e tente novamente"
+                  "É necessário ter logado recentemente para deletar este usuário. Por favor, refaça o login e tente novamente",
                 );
                 User.signUserOut();
               } else
                 alert(
-                  `Erro ao descadastrar: Favor informe este erro ao desenvolvedor: "${error}".`
+                  `Erro ao descadastrar: Favor informe este erro ao desenvolvedor: "${error}".`,
                 );
             });
         }
@@ -217,8 +217,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
   const App = {
     async init() {
       console.log("App.init(): Initiated application...");
-      await App.getUserGymCharts();
-      await App.getSelectedMonthData();
+      await Promise.all([App.getUserGymCharts(), App.getSelectedMonthData()]);
       dispatch({ type: APP_REDUCER_ACTION_TYPE.SET_APP_LOADING_OFF });
     },
 
@@ -235,7 +234,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
       gymCharts: IAppStateType["gymCharts"] | TChart, //It may come from appStates or DefaultCharts
       id: string,
       data: IMonthData | null,
-      comment: string = ""
+      comment: string = "",
     ) {
       dispatch({ type: APP_REDUCER_ACTION_TYPE.SET_APP_LOADING_ON });
       //Adds a selected gymChart to the array that contains the completed charts on the selected day
@@ -257,22 +256,22 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
         if (monthData) {
           console.log(
             "App.logTraining(): Checking if user has any training logged on selected date... ",
-            dayData
+            dayData,
           );
 
           if (dayData) {
             console.log(
-              "App.logTraining(): User HAS training logged on selected date."
+              "App.logTraining(): User HAS training logged on selected date.",
             );
 
             //Check if the selected chart is repeated on that day:
             const isRepeated = dayData.completedCharts.find(
-              (cc) => cc.id === id
+              (cc) => cc.id === id,
             );
             //Adds the appropriate chart with changed ID (if needed) and user comments to the completed charts array on that day
             if (isRepeated) {
               console.log(
-                "App.logTraining(): Repeated Chart was found, changing id..."
+                "App.logTraining(): Repeated Chart was found, changing id...",
               );
               changedSelectedChartId = {
                 ...selectedChart,
@@ -313,7 +312,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
             };
           } else {
             console.log(
-              "App.logTraining(): user HAS NO logged training on selected day, adding new training...:"
+              "App.logTraining(): user HAS NO logged training on selected day, adding new training...:",
             );
 
             monthData = {
@@ -351,12 +350,12 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
         await Firestore.setDoc(
           `My Workout Data - ${userEmailRef.current}`,
           selectedMonthDocName,
-          monthData
+          monthData,
         );
         await LocalBase.setData(
           `My Workout Data - ${userEmailRef.current}`,
           selectedMonthDocName,
-          monthData
+          monthData,
         );
 
         await App.getSelectedMonthData();
@@ -366,21 +365,21 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
 
     async getSelectedMonthData() {
       console.log(
-        "App.getSelectedMonthData(): Getting selected and adjacent month data..."
+        "App.getSelectedMonthData(): Getting selected and adjacent month data...",
       );
       dispatch({ type: APP_REDUCER_ACTION_TYPE.SET_APP_LOADING_ON });
 
       const previousMonth = await LocalBase.getData(
         `My Workout Data - ${userEmailRef.current}`,
-        previousMonthDocName
+        previousMonthDocName,
       );
       const selectedMonth = await LocalBase.getData(
         `My Workout Data - ${userEmailRef.current}`,
-        selectedMonthDocName
+        selectedMonthDocName,
       );
       const nextMonth = await LocalBase.getData(
         `My Workout Data - ${userEmailRef.current}`,
-        nextMonthDocName
+        nextMonthDocName,
       );
 
       dispatch({
@@ -412,12 +411,12 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
           return dayData?.at(0);
         } else return undefined;
       },
-      [state.calendarData, state.inputDate]
+      [state.calendarData, state.inputDate],
     ),
 
     async getUserGymCharts() {
       const gymCharts = await LocalBase.getCollection(
-        `My Gym Charts - ${userEmailRef.current}`
+        `My Gym Charts - ${userEmailRef.current}`,
       );
       if (gymCharts?.length > 0) {
         console.log("App.getUserGymCharts(): Setting gymCharts state.");
@@ -427,7 +426,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
         });
       } else {
         console.log(
-          "App.getUserGymCharts(): No user gym chart found on this device, setting default charts..."
+          "App.getUserGymCharts(): No user gym chart found on this device, setting default charts...",
         );
         dispatch({
           type: APP_REDUCER_ACTION_TYPE.GOT_USER_GYM_CHARTS,
@@ -440,12 +439,12 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
       logId: string,
       dayId: string,
       tittle: string,
-      hasMoreCharts: boolean
+      hasMoreCharts: boolean,
     ) {
       if (window.confirm(`Deseja deletar "${tittle} "?`)) {
         console.log(
           `App.deleteLog(): Deleting log "${tittle}" on date: `,
-          date.date
+          date.date,
         );
         let updatedTrainingData: IMonthData["trainingData"];
         if (state.calendarData?.selectedMonth) {
@@ -456,7 +455,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
               state.calendarData.selectedMonth?.trainingData.map((td) => {
                 if (td.id === dayId) {
                   const updatedCompletedCharts = td.completedCharts.filter(
-                    (completedChart) => completedChart.id !== logId
+                    (completedChart) => completedChart.id !== logId,
                   );
                   return { ...td, completedCharts: updatedCompletedCharts };
                 } else return td;
@@ -464,7 +463,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
           } else {
             updatedTrainingData =
               state.calendarData.selectedMonth?.trainingData.filter(
-                (td) => td.id !== dayId
+                (td) => td.id !== dayId,
               );
           }
 
@@ -476,12 +475,12 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
           await LocalBase.setData(
             `My Workout Data - ${userEmailRef.current}`,
             selectedMonthDocName,
-            updatedMonthData
+            updatedMonthData,
           );
           await Firestore.setDoc(
             `My Workout Data - ${userEmailRef.current}`,
             selectedMonthDocName,
-            updatedMonthData
+            updatedMonthData,
           );
           await App.getSelectedMonthData();
           dispatch({ type: APP_REDUCER_ACTION_TYPE.SET_APP_LOADING_OFF });
@@ -497,7 +496,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
           setLoggedTrainingInfoMd(false);
           const remainingMonthTrainingData =
             state.calendarData.selectedMonth?.trainingData.filter(
-              (day) => day.id !== id
+              (day) => day.id !== id,
             );
 
           const remainingMonthData = {
@@ -508,15 +507,15 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
           await LocalBase.setData(
             `My Workout Data - ${userEmailRef.current}`,
             selectedMonthDocName,
-            remainingMonthData
+            remainingMonthData,
           );
           console.log(
-            "App.deleteTraining(): Deleted all training on selected day."
+            "App.deleteTraining(): Deleted all training on selected day.",
           );
           await Firestore.setDoc(
             `My Workout Data - ${userEmailRef.current}`,
             selectedMonthDocName,
-            remainingMonthData
+            remainingMonthData,
           );
         }
         await App.getSelectedMonthData();
@@ -530,11 +529,11 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
           dispatch({ type: APP_REDUCER_ACTION_TYPE.SET_APP_LOADING_ON });
           await LocalBase.deleteDocument(
             `My Workout Data - ${userEmailRef.current}`,
-            selectedMonthDocName
+            selectedMonthDocName,
           );
           await Firestore.deleteDoc(
             `My Workout Data - ${userEmailRef.current}`,
-            selectedMonthDocName
+            selectedMonthDocName,
           );
           await App.getSelectedMonthData();
           dispatch({ type: APP_REDUCER_ACTION_TYPE.SET_APP_LOADING_OFF });
@@ -551,15 +550,15 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
           dispatch({ type: APP_REDUCER_ACTION_TYPE.SET_APP_LOADING_ON });
 
           const remainingGymCharts = state.gymCharts?.filter(
-            (g) => g.id !== id
+            (g) => g.id !== id,
           );
           await LocalBase.setCollection(
             `My Gym Charts - ${userEmailRef.current}`,
-            remainingGymCharts
+            remainingGymCharts,
           );
           await Firestore.deleteDoc(
             `My Gym Charts - ${userEmailRef.current}`,
-            id
+            id,
           );
           await App.getUserGymCharts();
           dispatch({ type: APP_REDUCER_ACTION_TYPE.SET_APP_LOADING_OFF });
@@ -571,7 +570,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
       if (await Utils.hasSavedGymCharts()) {
         if (
           window.confirm(
-            "Deseja deletar todas as fichas? Fichas padrões serão criadas automaticamente."
+            "Deseja deletar todas as fichas? Fichas padrões serão criadas automaticamente.",
           )
         ) {
           dispatch({ type: APP_REDUCER_ACTION_TYPE.SET_APP_LOADING_ON });
@@ -579,16 +578,16 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
             setTimeout(() => {
               console.log(
                 "App.deleteAllGymCharts(): Deleting chart on server: ",
-                g.tittle
+                g.tittle,
               );
               Firestore.deleteDoc(
                 `My Gym Charts - ${userEmailRef.current}`,
-                g.id
+                g.id,
               );
             }, index * 500);
           });
           await LocalBase.deleteCollection(
-            `My Gym Charts - ${userEmailRef.current}`
+            `My Gym Charts - ${userEmailRef.current}`,
           );
           await App.getUserGymCharts();
           dispatch({ type: APP_REDUCER_ACTION_TYPE.SET_APP_LOADING_OFF });
@@ -602,21 +601,24 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
       console.log("Firestore.serverLogic(): Executing server logic...");
       if (Utils.isServerAllowed("CHECK_REQUESTS")) {
         const trainingLogsOnServer = await Firestore.getCollection(
-          `My Workout Data - ${userEmailRef.current}`
+          `My Workout Data - ${userEmailRef.current}`,
         );
         if (trainingLogsOnServer && Array.isArray(trainingLogsOnServer)) {
           if (trainingLogsOnServer.length > 0) {
-            await Firestore.getUserGymCharts();
-            await Firestore.getUserWorkouts(trainingLogsOnServer);
+            await Promise.all([
+              Firestore.getUserGymCharts(),
+              Firestore.getUserWorkouts(trainingLogsOnServer),
+            ]);
+
             console.log(
-              "Firestore.serverLogic(): User server data was successfully retrieved."
+              "Firestore.serverLogic(): User server data was successfully retrieved.",
             );
             // setTimeout(() => {
             //   //LocalBase limitation of simultaneous operations
             // }, 200);
           } else {
             console.log(
-              "Firestore.serverLogic(): User workouts WERE NOT FOUND in server, initializing APP..."
+              "Firestore.serverLogic(): User workouts WERE NOT FOUND in server, initializing APP...",
             );
             App.init();
           }
@@ -670,7 +672,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
     async getUserWorkouts(userCollectionOnServer: IMonthData[]) {
       console.log(
         "Firestore.getUserWorkouts(): Updating device with workout data...",
-        userCollectionOnServer
+        userCollectionOnServer,
       );
 
       const userCollectionWithDocName = userCollectionOnServer.map((uc) => {
@@ -682,7 +684,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
 
       await LocalBase.setCollectionWithDocName(
         `My Workout Data - ${userEmailRef.current}`,
-        userCollectionWithDocName
+        userCollectionWithDocName,
       );
       console.log("Firestore.getUserWorkouts(): Finished updating device.");
       await App.getSelectedMonthData();
@@ -691,23 +693,23 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
 
     async getUserGymCharts() {
       console.log(
-        "Firestore.getUserGymCharts(): Looking for user charts on SERVER..."
+        "Firestore.getUserGymCharts(): Looking for user charts on SERVER...",
       );
       const data = await Firestore.getCollection(
-        `My Gym Charts - ${userEmailRef.current}`
+        `My Gym Charts - ${userEmailRef.current}`,
       );
       if (data ? data.length > 0 : false) {
         console.log(
-          "Firestore.getUserGymCharts(): Gym chart data WAS FOUND ON SERVER, setting it on device..."
+          "Firestore.getUserGymCharts(): Gym chart data WAS FOUND ON SERVER, setting it on device...",
         );
         await LocalBase.setCollection(
           `My Gym Charts - ${userEmailRef.current}`,
-          data
+          data,
         );
         await App.getUserGymCharts();
       } else {
         console.log(
-          "Firestore.getUserGymCharts(): Gym chart data WAS NOT FOUND ON SERVER."
+          "Firestore.getUserGymCharts(): Gym chart data WAS NOT FOUND ON SERVER.",
         );
         await App.getUserGymCharts();
       }
@@ -716,18 +718,18 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
     async setDoc(
       collectionName: string,
       docName: string,
-      data: TChart | IMonthData | TUserInfo
+      data: TChart | IMonthData | TUserInfo,
     ) {
       if (Utils.isServerAllowed("CHECK_REQUESTS")) {
         if (userEmailRef.current !== "unknown user") {
           console.log(
-            `Firestore.setDoc(): Setting collection: "${collectionName}" with document: "${docName}" and on server... `
+            `Firestore.setDoc(): Setting collection: "${collectionName}" with document: "${docName}" and on server... `,
           );
           try {
             await setDoc(doc(db, collectionName, `${docName}`), data);
 
             console.log(
-              `Firestore.setDoc(): Collection "${collectionName}" and document "${docName}" WAS SAVED ON SERVER...`
+              `Firestore.setDoc(): Collection "${collectionName}" and document "${docName}" WAS SAVED ON SERVER...`,
             );
           } catch (error) {
             console.error(error);
@@ -735,7 +737,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
           }
         } else
           console.log(
-            "Firestore.setDoc(): User Offline, unable to save on server."
+            "Firestore.setDoc(): User Offline, unable to save on server.",
           );
       }
     },
@@ -743,7 +745,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
     async getDoc(collectionName: string, docName: string) {
       if (Utils.isServerAllowed("CHECK_REQUESTS")) {
         console.log(
-          `Firestore.getDoc(): Looking for "${collectionName}" on server...`
+          `Firestore.getDoc(): Looking for "${collectionName}" on server...`,
         );
         try {
           const docRef = doc(db, collectionName, docName);
@@ -752,13 +754,13 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
           if (docSnap.exists()) {
             console.log(
               `"${collectionName}" WAS FOUND on server: `,
-              docSnap.data()
+              docSnap.data(),
             );
             return docSnap.data();
           } else {
             // docSnap.data() will be undefined in this case
             console.log(
-              `Firestore.getDoc(): "${collectionName}" WAS NOT FOUND on server, `
+              `Firestore.getDoc(): "${collectionName}" WAS NOT FOUND on server, `,
             );
           }
         } catch (error) {
@@ -772,15 +774,15 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
       if (Utils.isServerAllowed("CHECK_REQUESTS")) {
         try {
           console.log(
-            `Firestore.getCollection(): Looking for "${collectionName}" collection on server...`
+            `Firestore.getCollection(): Looking for "${collectionName}" collection on server...`,
           );
           console.log(
-            `Firestore.getCollection(): Looking for "${collectionName}" collection on server...`
+            `Firestore.getCollection(): Looking for "${collectionName}" collection on server...`,
           );
           let collectionData: any[] = [];
 
           const querySnapshot = (await getDocs(
-            collection(db, collectionName)
+            collection(db, collectionName),
           )) as QuerySnapshot<IMonthData | TChart>;
           querySnapshot.forEach((doc) => {
             // doc.data() is never undefined for query doc snapshots
@@ -790,13 +792,13 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
           if (collectionData) {
             if (collectionData.length > 0) {
               console.log(
-                `Firebase.getCollection(): Collection "${collectionName}" WAS FOUND ON SERVER.`
+                `Firebase.getCollection(): Collection "${collectionName}" WAS FOUND ON SERVER.`,
               );
 
               return collectionData;
             } else {
               console.log(
-                `Firebase.getCollection(): Collection "${collectionName}" NOT FOUND ON SERVER..`
+                `Firebase.getCollection(): Collection "${collectionName}" NOT FOUND ON SERVER..`,
               );
               return [];
             }
@@ -814,7 +816,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
           try {
             await deleteDoc(doc(db, collectionName, docName));
             console.log(
-              `Firestore.deleteDoc(): Document "${docName}" in collection "${collectionName}" deleted ON SERVER.`
+              `Firestore.deleteDoc(): Document "${docName}" in collection "${collectionName}" deleted ON SERVER.`,
             );
           } catch (error) {
             console.error(error);
@@ -822,7 +824,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
           }
         } else {
           console.log(
-            "Firestore.deleteDoc(): User Offline, unable to reach server."
+            "Firestore.deleteDoc(): User Offline, unable to reach server.",
           );
         }
       }
@@ -838,7 +840,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
       const month = String(date.getMonth() + 1).padStart(2, "0");
       const day = Number(String(date.getDate()).padStart(2, "0"));
       const daysInMonth = Number(
-        getDaysInMonth(new Date(year, date.getMonth()))
+        getDaysInMonth(new Date(year, date.getMonth())),
       );
       const firstDay = Number(new Date(year, date.getMonth(), 1).getDay());
       const selectedDate = date.getTime();
@@ -851,23 +853,23 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
         selectedDate,
         date: `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(
           2,
-          "0"
+          "0",
         )}`,
         brazilianDate: `${String(day).padStart(2, "0")}/${String(
-          month
+          month,
         ).padStart(2, "0")}/${year}`,
       };
     },
 
     async hasSavedGymCharts() {
       const gymCharts = await LocalBase.getCollection(
-        `My Gym Charts - ${userEmailRef.current}`
+        `My Gym Charts - ${userEmailRef.current}`,
       );
       const hasCharts = gymCharts.length > 0;
       console.log(
         `Utils.hasSavedGymCharts(): ${
           hasCharts ? "FOUND" : "NOT FOUND"
-        } gym charts saved in this device...`
+        } gym charts saved in this device...`,
       );
       return hasCharts;
     },
@@ -875,7 +877,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
     isDefaultChart() {
       const keyToFind = "defaultChart";
       const isDefault = state.gymCharts?.find(
-        (obj) => obj[keyToFind] !== undefined
+        (obj) => obj[keyToFind] !== undefined,
       );
       return isDefault;
     },
@@ -916,7 +918,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
 
       if (userInfo) {
         console.log(
-          "Utils.getUserServerInfo(): User information retrieved successfully!"
+          "Utils.getUserServerInfo(): User information retrieved successfully!",
         );
         const userInfoTyped: TUserInfo = JSON.parse(userInfo);
         const serverCount = userInfoTyped.SERVER_REQUESTS;
@@ -930,10 +932,10 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
             ) {
               console.log(
                 "Utils.getUserServerInfo(): User has exceeded the maximum server requests. Count: ",
-                serverCount
+                serverCount,
               );
               alert(
-                "Número máximo de requisições diárias ao servidor foi excedido, alterações serão salvas apenas no dispositivo e consultas ao servidor serão interrompidas até o dia seguinte."
+                "Número máximo de requisições diárias ao servidor foi excedido, alterações serão salvas apenas no dispositivo e consultas ao servidor serão interrompidas até o dia seguinte.",
               );
               return false;
             } else if (
@@ -941,7 +943,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
               requestDate !== today.date
             ) {
               console.log(
-                "Utils.isServerAllowed(): Re-allowing user and resetting count..."
+                "Utils.isServerAllowed(): Re-allowing user and resetting count...",
               );
 
               localStorage.setItem(
@@ -950,7 +952,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
                   ...userInfoTyped,
                   LAST_REQUEST_DATE: today.date,
                   SERVER_REQUESTS: 1,
-                })
+                }),
               );
 
               return true;
@@ -964,10 +966,10 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
                     serverCount > Environment.MAX_SERVER_REQUESTS_PER_DAY
                       ? 1
                       : serverCount + 1,
-                })
+                }),
               );
               console.log(
-                "User.isServerAllowed(): User server requests are allowed. "
+                "User.isServerAllowed(): User server requests are allowed. ",
               );
               return true;
             }
@@ -978,41 +980,41 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
             if (userInfoTyped.LAST_REQUEST_TIME) {
               const difference = differenceInMinutes(
                 new Date(),
-                new Date(userInfoTyped.LAST_REQUEST_TIME)
+                new Date(userInfoTyped.LAST_REQUEST_TIME),
               );
               const allowUpdate = difference >= interval ? true : false;
 
               if (allowUpdate) {
                 console.log(
-                  "User.isServerAllowed(): Update device is allowed..."
+                  "User.isServerAllowed(): Update device is allowed...",
                 );
                 localStorage.setItem(
                   USER_INFO_COLLECTION,
                   JSON.stringify({
                     ...userInfoTyped,
                     LAST_REQUEST_TIME: new Date().toISOString(),
-                  })
+                  }),
                 );
                 return true;
               } else {
                 console.log(
-                  "User.isServerAllowed(): Update device NOT allowed..."
+                  "User.isServerAllowed(): Update device NOT allowed...",
                 );
                 alert(
-                  "Dispositivo foi atualizado recentemente. Tente novamente mais tarde..."
+                  "Dispositivo foi atualizado recentemente. Tente novamente mais tarde...",
                 );
                 return false;
               }
             } else {
               console.log(
-                "User.isServerAllowed(): LAST_REQUEST_TIME is undefined. Update device is allowed..."
+                "User.isServerAllowed(): LAST_REQUEST_TIME is undefined. Update device is allowed...",
               );
               localStorage.setItem(
                 USER_INFO_COLLECTION,
                 JSON.stringify({
                   ...userInfoTyped,
                   LAST_REQUEST_TIME: new Date().toISOString(),
-                })
+                }),
               );
 
               return true;
@@ -1020,7 +1022,7 @@ export const AppProvider = ({ children }: IAppProviderProps): ReactElement => {
         }
       } else {
         console.log(
-          "User.isServerAllowed(): User information NOT FOUND! Allowing server requests and setting first request..."
+          "User.isServerAllowed(): User information NOT FOUND! Allowing server requests and setting first request...",
         );
 
         localStorage.setItem(USER_INFO_COLLECTION, JSON.stringify(newUserInfo));
